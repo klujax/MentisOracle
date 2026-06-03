@@ -1,0 +1,18 @@
+import { Navbar } from "@/components/layout/Navbar";
+
+export const dynamic = "force-dynamic";
+
+export default function ProtectedLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="min-h-screen flex flex-col bg-void">
+      <Navbar />
+      <main className="flex-1 w-full max-w-7xl mx-auto px-4 md:px-8 py-12">
+        {children}
+      </main>
+    </div>
+  );
+}
