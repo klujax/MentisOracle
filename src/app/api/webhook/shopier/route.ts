@@ -19,7 +19,7 @@ export async function POST(request: Request) {
 
     let callbackResult;
     try {
-      callbackResult = shopier.callback(body, apiSecret);
+      callbackResult = shopier.callback(body);
     } catch (err: any) {
       console.error("Shopier Signature Error:", err.message);
       return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
