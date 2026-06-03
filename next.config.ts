@@ -6,10 +6,6 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: false,
   },
-  eslint: {
-    ignoreDuringBuilds: false,
-  },
-  // Disable pages router error pages that conflict with app router
   experimental: {
     // Ensure only app router is used
   },
