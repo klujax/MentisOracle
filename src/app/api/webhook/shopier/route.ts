@@ -26,7 +26,10 @@ export async function POST(request: Request) {
     }
 
     // signature is valid.
-    const { order_id, payment_id, status } = callbackResult;
+    if (!callbackResult) {
+      return NextResponse.json({ error: "Payment not successful" }, { status: 400 });
+    }
+    const { order_id, payment_id } = callbackResult;
 
     // We encoded user.id and packageId into order_id (buyer_id_nr)
     // format: userId__packageId
