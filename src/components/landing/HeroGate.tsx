@@ -28,7 +28,7 @@ export const HeroGate = () => {
         {/* Placeholder for Logo */}
         <div className="relative w-32 h-32 md:w-40 md:h-40 mb-8 drop-shadow-[0_0_15px_rgba(201,168,76,0.2)]">
           <Image
-            src="/logo.png?v=2"
+            src="/logo.png"
             alt="Mentis Oracle Logo"
             fill
             className="object-contain"

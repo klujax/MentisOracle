@@ -45,7 +45,7 @@ export default function LoginPage() {
           <Link href="/" className="mb-4 hover:opacity-80 transition-opacity flex flex-col items-center">
             <div className="relative w-16 h-16 rounded-sm overflow-hidden border border-gold/30 mb-3 shadow-[0_0_10px_rgba(201,168,76,0.15)]">
               <Image
-                src="/logo.png?v=2"
+                src="/logo.png"
                 alt="Mentis Oracle Logo"
                 fill
                 className="object-cover"

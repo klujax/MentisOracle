@@ -34,7 +34,7 @@ export const Navbar = () => {
       <Link href="/dashboard" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
         <div className="relative w-8 h-8 rounded-sm overflow-hidden border border-gold/30 flex-shrink-0">
           <Image
-            src="/logo.png?v=2"
+            src="/logo.png"
             alt="Mentis Oracle Logo"
             fill
             className="object-cover"
