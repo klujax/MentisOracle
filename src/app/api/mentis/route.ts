@@ -21,6 +21,34 @@ export async function POST(req: Request) {
             { status: 401 }
           );
         }
+
+        const userId = user.id;
+
+        // Check credits
+        const { data: credits } = await supabase
+          .from("user_credits")
+          .select("credits, plan, total_used")
+          .eq("user_id", userId)
+          .single();
+
+        if (!credits || (credits.plan !== "elite" && credits.credits <= 0)) {
+          return NextResponse.json(
+            { error: "Kredilerin tükendi. Devam etmek için kredi yükle.", requiresPayment: true },
+            { status: 403 }
+          );
+        }
+
+        // Deduct 1 credit (atomic)
+        if (credits && credits.plan !== "elite" && credits.credits > 0) {
+          await supabase
+            .from("user_credits")
+            .update({ 
+              credits: credits.credits - 1,
+              total_used: (credits.total_used || 0) + 1,
+              updated_at: new Date().toISOString()
+            })
+            .eq("user_id", userId);
+        }
       }
       const reply = await continueMentis(history, message);
       return NextResponse.json({ reply });
@@ -55,7 +83,7 @@ export async function POST(req: Request) {
         .eq("user_id", user.id)
         .single();
 
-      if (credits && credits.plan === "free" && credits.credits <= 0) {
+      if (!credits || (credits.plan !== "elite" && credits.credits <= 0)) {
         return NextResponse.json(
           { error: "Kredilerin tükendi. Devam etmek için abonelik gerekli.", requiresPayment: true },
           { status: 403 }
@@ -86,11 +114,11 @@ export async function POST(req: Request) {
       // Deduct 1 credit (atomic: only deduct if credits > 0)
       const { data: currentCredits } = await supabase
         .from("user_credits")
-        .select("credits, total_used")
+        .select("credits, plan, total_used")
         .eq("user_id", userId)
         .single();
 
-      if (currentCredits && currentCredits.credits > 0) {
+      if (currentCredits && currentCredits.plan !== "elite" && currentCredits.credits > 0) {
         await supabase
           .from("user_credits")
           .update({ 

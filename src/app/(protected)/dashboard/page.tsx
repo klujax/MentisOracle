@@ -40,9 +40,9 @@ export default function DashboardPage() {
   const [isSaved, setIsSaved] = useState(false);
   const [saveLoading, setSaveLoading] = useState(false);
 
-  useEffect(() => {
-    const fetchCredits = async () => {
-      const supabase = createClient();
+  const fetchCredits = async () => {
+    const supabase = createClient();
+    try {
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
         setUserId(user.id);
@@ -56,7 +56,12 @@ export default function DashboardPage() {
           setPlan(data.plan);
         }
       }
-    };
+    } catch (err) {
+      console.error("Error fetching credits:", err);
+    }
+  };
+
+  useEffect(() => {
     fetchCredits();
   }, [status]); // Refresh credits after each consultation
 
@@ -132,10 +137,16 @@ export default function DashboardPage() {
       const data = await res.json();
 
       if (!res.ok) {
+        if (data.requiresPayment) {
+          setRequiresPayment(true);
+        }
         throw new Error(data.error || "Yanıt alınamadı.");
       }
 
       setChatHistory(prev => [...prev, { role: "model", content: data.reply }]);
+      
+      // Refresh credits
+      await fetchCredits();
     } catch (err: any) {
       setFollowUpError(err.message || "Mesaj gönderilemedi. Lütfen tekrar deneyin.");
       // Rollback history if failed
@@ -201,30 +212,30 @@ export default function DashboardPage() {
       setSaveLoading(false);
     }
   };
-
   return (
-    <div className="flex flex-col items-center w-full max-w-5xl mx-auto space-y-12 pb-24">
+    <div className={`flex flex-col items-center w-full mx-auto ${status === "complete" ? "h-[calc(100vh-200px)] min-h-[500px] max-w-4xl px-4" : "max-w-5xl space-y-12 pb-24"}`}>
       
-      <div className="text-center space-y-4 mb-4">
-        <h2 className="font-serif text-3xl md:text-4xl text-smoke tracking-wider">Zihin Karargahı</h2>
-        <p className="font-accent text-ash italic md:text-lg">Duygularını dışarıda bırak. Burada sadece saf rasyonel strateji var.</p>
-        
-        {credits !== null && (
-          <div className="flex items-center justify-center gap-2 text-sm font-accent">
-            <Coins className="w-4 h-4 text-gold" />
-            <span className="text-ash">
-              Kalan Kredi: <span className={`font-bold ${credits > 0 ? "text-gold" : "text-red-500"}`}>
-                {plan === "elite" ? "∞" : credits}
+      {status !== "complete" && (
+        <div className="text-center space-y-4 mb-4 pt-8">
+          <h2 className="font-serif text-3xl md:text-4xl text-smoke tracking-wider">Zihin Karargahı</h2>
+          <p className="font-accent text-ash italic md:text-lg">Duygularını dışarıda bırak. Burada sadece saf rasyonel strateji var.</p>
+          
+          {credits !== null && (
+            <div className="flex items-center justify-center gap-2 text-sm font-accent">
+              <Coins className="w-4 h-4 text-gold" />
+              <span className="text-ash">
+                Kalan Kredi: <span className={`font-bold ${credits > 0 ? "text-gold" : "text-red-500"}`}>
+                  {plan === "elite" ? "∞" : credits}
+                </span>
               </span>
-            </span>
-            <span className="text-obsidian mx-2">|</span>
-            <span className="text-ash">
-              Plan: <span className="text-smoke uppercase text-xs tracking-wider">{plan}</span>
-            </span>
-          </div>
-        )}
-      </div>
-
+              <span className="text-obsidian mx-2">|</span>
+              <span className="text-ash">
+                Plan: <span className="text-smoke uppercase text-xs tracking-wider">{plan}</span>
+              </span>
+            </div>
+          )}
+        </div>
+      )}
       {status === "idle" && (
         <div className="w-full animate-fade-in flex flex-col items-center">
           {error && (
@@ -254,16 +265,24 @@ export default function DashboardPage() {
       )}
 
       {status === "complete" && response && (
-        <div className="w-full max-w-4xl animate-fade-in">
-          <div className="w-full border border-obsidian/50 bg-abyss/45 rounded-sm overflow-hidden flex flex-col shadow-2xl relative">
+        <div className="w-full max-w-4xl animate-fade-in flex-1 min-h-0 flex flex-col h-full">
+          <div className="w-full border border-obsidian/50 bg-abyss/45 rounded-sm overflow-hidden flex flex-col shadow-2xl relative flex-1 min-h-0 h-full">
             <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-gold/30 to-transparent" />
             
             {/* Header with Info and Actions */}
-            <div className="p-4 border-b border-obsidian/50 bg-abyss flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="p-4 border-b border-obsidian/50 bg-abyss flex flex-col md:flex-row items-center justify-between gap-4 flex-shrink-0">
               <div className="flex items-center gap-3">
                 <MessageSquare className="w-5 h-5 text-gold" />
                 <div className="text-left">
-                  <h4 className="text-sm font-serif text-smoke tracking-wider uppercase">Stratejik Plan ve Diyalog</h4>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <h4 className="text-sm font-serif text-smoke tracking-wider uppercase">Stratejik Plan ve Diyalog</h4>
+                    {credits !== null && (
+                      <span className="flex items-center gap-1 text-[10px] font-accent text-ash bg-void border border-obsidian px-2 py-0.5 rounded-sm">
+                        <Coins className="w-3 h-3 text-gold" />
+                        <span>Kalan: <span className="text-gold font-bold">{plan === "elite" ? "∞" : credits}</span></span>
+                      </span>
+                    )}
+                  </div>
                   <p className="text-xs text-ash">Mentis Reçetesi&apos;ni inceleyin ve sorularınızla derinleştirin.</p>
                 </div>
               </div>
@@ -296,7 +315,7 @@ export default function DashboardPage() {
             </div>
 
             {/* Conversation Feed Area */}
-            <div className="p-6 h-[500px] overflow-y-auto space-y-6 scrollbar-thin">
+            <div className="p-6 flex-1 min-h-0 overflow-y-auto space-y-6 scrollbar-custom">
               
               {/* 3-Part Mentis Analysis */}
               <div className="space-y-8 pb-4">
@@ -368,9 +387,11 @@ export default function DashboardPage() {
                     <div className={`max-w-[85%] rounded-sm p-4 text-xs md:text-sm leading-relaxed ${
                       isUser 
                         ? "bg-obsidian border border-gold/10 text-smoke" 
-                        : "bg-abyss/80 border border-obsidian text-gold-dim"
+                        : "bg-abyss/85 border border-obsidian text-smoke"
                     }`}>
-                      <p className="text-[10px] text-ash/60 uppercase tracking-widest mb-1.5 font-accent">
+                      <p className={`text-[10px] uppercase tracking-widest mb-1.5 font-accent ${
+                        isUser ? "text-ash/60" : "text-gold font-bold"
+                      }`}>
                         {isUser ? "SİZ" : "MENTIS"}
                       </p>
                       <div className="whitespace-pre-wrap font-sans">{msg.content}</div>
@@ -381,9 +402,9 @@ export default function DashboardPage() {
 
               {followUpLoading && (
                 <div className="flex justify-start animate-pulse">
-                  <div className="bg-abyss/85 border border-obsidian/50 rounded-sm p-4 max-w-[85%] text-gold-dim text-xs md:text-sm">
-                    <p className="text-[10px] text-ash/60 uppercase tracking-widest mb-1 font-accent">Mentis</p>
-                    <p className="italic font-accent">Hamleler hesaplanıyor...</p>
+                  <div className="bg-abyss/85 border border-obsidian/50 rounded-sm p-4 max-w-[85%] text-smoke text-xs md:text-sm">
+                    <p className="text-[10px] text-gold font-bold uppercase tracking-widest mb-1.5 font-accent">Mentis</p>
+                    <p className="italic font-accent text-ash">Hamleler hesaplanıyor...</p>
                   </div>
                 </div>
               )}
@@ -398,7 +419,7 @@ export default function DashboardPage() {
             </div>
 
             {/* Chat Input Footer */}
-            <form onSubmit={handleSendFollowUp} className="p-4 bg-abyss border-t border-obsidian/50 flex gap-3">
+            <form onSubmit={handleSendFollowUp} className="p-4 bg-abyss border-t border-obsidian/50 flex gap-3 flex-shrink-0">
               <input
                 type="text"
                 value={followUpMessage}
