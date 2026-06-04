@@ -254,66 +254,101 @@ export default function DashboardPage() {
       )}
 
       {status === "complete" && response && (
-        <div className="w-full flex flex-col items-center space-y-12">
-          {/* 3-Part Mentis Analysis */}
-          <MentisResponse 
-            analysis={response.analysis}
-            counterMove={response.targetWeakness}
-            execution={response.execution}
-          />
-
-          {/* Action Toolbar */}
-          <div className="flex flex-col sm:flex-row gap-4 w-full max-w-4xl justify-center items-center pt-6 border-t border-obsidian/30">
-            <button
-              onClick={handleSaveToJournal}
-              disabled={isSaved || saveLoading}
-              className={`flex items-center gap-2 px-6 py-3 rounded-sm font-accent tracking-widest text-xs uppercase transition-all duration-300 border ${
-                isSaved 
-                  ? "border-green-800 text-green-500 bg-green-950/20" 
-                  : "border-gold text-gold hover:bg-gold/10"
-              }`}
-            >
-              <BookMarked className="w-4 h-4" />
-              {saveLoading ? "Kaydediliyor..." : isSaved ? "Deftere Kaydedildi" : "Bu Hamleyi Deftere Kaydet"}
-            </button>
-
-            <button 
-              onClick={() => {
-                setStatus("idle");
-                setResponse(null);
-                setChatHistory([]);
-              }}
-              className="flex items-center gap-2 px-6 py-3 border border-obsidian bg-obsidian/50 text-ash hover:text-white transition-colors rounded-sm font-accent tracking-widest text-xs uppercase"
-            >
-              <RefreshCw className="w-4 h-4" />
-              Yeni Hamle Planla
-            </button>
-          </div>
-
-          {/* Chat Follow-Up Interface */}
-          <div className="w-full max-w-4xl border border-obsidian/50 bg-abyss/40 rounded-sm overflow-hidden flex flex-col shadow-2xl relative">
+        <div className="w-full max-w-4xl animate-fade-in">
+          <div className="w-full border border-obsidian/50 bg-abyss/45 rounded-sm overflow-hidden flex flex-col shadow-2xl relative">
             <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-gold/30 to-transparent" />
             
-            {/* Chat Header */}
-            <div className="p-4 border-b border-obsidian/50 bg-abyss flex items-center gap-3">
-              <MessageSquare className="w-5 h-5 text-gold" />
-              <div>
-                <h4 className="text-sm font-serif text-smoke tracking-wider uppercase">Stratejik Yönlendirme ve Detaylandırma</h4>
-                <p className="text-xs text-ash">Plan üzerine Mentis ile konuşun, hayatınıza entegre edin.</p>
+            {/* Header with Info and Actions */}
+            <div className="p-4 border-b border-obsidian/50 bg-abyss flex flex-col md:flex-row items-center justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <MessageSquare className="w-5 h-5 text-gold" />
+                <div className="text-left">
+                  <h4 className="text-sm font-serif text-smoke tracking-wider uppercase">Stratejik Plan ve Diyalog</h4>
+                  <p className="text-xs text-ash">Mentis Reçetesi&apos;ni inceleyin ve sorularınızla derinleştirin.</p>
+                </div>
+              </div>
+              
+              <div className="flex items-center gap-3 w-full md:w-auto justify-end">
+                <button
+                  onClick={handleSaveToJournal}
+                  disabled={isSaved || saveLoading}
+                  className={`flex items-center gap-1.5 px-4 py-2 rounded-sm font-accent tracking-widest text-[10px] uppercase transition-all duration-300 border ${
+                    isSaved 
+                      ? "border-green-800 text-green-500 bg-green-950/20" 
+                      : "border-gold text-gold hover:bg-gold/10"
+                  }`}
+                >
+                  <BookMarked className="w-3.5 h-3.5" />
+                  {saveLoading ? "..." : isSaved ? "Deftere Kaydedildi" : "Deftere Kaydet"}
+                </button>
+                <button 
+                  onClick={() => {
+                    setStatus("idle");
+                    setResponse(null);
+                    setChatHistory([]);
+                  }}
+                  className="flex items-center gap-1.5 px-4 py-2 border border-obsidian bg-obsidian/50 text-ash hover:text-white transition-colors rounded-sm font-accent tracking-widest text-[10px] uppercase"
+                >
+                  <RefreshCw className="w-3.5 h-3.5" />
+                  Yeni Hamle
+                </button>
               </div>
             </div>
 
-            {/* Chat Bubbles */}
-            <div className="p-6 h-[400px] overflow-y-auto space-y-6 scrollbar-thin">
+            {/* Conversation Feed Area */}
+            <div className="p-6 h-[500px] overflow-y-auto space-y-6 scrollbar-thin">
+              
+              {/* 3-Part Mentis Analysis */}
+              <div className="space-y-8 pb-4">
+                <div className="text-center mb-8 border-b border-obsidian/30 pb-4">
+                  <h3 className="font-serif text-xl md:text-2xl text-smoke uppercase tracking-widest mb-1.5">Mentis Reçetesi</h3>
+                  <p className="font-accent italic text-xs md:text-sm text-ash">Soğukkanlı. Rasyonel. Kesin.</p>
+                </div>
+
+                <div className="grid gap-6">
+                  {/* Card 1: Durum Analizi */}
+                  <div className="relative p-5 md:p-6 rounded-sm bg-abyss border border-obsidian animate-[fade-in_1s_ease-out_forwards]">
+                    <div className="absolute top-0 left-4 md:left-6 -translate-y-1/2 bg-void px-2 font-serif text-gold text-xs sm:text-sm tracking-wider flex items-center gap-2">
+                      <span className="text-[10px] opacity-50">01</span>
+                      DURUM ANALİZİ
+                    </div>
+                    <div className="mt-3 font-sans text-smoke leading-relaxed tracking-wide text-xs md:text-sm whitespace-pre-wrap">
+                      {response.analysis}
+                    </div>
+                  </div>
+
+                  {/* Card 2: Karşı Tarafın Motivasyonu */}
+                  <div className="relative p-5 md:p-6 rounded-sm bg-abyss border border-gold/30 shadow-[0_0_20px_rgba(201,168,76,0.03)] animate-[fade-in_1s_ease-out_forwards] delay-200">
+                    <div className="absolute top-0 left-4 md:left-6 -translate-y-1/2 bg-void px-2 font-serif text-gold text-xs sm:text-sm tracking-wider flex items-center gap-2">
+                      <span className="text-[10px] opacity-50">02</span>
+                      KARŞI TARAFIN MOTİVASYONU
+                    </div>
+                    <div className="mt-3 font-sans text-smoke leading-relaxed tracking-wide text-xs md:text-sm whitespace-pre-wrap">
+                      {response.targetWeakness}
+                    </div>
+                  </div>
+
+                  {/* Card 3: Stratejik Hamle */}
+                  <div className="relative p-5 md:p-6 rounded-sm bg-abyss border border-obsidian animate-[fade-in_1s_ease-out_forwards] delay-400">
+                    <div className="absolute top-0 left-4 md:left-6 -translate-y-1/2 bg-void px-2 font-serif text-gold text-xs sm:text-sm tracking-wider flex items-center gap-2">
+                      <span className="text-[10px] opacity-50">03</span>
+                      STRATEJİK HAMLE
+                    </div>
+                    <div className="mt-3 font-sans text-smoke leading-relaxed tracking-wide text-xs md:text-sm whitespace-pre-wrap">
+                      {response.execution}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Follow-up messages */}
               {chatHistory.map((msg, index) => {
-                // Skip the initial very structured prompt presentation in chat bubble to avoid duplication,
-                // or display it nicely. Let's display follow-ups after the initial 2 items normally.
                 if (index < 2) return null;
 
                 const isUser = msg.role === "user";
                 return (
                   <div key={index} className={`flex w-full ${isUser ? "justify-end" : "justify-start"} animate-fade-in`}>
-                    <div className={`max-w-[80%] rounded-sm p-4 text-sm leading-relaxed ${
+                    <div className={`max-w-[85%] rounded-sm p-4 text-xs md:text-sm leading-relaxed ${
                       isUser 
                         ? "bg-obsidian border border-gold/10 text-smoke" 
                         : "bg-abyss/80 border border-obsidian text-gold-dim"
@@ -327,17 +362,9 @@ export default function DashboardPage() {
                 );
               })}
 
-              {chatHistory.length <= 2 && !followUpLoading && (
-                <div className="h-full flex flex-col items-center justify-center text-center p-6 space-y-3">
-                  <p className="text-ash font-accent italic text-sm max-w-md">
-                    &quot;Eylem planında kafana takılan bir yer mi var? Karşı tarafın olası hamlelerini mi merak ediyorsun? Aşağıdan bana sor.&quot;
-                  </p>
-                </div>
-              )}
-
               {followUpLoading && (
                 <div className="flex justify-start animate-pulse">
-                  <div className="bg-abyss/85 border border-obsidian/50 rounded-sm p-4 max-w-[80%] text-gold-dim text-sm">
+                  <div className="bg-abyss/85 border border-obsidian/50 rounded-sm p-4 max-w-[85%] text-gold-dim text-xs md:text-sm">
                     <p className="text-[10px] text-ash/60 uppercase tracking-widest mb-1 font-accent">Mentis</p>
                     <p className="italic font-accent">Hamleler hesaplanıyor...</p>
                   </div>
@@ -360,8 +387,8 @@ export default function DashboardPage() {
                 value={followUpMessage}
                 onChange={(e) => setFollowUpMessage(e.target.value)}
                 disabled={followUpLoading}
-                placeholder="Mentis'e sor: 'Karşı taraf sessizliğime nasıl tepki verir?' veya 'Bu hamleyi nasıl başlatmalıyım?'"
-                className="flex-1 bg-void border border-obsidian text-smoke placeholder:text-ash/40 px-4 py-3 rounded-sm text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gold focus-visible:border-gold/50 transition-all duration-300 disabled:opacity-50"
+                placeholder="Eylem planını derinleştirin: 'İlk kelime ne olmalı?' veya 'Yazmazsa ne yapmalıyım?'"
+                className="flex-1 bg-void border border-obsidian text-smoke placeholder:text-ash/40 px-4 py-3 rounded-sm text-xs md:text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gold focus-visible:border-gold/50 transition-all duration-300 disabled:opacity-50"
               />
               <button
                 type="submit"
