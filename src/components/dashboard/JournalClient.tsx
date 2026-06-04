@@ -51,6 +51,7 @@ export default function JournalClient() {
   const loadData = async () => {
     setLoading(true);
     const supabase = createClient();
+    let hasDbError = false;
     
     try {
       // Get current user
@@ -58,29 +59,44 @@ export default function JournalClient() {
       if (!user) throw new Error("Kullanıcı bulunamadı.");
 
       // 1. Fetch consultations (strategies) that are starred
-      const { data: stratData, error: stratErr } = await supabase
-        .from("consultations")
-        .select("*")
-        .eq("is_starred", true)
-        .order("created_at", { ascending: false });
+      try {
+        const { data: stratData, error: stratErr } = await supabase
+          .from("consultations")
+          .select("*")
+          .eq("is_starred", true)
+          .order("created_at", { ascending: false });
 
-      if (stratErr) throw stratErr;
-      setStrategies(stratData || []);
+        if (stratErr) throw stratErr;
+        setStrategies(stratData || []);
+      } catch (stratErr: any) {
+        console.warn("Consultations DB fetch failed, using local storage fallback:", stratErr.message || stratErr);
+        hasDbError = true;
+        const localStrats = JSON.parse(localStorage.getItem("mentis_local_journal") || "[]");
+        setStrategies(localStrats);
+      }
 
       // 2. Fetch custom notes
-      const { data: notesData, error: notesErr } = await supabase
-        .from("notes")
-        .select("*")
-        .order("created_at", { ascending: false });
+      try {
+        const { data: notesData, error: notesErr } = await supabase
+          .from("notes")
+          .select("*")
+          .order("created_at", { ascending: false });
 
-      if (notesErr) throw notesErr;
-      setCustomNotes(notesData || []);
-      setDbStatus("connected");
+        if (notesErr) throw notesErr;
+        setCustomNotes(notesData || []);
+      } catch (notesErr: any) {
+        console.warn("Notes DB fetch failed, using local storage fallback:", notesErr.message || notesErr);
+        hasDbError = true;
+        const localNotes = JSON.parse(localStorage.getItem("mentis_local_notes") || "[]");
+        setCustomNotes(localNotes);
+      }
+
+      setDbStatus(hasDbError ? "local" : "connected");
     } catch (err: any) {
-      console.warn("Supabase fetch failed, loading from local storage:", err.message);
+      console.warn("Auth check or database loading failed completely:", err.message || err);
       setDbStatus("local");
       
-      // Fallback to localStorage
+      // Fallback both to localStorage if auth/fetching completely failed
       try {
         const localStrats = JSON.parse(localStorage.getItem("mentis_local_journal") || "[]");
         setStrategies(localStrats);
@@ -97,8 +113,9 @@ export default function JournalClient() {
 
   const handleUpdatePersonalNotes = async (strategyId: string) => {
     setSaveLoading(true);
+    const isLocal = strategyId.toString().startsWith("local_");
     
-    if (dbStatus === "connected") {
+    if (!isLocal) {
       try {
         const supabase = createClient();
         const { error } = await supabase
@@ -112,20 +129,22 @@ export default function JournalClient() {
         if (selectedStrategy) {
           setSelectedStrategy({ ...selectedStrategy, personal_notes: editingPersonalNotes });
         }
+        setSaveLoading(false);
+        return;
       } catch (err) {
-        console.error("Failed to save to database, trying local fallback:", err);
+        console.error("Failed to save personal notes to database, using local fallback:", err);
       }
-    } else {
-      // Local fallback
-      const localStrats = JSON.parse(localStorage.getItem("mentis_local_journal") || "[]");
-      const updated = localStrats.map((s: SavedStrategy) => 
-        s.id === strategyId ? { ...s, personal_notes: editingPersonalNotes } : s
-      );
-      localStorage.setItem("mentis_local_journal", JSON.stringify(updated));
-      setStrategies(updated);
-      if (selectedStrategy) {
-        setSelectedStrategy({ ...selectedStrategy, personal_notes: editingPersonalNotes });
-      }
+    }
+
+    // Local fallback
+    const localStrats = JSON.parse(localStorage.getItem("mentis_local_journal") || "[]");
+    const updated = localStrats.map((s: SavedStrategy) => 
+      s.id === strategyId ? { ...s, personal_notes: editingPersonalNotes } : s
+    );
+    localStorage.setItem("mentis_local_journal", JSON.stringify(updated));
+    setStrategies(updated);
+    if (selectedStrategy) {
+      setSelectedStrategy({ ...selectedStrategy, personal_notes: editingPersonalNotes });
     }
     
     setSaveLoading(false);
@@ -136,40 +155,44 @@ export default function JournalClient() {
     if (!noteTitle.trim()) return;
     setSaveLoading(true);
 
-    const supabase = createClient();
+    const isLocal = editingNote?.id?.startsWith("note_");
 
-    if (dbStatus === "connected") {
-      try {
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) throw new Error("Yetkisiz işlem.");
+    if (editingNote && isLocal) {
+      // Saving local note update
+      saveNoteLocally();
+      setSaveLoading(false);
+      return;
+    }
 
-        if (editingNote) {
-          // Update
-          const { error } = await supabase
-            .from("notes")
-            .update({ title: noteTitle, content: noteContent, updated_at: new Date().toISOString() })
-            .eq("id", editingNote.id);
-          
-          if (error) throw error;
-        } else {
-          // Create
-          const { error } = await supabase
-            .from("notes")
-            .insert({
-              user_id: user.id,
-              title: noteTitle,
-              content: noteContent
-            });
-          
-          if (error) throw error;
-        }
-        await loadData();
-        closeNoteModal();
-      } catch (err) {
-        console.error("Database save failed, using local storage fallback:", err);
-        saveNoteLocally();
+    try {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("Yetkisiz işlem.");
+
+      if (editingNote) {
+        // Update on database
+        const { error } = await supabase
+          .from("notes")
+          .update({ title: noteTitle, content: noteContent, updated_at: new Date().toISOString() })
+          .eq("id", editingNote.id);
+        
+        if (error) throw error;
+      } else {
+        // Create on database
+        const { error } = await supabase
+          .from("notes")
+          .insert({
+            user_id: user.id,
+            title: noteTitle,
+            content: noteContent
+          });
+        
+        if (error) throw error;
       }
-    } else {
+      await loadData();
+      closeNoteModal();
+    } catch (err) {
+      console.error("Database save failed, using local storage fallback:", err);
       saveNoteLocally();
     }
     setSaveLoading(false);
@@ -201,19 +224,21 @@ export default function JournalClient() {
   const handleDeleteCustomNote = async (noteId: string) => {
     if (!confirm("Bu notu silmek istediğinize emin misiniz?")) return;
 
-    if (dbStatus === "connected") {
+    const isLocal = noteId.toString().startsWith("note_");
+
+    if (!isLocal) {
       try {
         const supabase = createClient();
         const { error } = await supabase.from("notes").delete().eq("id", noteId);
         if (error) throw error;
         setCustomNotes(prev => prev.filter(n => n.id !== noteId));
+        return;
       } catch (err) {
         console.error("Database delete failed, using local fallback:", err);
-        deleteNoteLocally(noteId);
       }
-    } else {
-      deleteNoteLocally(noteId);
     }
+
+    deleteNoteLocally(noteId);
   };
 
   const deleteNoteLocally = (noteId: string) => {
@@ -226,7 +251,9 @@ export default function JournalClient() {
   const handleDeleteStarredStrategy = async (stratId: string) => {
     if (!confirm("Bu hamleyi defterden çıkarmak istiyor musunuz? (Geçmişinizden silinmez)")) return;
 
-    if (dbStatus === "connected") {
+    const isLocal = stratId.toString().startsWith("local_");
+
+    if (!isLocal) {
       try {
         const supabase = createClient();
         const { error } = await supabase
@@ -236,13 +263,13 @@ export default function JournalClient() {
         if (error) throw error;
         setStrategies(prev => prev.filter(s => s.id !== stratId));
         if (selectedStrategy?.id === stratId) setSelectedStrategy(null);
+        return;
       } catch (err) {
         console.error("Database star removal failed, using local fallback:", err);
-        removeStrategyLocally(stratId);
       }
-    } else {
-      removeStrategyLocally(stratId);
     }
+
+    removeStrategyLocally(stratId);
   };
 
   const removeStrategyLocally = (stratId: string) => {
