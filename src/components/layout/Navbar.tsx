@@ -40,7 +40,7 @@ export const Navbar = () => {
             className="object-cover"
           />
         </div>
-        <h1 className="font-serif text-xl tracking-[0.2em] text-smoke uppercase">
+        <h1 className="font-serif text-xl tracking-[0.2em] text-gold uppercase">
           Mentis
         </h1>
       </Link>

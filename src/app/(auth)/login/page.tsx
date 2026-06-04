@@ -51,7 +51,7 @@ export default function LoginPage() {
                 className="object-cover"
               />
             </div>
-            <h1 className="font-serif text-2xl tracking-[0.2em] text-smoke uppercase">
+            <h1 className="font-serif text-2xl tracking-[0.2em] text-gold uppercase">
               Mentis
             </h1>
           </Link>

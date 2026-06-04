@@ -36,7 +36,7 @@ export const HeroGate = () => {
           />
         </div>
 
-        <h1 className="font-serif text-4xl md:text-6xl tracking-[0.2em] text-smoke mb-2 font-light uppercase">
+        <h1 className="font-serif text-4xl md:text-6xl tracking-[0.2em] text-gold mb-2 font-light uppercase">
           Mentis
         </h1>
         

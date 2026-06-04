@@ -57,7 +57,7 @@ export default function RegisterPage() {
                 className="object-cover"
               />
             </div>
-            <h1 className="font-serif text-2xl tracking-[0.2em] text-smoke uppercase text-center">
+            <h1 className="font-serif text-2xl tracking-[0.2em] text-gold uppercase text-center">
               Mentis
             </h1>
           </Link>
