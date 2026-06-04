@@ -362,15 +362,19 @@ export default function JournalClient() {
           
           {/* Tab 1: Saved Strategies */}
           {activeTab === "strategies" && (
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start w-full">
-              {/* Strategies Sidebar List */}
-              <div className={`md:col-span-4 space-y-4 max-h-[600px] overflow-y-auto pr-2 ${selectedStrategy ? "hidden md:block" : "block"}`}>
-                {strategies.length === 0 ? (
-                  <div className="text-center py-12 border border-obsidian/30 bg-abyss/20 p-6 rounded-sm text-ash font-accent italic text-sm">
-                    Henüz deftere eklenmiş bir strateji bulunmuyor. Karargahta danışmanlık aldıktan sonra &quot;Deftere Kaydet&quot; butonuna basabilirsiniz.
-                  </div>
-                ) : (
-                  strategies.map(s => (
+            strategies.length === 0 ? (
+              <div className="w-full max-w-2xl mx-auto h-[320px] border border-obsidian bg-abyss/20 flex flex-col items-center justify-center text-center p-8 rounded-sm space-y-4 animate-fade-in relative overflow-hidden">
+                <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-gold/30 to-transparent" />
+                <BookMarked className="w-12 h-12 text-obsidian/30 mb-2 animate-pulse-gold" />
+                <p className="text-ash font-accent italic text-base max-w-md leading-relaxed">
+                  Henüz deftere eklenmiş bir strateji bulunmuyor. Karargahta danışmanlık aldıktan sonra &quot;Deftere Kaydet&quot; butonuna basabilirsiniz.
+                </p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start w-full">
+                {/* Strategies Sidebar List */}
+                <div className={`md:col-span-4 space-y-4 max-h-[600px] overflow-y-auto pr-2 ${selectedStrategy ? "hidden md:block" : "block"}`}>
+                  {strategies.map(s => (
                     <button
                       key={s.id}
                       onClick={() => {
@@ -389,89 +393,89 @@ export default function JournalClient() {
                         <ChevronRight className="w-3.5 h-3.5 text-gold/50" />
                       </div>
                     </button>
-                  ))
-                )}
-              </div>
+                  ))}
+                </div>
 
-              {/* Strategy Details Column */}
-              <div className={`md:col-span-8 ${selectedStrategy ? "block" : "hidden md:block"}`}>
-                {selectedStrategy ? (
-                  <div className="border border-obsidian bg-abyss/40 p-8 rounded-sm space-y-8 animate-fade-in relative">
-                    <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-gold/30 to-transparent" />
-                    
-                    {/* Mobile Back Button */}
-                    <button 
-                      onClick={() => setSelectedStrategy(null)}
-                      className="md:hidden text-gold text-xs font-accent uppercase tracking-widest flex items-center gap-1.5 mb-4 hover:text-gold-dim transition-colors"
-                    >
-                      <ChevronLeft className="w-4 h-4" /> Listeye Dön
-                    </button>
-                    
-                    {/* Header */}
-                    <div className="flex items-start justify-between border-b border-obsidian/50 pb-6">
-                      <div className="space-y-1">
-                        <span className="text-[10px] text-gold font-accent tracking-widest uppercase">Kayıtlı Hamle Hedefi</span>
-                        <h3 className="text-xl font-medium text-smoke">{selectedStrategy.problem}</h3>
-                      </div>
+                {/* Strategy Details Column */}
+                <div className={`md:col-span-8 ${selectedStrategy ? "block" : "hidden md:block"}`}>
+                  {selectedStrategy ? (
+                    <div className="border border-obsidian bg-abyss/40 p-8 rounded-sm space-y-8 animate-fade-in relative">
+                      <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-gold/30 to-transparent" />
+                      
+                      {/* Mobile Back Button */}
                       <button 
-                        onClick={() => handleDeleteStarredStrategy(selectedStrategy.id)}
-                        className="text-ash hover:text-red-500 transition-colors p-2"
-                        title="Defterden Kaldır"
+                        onClick={() => setSelectedStrategy(null)}
+                        className="md:hidden text-gold text-xs font-accent uppercase tracking-widest flex items-center gap-1.5 mb-4 hover:text-gold-dim transition-colors"
                       >
-                        <Trash2 className="w-5 h-5" />
+                        <ChevronLeft className="w-4 h-4" /> Listeye Dön
                       </button>
-                    </div>
-
-                    {/* Prescriptions */}
-                    <div className="space-y-6">
-                      <div>
-                        <h4 className="text-xs font-serif text-gold uppercase tracking-widest mb-2">01 — Durum Analizi</h4>
-                        <p className="text-sm text-smoke/90 leading-relaxed whitespace-pre-wrap">{selectedStrategy.analysis}</p>
-                      </div>
-                      <div>
-                        <h4 className="text-xs font-serif text-gold uppercase tracking-widest mb-2">02 — Karşı Tarafın Motivasyonu</h4>
-                        <p className="text-sm text-smoke/90 leading-relaxed whitespace-pre-wrap">{selectedStrategy.target_weakness}</p>
-                      </div>
-                      <div>
-                        <h4 className="text-xs font-serif text-gold uppercase tracking-widest mb-2">03 — Stratejik Hamle</h4>
-                        <p className="text-sm text-smoke/90 leading-relaxed whitespace-pre-wrap">{selectedStrategy.execution}</p>
-                      </div>
-                    </div>
-
-                    {/* Personal Progress Notes */}
-                    <div className="border-t border-obsidian/50 pt-8 space-y-4">
-                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                        <h4 className="text-sm font-serif text-smoke uppercase tracking-wider">Aksiyon Notlarım & Entegrasyon Takibi</h4>
-                        <span className="text-[10px] text-ash font-accent italic">Bu stratejiyi hayatına nasıl entegre ediyorsun? Günlük notlar tut.</span>
-                      </div>
-                      <textarea
-                        value={editingPersonalNotes}
-                        onChange={(e) => setEditingPersonalNotes(e.target.value)}
-                        placeholder="Örn: 'Bugün ilk sessizlik hamlesini uyguladım. Mesajına 4 saat sonra sadece tek cümleyle yanıt verdim. Pozisyonumu koruyorum...'"
-                        className="w-full h-32 bg-void border border-obsidian p-4 rounded-sm text-sm text-smoke focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gold transition-all duration-300"
-                      />
-                      <div className="flex justify-end">
-                        <button
-                          onClick={() => handleUpdatePersonalNotes(selectedStrategy.id)}
-                          disabled={saveLoading}
-                          className="bg-gold text-void px-6 py-2.5 rounded-sm text-xs font-accent tracking-widest uppercase font-bold hover:bg-gold-dim transition-colors flex items-center gap-2"
+                      
+                      {/* Header */}
+                      <div className="flex items-start justify-between border-b border-obsidian/50 pb-6">
+                        <div className="space-y-1">
+                          <span className="text-[10px] text-gold font-accent tracking-widest uppercase">Kayıtlı Hamle Hedefi</span>
+                          <h3 className="text-xl font-medium text-smoke">{selectedStrategy.problem}</h3>
+                        </div>
+                        <button 
+                          onClick={() => handleDeleteStarredStrategy(selectedStrategy.id)}
+                          className="text-ash hover:text-red-500 transition-colors p-2"
+                          title="Defterden Kaldır"
                         >
-                          <Save className="w-4 h-4" />
-                          {saveLoading ? "Kaydediliyor..." : "Notları Güncelle"}
+                          <Trash2 className="w-5 h-5" />
                         </button>
                       </div>
+
+                      {/* Prescriptions */}
+                      <div className="space-y-6">
+                        <div>
+                          <h4 className="text-xs font-serif text-gold uppercase tracking-widest mb-2">01 — Durum Analizi</h4>
+                          <p className="text-sm text-smoke/90 leading-relaxed whitespace-pre-wrap">{selectedStrategy.analysis}</p>
+                        </div>
+                        <div>
+                          <h4 className="text-xs font-serif text-gold uppercase tracking-widest mb-2">02 — Karşı Tarafın Motivasyonu</h4>
+                          <p className="text-sm text-smoke/90 leading-relaxed whitespace-pre-wrap">{selectedStrategy.target_weakness}</p>
+                        </div>
+                        <div>
+                          <h4 className="text-xs font-serif text-gold uppercase tracking-widest mb-2">03 — Stratejik Hamle</h4>
+                          <p className="text-sm text-smoke/90 leading-relaxed whitespace-pre-wrap">{selectedStrategy.execution}</p>
+                        </div>
+                      </div>
+
+                      {/* Personal Progress Notes */}
+                      <div className="border-t border-obsidian/50 pt-8 space-y-4">
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                          <h4 className="text-sm font-serif text-smoke uppercase tracking-wider">Aksiyon Notlarım & Entegrasyon Takibi</h4>
+                          <span className="text-[10px] text-ash font-accent italic">Bu stratejiyi hayatına nasıl entegre ediyorsun? Günlük notlar tut.</span>
+                        </div>
+                        <textarea
+                          value={editingPersonalNotes}
+                          onChange={(e) => setEditingPersonalNotes(e.target.value)}
+                          placeholder="Örn: 'Bugün ilk sessizlik hamlesini uyguladım. Mesajına 4 saat sonra sadece tek cümleyle yanıt verdim. Pozisyonumu koruyorum...'"
+                          className="w-full h-32 bg-void border border-obsidian p-4 rounded-sm text-sm text-smoke focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gold transition-all duration-300"
+                        />
+                        <div className="flex justify-end">
+                          <button
+                            onClick={() => handleUpdatePersonalNotes(selectedStrategy.id)}
+                            disabled={saveLoading}
+                            className="bg-gold text-void px-6 py-2.5 rounded-sm text-xs font-accent tracking-widest uppercase font-bold hover:bg-gold-dim transition-colors flex items-center gap-2"
+                          >
+                            <Save className="w-4 h-4" />
+                            {saveLoading ? "Kaydediliyor..." : "Notları Güncelle"}
+                          </button>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                ) : (
-                  <div className="h-[400px] border border-obsidian/30 bg-abyss/10 flex flex-col items-center justify-center text-center p-8 rounded-sm">
-                    <BookMarked className="w-12 h-12 text-obsidian mb-4" />
-                    <p className="text-ash font-accent italic text-base max-w-md">
-                      Detayları görmek, aksiyon notları eklemek ve entegrasyonu takip etmek için soldaki listeden bir strateji seçin.
-                    </p>
-                  </div>
-                )}
+                  ) : (
+                    <div className="h-[400px] border border-obsidian/30 bg-abyss/10 flex flex-col items-center justify-center text-center p-8 rounded-sm">
+                      <BookMarked className="w-12 h-12 text-obsidian mb-4" />
+                      <p className="text-ash font-accent italic text-base max-w-md">
+                        Detayları görmek, aksiyon notları eklemek ve entegrasyonu takip etmek için soldaki listeden bir strateji seçin.
+                      </p>
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
+            )
           )}
 
           {/* Tab 2: Custom Notes */}
