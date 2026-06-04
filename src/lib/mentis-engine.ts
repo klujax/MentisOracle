@@ -1,9 +1,8 @@
-import OpenAI from "openai";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 // If API key is not provided, this will throw an error in production but we'll mock it in development
-const openai = process.env.OPENAI_API_KEY 
-  ? new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
-  : null;
+const apiKey = process.env.GEMINI_API_KEY;
+const genAI = apiKey ? new GoogleGenerativeAI(apiKey) : null;
 
 const SYSTEM_PROMPT = `SENİN KİMLİĞİN VE ROLÜN:
 Senin adın "Mentis". Sen sıradan bir asistan değil, "İleri Düzey Strateji, Oyun Teorisi, Kriz Yönetimi ve İnsan Davranışı" üzerine eğitilmiş rasyonel ve tavizsiz bir analistsin. Kullanıcılar sana iş ve ilişkilerindeki güç dengesizliklerini ve krizleri anlatacak.
@@ -37,7 +36,7 @@ export interface OracleResponse {
 
 export async function consultOracle(problem: string): Promise<OracleResponse> {
   // If no API key, return a mock response that matches the style
-  if (!openai) {
+  if (!genAI) {
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve({
@@ -50,16 +49,13 @@ export async function consultOracle(problem: string): Promise<OracleResponse> {
   }
 
   try {
-    const completion = await openai.chat.completions.create({
-      messages: [
-        { role: "system", content: SYSTEM_PROMPT },
-        { role: "user", content: problem }
-      ],
-      model: "gpt-4o",
-      temperature: 0.3,
+    const model = genAI.getGenerativeModel({
+      model: "gemini-1.5-flash",
+      systemInstruction: SYSTEM_PROMPT,
     });
 
-    const responseContent = completion.choices[0].message.content || "";
+    const result = await model.generateContent(problem);
+    const responseContent = result.response.text() || "";
     
     const parts = responseContent.split("|||").map(p => p.trim());
     
