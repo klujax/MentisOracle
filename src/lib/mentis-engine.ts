@@ -69,12 +69,46 @@ export async function consultMentis(problem: string): Promise<MentisResponse> {
       execution: cleanExecution
     };
   } catch (error) {
-    console.error("Mentis consultation failed, falling back to mock:", error);
-    // Fallback to mock data to save costs and bypass quota issues
-    return {
-      analysis: "Buradaki güç dinamiği tamamen senin ulaşılabiliten üzerine inşa edilmiş. Karşı taraf, senin taviz vermeye yatkın olduğunu bildiği için sınırlarını ihlal ediyor. Sen masada reaktif bir pozisyon alarak kontrolü çoktan devrettin.",
-      targetWeakness: "Eylemlerinin temelinde senin vereceğin tepkiden beslenen bir onaylanma ihtiyacı yatıyor. Bu kişi, senin sınır çizememe zafiyetini kendi egosunu tatmin eden bedava bir hizmet olarak algılıyor.",
-      execution: "1. Sessizlik Ambargosu: Derhal tüm iletişimi kes ve duygusal reaksiyon göstermeyi bırak.\n2. Rasyonel Mesafe: Yeniden temas kurduklarında, hiçbir açıklama yapmadan sadece kendi kurallarını dikte et.\n3. Çerçeveyi Daraltma: Eğer itiraz ederlerse, masadan kalkmakta en ufak bir tereddüt yaşama.\n\nDuygularını felç et ve masayı yönet."
-    };
+    console.error("Mentis consultation failed:", error);
+    throw new Error("AI motoru şu anda yanıt veremiyor. Lütfen tekrar dene.");
   }
 }
+
+export interface ChatMessage {
+  role: "user" | "model";
+  content: string;
+}
+
+export async function continueMentis(history: ChatMessage[], nextMessage: string): Promise<string> {
+  if (!genAI) {
+    // Mock response for development if API key is missing
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve("Bu durum için sessizlik en güçlü kaldıraçtır. Karşı taraf reaksiyon göstermeni bekliyor, tepkisizlik onları zayıflatacaktır. Hamleni sakinlikle planla.");
+      }, 1000);
+    });
+  }
+
+  try {
+    const model = genAI.getGenerativeModel({
+      model: "gemini-2.5-flash",
+      systemInstruction: SYSTEM_PROMPT + "\n\nŞu anda bir takip sohbetindesin. Kullanıcı ilk durum analizini aldı ve sana ek sorular soruyor. Aynı otoriter, rasyonel, soğuk ve analitik Mentis tonunu koru. Kısa, vurucu ve pratik stratejik tavsiyeler ver. Yanıtı artık ||| ile bölme, doğrudan bir chat mesajı olarak yaz.",
+    });
+
+    const geminiHistory = history.map((msg) => ({
+      role: msg.role === "user" ? "user" : "model",
+      parts: [{ text: msg.content }],
+    }));
+
+    const chat = model.startChat({
+      history: geminiHistory,
+    });
+
+    const result = await chat.sendMessage(nextMessage);
+    return result.response.text() || "";
+  } catch (error) {
+    console.error("Mentis chat failed:", error);
+    throw new Error("AI motoru şu anda yanıt veremiyor. Lütfen tekrar dene.");
+  }
+}
+

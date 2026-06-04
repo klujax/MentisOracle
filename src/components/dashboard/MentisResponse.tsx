@@ -46,16 +46,16 @@ export const MentisResponse = ({ analysis, counterMove, execution }: StrategyPro
 const StrategyCard = ({ step, title, content, delayClass, highlight }: { step: string, title: string, content: string, delayClass: string, highlight?: boolean }) => {
   return (
     <div className={cn(
-      "relative p-8 rounded-sm bg-abyss border border-obsidian transition-all duration-700 opacity-0 animate-[fade-in_1s_ease-out_forwards]",
+      "relative p-6 md:p-8 rounded-sm bg-abyss border border-obsidian transition-all duration-700 opacity-0 animate-[fade-in_1s_ease-out_forwards]",
       delayClass,
       highlight ? "border-gold/30 shadow-[0_0_30px_rgba(201,168,76,0.05)]" : ""
     )}>
-      <div className="absolute top-0 left-8 -translate-y-1/2 bg-void px-4 font-serif text-gold text-lg tracking-widest flex items-center gap-4">
-        <span className="text-sm opacity-50">{step}</span>
+      <div className="absolute top-0 left-4 md:left-8 -translate-y-1/2 bg-void px-2 md:px-4 font-serif text-gold text-xs sm:text-sm md:text-lg tracking-wider md:tracking-widest flex items-center gap-2 md:gap-4">
+        <span className="text-[10px] md:text-sm opacity-50">{step}</span>
         {title}
       </div>
       
-      <div className="mt-4 font-sans text-smoke leading-relaxed tracking-wide text-sm whitespace-pre-wrap">
+      <div className="mt-4 font-sans text-smoke leading-relaxed tracking-wide text-xs md:text-sm whitespace-pre-wrap">
         {content}
       </div>
     </div>

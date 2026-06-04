@@ -1,17 +1,23 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { StrategyInput } from "@/components/dashboard/StrategyInput";
 import { LoadingMentis } from "@/components/ui/LoadingMentis";
 import { MentisResponse } from "@/components/dashboard/MentisResponse";
 import { createClient } from "@/lib/supabase/client";
-import { Coins } from "lucide-react";
+import { Coins, BookMarked, Send, RefreshCw, MessageSquare } from "lucide-react";
 
 interface StrategyResponse {
+  id?: string;
   analysis: string;
   targetWeakness: string;
   execution: string;
+}
+
+interface ChatMessage {
+  role: "user" | "model";
+  content: string;
 }
 
 export default function DashboardPage() {
@@ -21,12 +27,25 @@ export default function DashboardPage() {
   const [credits, setCredits] = useState<number | null>(null);
   const [plan, setPlan] = useState<string>("free");
   const [requiresPayment, setRequiresPayment] = useState(false);
+  const [userId, setUserId] = useState<string | null>(null);
+
+  // Chat follow-up state
+  const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
+  const [followUpMessage, setFollowUpMessage] = useState("");
+  const [followUpLoading, setFollowUpLoading] = useState(false);
+  const [followUpError, setFollowUpError] = useState<string | null>(null);
+  const chatEndRef = useRef<HTMLDivElement>(null);
+
+  // Save to Journal state
+  const [isSaved, setIsSaved] = useState(false);
+  const [saveLoading, setSaveLoading] = useState(false);
 
   useEffect(() => {
     const fetchCredits = async () => {
       const supabase = createClient();
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
+        setUserId(user.id);
         const { data } = await supabase
           .from("user_credits")
           .select("credits, plan")
@@ -41,10 +60,18 @@ export default function DashboardPage() {
     fetchCredits();
   }, [status]); // Refresh credits after each consultation
 
+  // Scroll to bottom of chat when history updates
+  useEffect(() => {
+    if (chatHistory.length > 2) {
+      chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [chatHistory, followUpLoading]);
+
   const handleConsult = async (problem: string) => {
     setStatus("analyzing");
     setError(null);
     setRequiresPayment(false);
+    setIsSaved(false);
     
     try {
       const res = await fetch("/api/mentis", {
@@ -64,6 +91,15 @@ export default function DashboardPage() {
 
       setResponse(data);
       setStatus("complete");
+      
+      // Initialize chat history with the initial turn
+      setChatHistory([
+        { role: "user", content: problem },
+        { 
+          role: "model", 
+          content: `**[DURUM ANALİZİ]**\n${data.analysis}\n\n**[KARŞI TARAFIN MOTİVASYONU]**\n${data.targetWeakness}\n\n**[STRATEJİK HAMLE]**\n${data.execution}` 
+        }
+      ]);
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "Bağlantı koptu.";
       setError(message);
@@ -71,8 +107,103 @@ export default function DashboardPage() {
     }
   };
 
+  const handleSendFollowUp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!followUpMessage.trim() || followUpLoading) return;
+
+    const userMsg = followUpMessage.trim();
+    setFollowUpMessage("");
+    setFollowUpError(null);
+    setFollowUpLoading(true);
+
+    const updatedHistory: ChatMessage[] = [...chatHistory, { role: "user", content: userMsg }];
+    setChatHistory(updatedHistory);
+
+    try {
+      const res = await fetch("/api/mentis", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          history: updatedHistory,
+          message: userMsg
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Yanıt alınamadı.");
+      }
+
+      setChatHistory(prev => [...prev, { role: "model", content: data.reply }]);
+    } catch (err: any) {
+      setFollowUpError(err.message || "Mesaj gönderilemedi. Lütfen tekrar deneyin.");
+      // Rollback history if failed
+      setChatHistory(chatHistory);
+    } finally {
+      setFollowUpLoading(false);
+    }
+  };
+
+  const handleSaveToJournal = async () => {
+    if (!response || !userId || saveLoading) return;
+    setSaveLoading(true);
+
+    try {
+      const supabase = createClient();
+      
+      // 1. Try Supabase
+      if (response.id) {
+        const { error } = await supabase
+          .from("consultations")
+          .update({ is_starred: true })
+          .eq("id", response.id);
+        
+        if (error) throw error;
+      } else {
+        // Fallback if id was not returned for some reason
+        const { error } = await supabase.from("consultations").insert({
+          user_id: userId,
+          problem: chatHistory[0]?.content || "Özel Sorun",
+          analysis: response.analysis,
+          target_weakness: response.targetWeakness,
+          execution: response.execution,
+          is_starred: true
+        });
+
+        if (error) throw error;
+      }
+      
+      setIsSaved(true);
+    } catch (err: any) {
+      console.warn("Supabase save failed, falling back to localStorage:", err.message);
+      
+      // 2. Fallback to localStorage
+      try {
+        const localJournal = JSON.parse(localStorage.getItem("mentis_local_journal") || "[]");
+        const entry = {
+          id: response.id || `local_${Date.now()}`,
+          problem: chatHistory[0]?.content || "Özel Sorun",
+          analysis: response.analysis,
+          target_weakness: response.targetWeakness,
+          execution: response.execution,
+          created_at: new Date().toISOString(),
+          is_starred: true,
+          personal_notes: ""
+        };
+        localJournal.push(entry);
+        localStorage.setItem("mentis_local_journal", JSON.stringify(localJournal));
+        setIsSaved(true);
+      } catch (localErr) {
+        console.error("Local storage save failed:", localErr);
+      }
+    } finally {
+      setSaveLoading(false);
+    }
+  };
+
   return (
-    <div className="flex flex-col items-center w-full max-w-5xl mx-auto space-y-12">
+    <div className="flex flex-col items-center w-full max-w-5xl mx-auto space-y-12 pb-24">
       
       <div className="text-center space-y-4 mb-4">
         <h2 className="font-serif text-3xl md:text-4xl text-smoke tracking-wider">Zihin Karargahı</h2>
@@ -105,10 +236,10 @@ export default function DashboardPage() {
             <div className="mb-6 text-center space-y-3">
               <p className="text-ash font-accent italic text-sm">Bedava kredilerin tükendi. Oyun burada bitmiyor.</p>
               <Link
-                href="/pricing"
+                href="/dashboard/billing"
                 className="inline-block bg-gold text-void px-8 py-3 text-sm font-bold uppercase tracking-widest hover:bg-gold-dim transition-colors"
               >
-                Planları İncele
+                Kredi Yükle
               </Link>
             </div>
           )}
@@ -123,21 +254,124 @@ export default function DashboardPage() {
       )}
 
       {status === "complete" && response && (
-        <div className="w-full flex flex-col items-center">
+        <div className="w-full flex flex-col items-center space-y-12">
+          {/* 3-Part Mentis Analysis */}
           <MentisResponse 
             analysis={response.analysis}
             counterMove={response.targetWeakness}
             execution={response.execution}
           />
-          <button 
-            onClick={() => {
-              setStatus("idle");
-              setResponse(null);
-            }}
-            className="mt-12 text-sm text-ash hover:text-gold uppercase tracking-widest font-bold transition-colors underline underline-offset-4 decoration-gold/30"
-          >
-            Yeni Hamle Planla
-          </button>
+
+          {/* Action Toolbar */}
+          <div className="flex flex-col sm:flex-row gap-4 w-full max-w-4xl justify-center items-center pt-6 border-t border-obsidian/30">
+            <button
+              onClick={handleSaveToJournal}
+              disabled={isSaved || saveLoading}
+              className={`flex items-center gap-2 px-6 py-3 rounded-sm font-accent tracking-widest text-xs uppercase transition-all duration-300 border ${
+                isSaved 
+                  ? "border-green-800 text-green-500 bg-green-950/20" 
+                  : "border-gold text-gold hover:bg-gold/10"
+              }`}
+            >
+              <BookMarked className="w-4 h-4" />
+              {saveLoading ? "Kaydediliyor..." : isSaved ? "Deftere Kaydedildi" : "Bu Hamleyi Deftere Kaydet"}
+            </button>
+
+            <button 
+              onClick={() => {
+                setStatus("idle");
+                setResponse(null);
+                setChatHistory([]);
+              }}
+              className="flex items-center gap-2 px-6 py-3 border border-obsidian bg-obsidian/50 text-ash hover:text-white transition-colors rounded-sm font-accent tracking-widest text-xs uppercase"
+            >
+              <RefreshCw className="w-4 h-4" />
+              Yeni Hamle Planla
+            </button>
+          </div>
+
+          {/* Chat Follow-Up Interface */}
+          <div className="w-full max-w-4xl border border-obsidian/50 bg-abyss/40 rounded-sm overflow-hidden flex flex-col shadow-2xl relative">
+            <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-gold/30 to-transparent" />
+            
+            {/* Chat Header */}
+            <div className="p-4 border-b border-obsidian/50 bg-abyss flex items-center gap-3">
+              <MessageSquare className="w-5 h-5 text-gold" />
+              <div>
+                <h4 className="text-sm font-serif text-smoke tracking-wider uppercase">Stratejik Yönlendirme ve Detaylandırma</h4>
+                <p className="text-xs text-ash">Plan üzerine Mentis ile konuşun, hayatınıza entegre edin.</p>
+              </div>
+            </div>
+
+            {/* Chat Bubbles */}
+            <div className="p-6 h-[400px] overflow-y-auto space-y-6 scrollbar-thin">
+              {chatHistory.map((msg, index) => {
+                // Skip the initial very structured prompt presentation in chat bubble to avoid duplication,
+                // or display it nicely. Let's display follow-ups after the initial 2 items normally.
+                if (index < 2) return null;
+
+                const isUser = msg.role === "user";
+                return (
+                  <div key={index} className={`flex w-full ${isUser ? "justify-end" : "justify-start"} animate-fade-in`}>
+                    <div className={`max-w-[80%] rounded-sm p-4 text-sm leading-relaxed ${
+                      isUser 
+                        ? "bg-obsidian border border-gold/10 text-smoke" 
+                        : "bg-abyss/80 border border-obsidian text-gold-dim"
+                    }`}>
+                      <p className="text-[10px] text-ash/60 uppercase tracking-widest mb-1.5 font-accent">
+                        {isUser ? "SİZ" : "MENTIS"}
+                      </p>
+                      <div className="whitespace-pre-wrap font-sans">{msg.content}</div>
+                    </div>
+                  </div>
+                );
+              })}
+
+              {chatHistory.length <= 2 && !followUpLoading && (
+                <div className="h-full flex flex-col items-center justify-center text-center p-6 space-y-3">
+                  <p className="text-ash font-accent italic text-sm max-w-md">
+                    &quot;Eylem planında kafana takılan bir yer mi var? Karşı tarafın olası hamlelerini mi merak ediyorsun? Aşağıdan bana sor.&quot;
+                  </p>
+                </div>
+              )}
+
+              {followUpLoading && (
+                <div className="flex justify-start animate-pulse">
+                  <div className="bg-abyss/85 border border-obsidian/50 rounded-sm p-4 max-w-[80%] text-gold-dim text-sm">
+                    <p className="text-[10px] text-ash/60 uppercase tracking-widest mb-1 font-accent">Mentis</p>
+                    <p className="italic font-accent">Hamleler hesaplanıyor...</p>
+                  </div>
+                </div>
+              )}
+
+              {followUpError && (
+                <div className="p-3 bg-red-950/20 border border-red-900/50 text-red-400 text-xs text-center rounded-sm font-accent italic">
+                  {followUpError}
+                </div>
+              )}
+
+              <div ref={chatEndRef} />
+            </div>
+
+            {/* Chat Input Footer */}
+            <form onSubmit={handleSendFollowUp} className="p-4 bg-abyss border-t border-obsidian/50 flex gap-3">
+              <input
+                type="text"
+                value={followUpMessage}
+                onChange={(e) => setFollowUpMessage(e.target.value)}
+                disabled={followUpLoading}
+                placeholder="Mentis'e sor: 'Karşı taraf sessizliğime nasıl tepki verir?' veya 'Bu hamleyi nasıl başlatmalıyım?'"
+                className="flex-1 bg-void border border-obsidian text-smoke placeholder:text-ash/40 px-4 py-3 rounded-sm text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gold focus-visible:border-gold/50 transition-all duration-300 disabled:opacity-50"
+              />
+              <button
+                type="submit"
+                disabled={!followUpMessage.trim() || followUpLoading}
+                className="bg-gold text-void p-3 rounded-sm hover:bg-gold-dim transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+              >
+                <Send className="w-4 h-4" />
+              </button>
+            </form>
+          </div>
         </div>
       )}
     </div>

@@ -37,9 +37,12 @@ export async function POST(request: Request) {
     }
 
     // Initialize Shopier
-    // We will use dummy keys if env variables are not set yet
-    const apiKey = process.env.SHOPIER_API_KEY || "dummy_api_key";
-    const apiSecret = process.env.SHOPIER_API_SECRET || "dummy_api_secret";
+    const apiKey = process.env.SHOPIER_API_KEY;
+    const apiSecret = process.env.SHOPIER_API_SECRET;
+
+    if (!apiKey || !apiSecret) {
+      return NextResponse.json({ error: "Ödeme sistemi henüz yapılandırılmamış." }, { status: 503 });
+    }
 
     const shopier = new Shopier(apiKey, apiSecret);
 

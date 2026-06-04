@@ -2,18 +2,26 @@ import { NextResponse } from "next/server";
 import { Shopier } from "shopier-api";
 import { createClient } from "@supabase/supabase-js";
 
-// We need a Service Role client to bypass RLS in the webhook
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
-const supabase = createClient(supabaseUrl, supabaseServiceKey);
+function getAdminClient() {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!supabaseUrl || !supabaseServiceKey) {
+    throw new Error("Supabase yapılandırması eksik.");
+  }
+  return createClient(supabaseUrl, supabaseServiceKey);
+}
 
 export async function POST(request: Request) {
   try {
     const formData = await request.formData();
     const body: Record<string, any> = Object.fromEntries(formData.entries());
 
-    const apiKey = process.env.SHOPIER_API_KEY || "dummy_api_key";
-    const apiSecret = process.env.SHOPIER_API_SECRET || "dummy_api_secret";
+    const apiKey = process.env.SHOPIER_API_KEY;
+    const apiSecret = process.env.SHOPIER_API_SECRET;
+
+    if (!apiKey || !apiSecret) {
+      return NextResponse.json({ error: "Shopier yapılandırması eksik." }, { status: 503 });
+    }
 
     const shopier = new Shopier(apiKey, apiSecret);
 
@@ -58,6 +66,8 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Unknown package" }, { status: 400 });
     }
 
+    const supabase = getAdminClient();
+
     // 1. Check if this payment_id already exists in `transactions` to prevent double counting
     const { data: existingTx } = await supabase
       .from("transactions")
@@ -85,7 +95,6 @@ export async function POST(request: Request) {
     }
 
     // 3. Update user's credits
-    // First, fetch current credits
     const { data: currentCredits, error: fetchError } = await supabase
       .from("user_credits")
       .select("credits")
@@ -94,7 +103,6 @@ export async function POST(request: Request) {
 
     if (fetchError) {
       console.error("Error fetching credits:", fetchError);
-      // Wait, what if they don't have a record yet? They should, due to the handle_new_user trigger.
     }
 
     const newBalance = (currentCredits?.credits || 0) + creditsToAdd;

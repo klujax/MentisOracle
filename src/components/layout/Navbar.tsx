@@ -2,13 +2,11 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { LogOut, User, History, ShoppingCart } from "lucide-react";
+import { LogOut, User, History, ShoppingCart, BookOpen } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import Image from "next/image";
 
 export const Navbar = () => {
-  const router = useRouter();
   const [userEmail, setUserEmail] = useState<string | null>(null);
 
   useEffect(() => {
@@ -23,8 +21,7 @@ export const Navbar = () => {
   const handleLogout = async () => {
     const supabase = createClient();
     await supabase.auth.signOut();
-    router.push("/");
-    router.refresh();
+    window.location.href = "/";
   };
 
   const displayName = userEmail ? userEmail.split("@")[0] : "Misafir";
@@ -51,6 +48,9 @@ export const Navbar = () => {
         </div>
         
         <div className="flex items-center gap-4 border-l border-obsidian pl-6">
+          <Link href="/dashboard/journal" className="text-ash hover:text-gold transition-colors" title="Strateji Defteri">
+            <BookOpen className="w-5 h-5" />
+          </Link>
           <Link href="/dashboard/history" className="text-ash hover:text-gold transition-colors" title="Geçmiş Stratejiler">
             <History className="w-5 h-5" />
           </Link>

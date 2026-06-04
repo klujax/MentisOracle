@@ -1,11 +1,30 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
-import { consultMentis } from "@/lib/mentis-engine";
+import { consultMentis, continueMentis } from "@/lib/mentis-engine";
 
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { problem } = body;
+    const { problem, history, message } = body;
+
+    // Check if Supabase is configured
+    const hasSupabase = process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+    // Process follow-up chat message
+    if (history && message) {
+      if (hasSupabase) {
+        const supabase = await createClient();
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) {
+          return NextResponse.json(
+            { error: "Kimlik doğrulaması gerekli." },
+            { status: 401 }
+          );
+        }
+      }
+      const reply = await continueMentis(history, message);
+      return NextResponse.json({ reply });
+    }
 
     if (!problem || problem.length < 10) {
       return NextResponse.json(
@@ -14,9 +33,6 @@ export async function POST(req: Request) {
       );
     }
 
-    // Check if Supabase is configured
-    const hasSupabase = process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-    
     let userId: string | null = null;
 
     if (hasSupabase) {
@@ -55,18 +71,19 @@ export async function POST(req: Request) {
       const supabase = await createClient();
 
       // Save to history
-      await supabase.from("consultations").insert({
+      const { data: inserted } = await supabase.from("consultations").insert({
         user_id: userId,
         problem,
         analysis: strategy.analysis,
         target_weakness: strategy.targetWeakness,
         execution: strategy.execution,
-      });
+      }).select("id").single();
 
-      // Deduct 1 credit
-      await supabase.rpc("deduct_credit", { p_user_id: userId }).maybeSingle();
-      
-      // If RPC doesn't exist yet, do it manually
+      if (inserted) {
+        (strategy as any).id = inserted.id;
+      }
+
+      // Deduct 1 credit (atomic: only deduct if credits > 0)
       const { data: currentCredits } = await supabase
         .from("user_credits")
         .select("credits, total_used")
@@ -78,7 +95,7 @@ export async function POST(req: Request) {
           .from("user_credits")
           .update({ 
             credits: currentCredits.credits - 1,
-            total_used: currentCredits.total_used + 1,
+            total_used: (currentCredits.total_used || 0) + 1,
             updated_at: new Date().toISOString()
           })
           .eq("user_id", userId);
