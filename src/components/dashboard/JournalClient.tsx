@@ -304,22 +304,26 @@ export default function JournalClient() {
       </div>
 
       {/* Tabs Menu */}
-      <div className="flex border-b border-obsidian/60 w-full justify-center space-x-4 md:space-x-12 overflow-x-auto scrollbar-none pb-0.5">
+      <div className="flex border-b border-obsidian/60 w-full justify-center space-x-4 md:space-x-12 pb-0.5">
         <button
           onClick={() => { setActiveTab("strategies"); setSelectedStrategy(null); }}
-          className={`pb-4 text-xs md:text-sm font-accent tracking-widest uppercase transition-all duration-300 border-b-2 flex items-center gap-2 flex-shrink-0 ${
+          className={`pb-4 text-xs md:text-sm font-accent tracking-widest uppercase transition-all duration-300 border-b-2 flex items-center gap-1.5 md:gap-2 ${
             activeTab === "strategies" ? "border-gold text-gold" : "border-transparent text-ash hover:text-smoke"
           }`}
         >
-          <BookMarked className="w-4 h-4 flex-shrink-0" /> Stratejik Hedefler ({strategies.length})
+          <BookMarked className="w-3.5 h-3.5 md:w-4 md:h-4 flex-shrink-0" />
+          <span className="hidden sm:inline">Stratejik Hedefler ({strategies.length})</span>
+          <span className="sm:hidden">Hedeflerim ({strategies.length})</span>
         </button>
         <button
           onClick={() => { setActiveTab("notes"); setSelectedStrategy(null); }}
-          className={`pb-4 text-xs md:text-sm font-accent tracking-widest uppercase transition-all duration-300 border-b-2 flex items-center gap-2 flex-shrink-0 ${
+          className={`pb-4 text-xs md:text-sm font-accent tracking-widest uppercase transition-all duration-300 border-b-2 flex items-center gap-1.5 md:gap-2 ${
             activeTab === "notes" ? "border-gold text-gold" : "border-transparent text-ash hover:text-smoke"
           }`}
         >
-          <FileText className="w-4 h-4 flex-shrink-0" /> Karargah Notları ({customNotes.length})
+          <FileText className="w-3.5 h-3.5 md:w-4 md:h-4 flex-shrink-0" />
+          <span className="hidden sm:inline">Karargah Notları ({customNotes.length})</span>
+          <span className="sm:hidden">Notlarım ({customNotes.length})</span>
         </button>
       </div>
 
