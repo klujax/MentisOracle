@@ -306,38 +306,55 @@ export default function DashboardPage() {
                 </div>
 
                 <div className="grid gap-6">
-                  {/* Card 1: Durum Analizi */}
-                  <div className="relative p-5 md:p-6 rounded-sm bg-abyss border border-obsidian animate-[fade-in_1s_ease-out_forwards]">
-                    <div className="absolute top-0 left-4 md:left-6 -translate-y-1/2 bg-void px-2 font-serif text-gold text-xs sm:text-sm tracking-wider flex items-center gap-2">
-                      <span className="text-[10px] opacity-50">01</span>
-                      DURUM ANALİZİ
+                  {!response.targetWeakness && !response.execution ? (
+                    <div className="relative p-5 md:p-6 rounded-sm bg-abyss border border-gold/30 shadow-[0_0_20px_rgba(201,168,76,0.03)] animate-[fade-in_1s_ease-out_forwards]">
+                      <div className="absolute top-0 left-4 md:left-6 -translate-y-1/2 bg-void px-2 font-serif text-gold text-xs sm:text-sm tracking-wider flex items-center gap-2">
+                        MENTİS YÖNLENDİRMESİ
+                      </div>
+                      <div className="mt-3 font-sans text-smoke leading-relaxed tracking-wide text-xs md:text-sm whitespace-pre-wrap">
+                        {response.analysis}
+                      </div>
                     </div>
-                    <div className="mt-3 font-sans text-smoke leading-relaxed tracking-wide text-xs md:text-sm whitespace-pre-wrap">
-                      {response.analysis}
-                    </div>
-                  </div>
+                  ) : (
+                    <>
+                      {/* Card 1: Durum Analizi */}
+                      <div className="relative p-5 md:p-6 rounded-sm bg-abyss border border-obsidian animate-[fade-in_1s_ease-out_forwards]">
+                        <div className="absolute top-0 left-4 md:left-6 -translate-y-1/2 bg-void px-2 font-serif text-gold text-xs sm:text-sm tracking-wider flex items-center gap-2">
+                          <span className="text-[10px] opacity-50">01</span>
+                          DURUM ANALİZİ
+                        </div>
+                        <div className="mt-3 font-sans text-smoke leading-relaxed tracking-wide text-xs md:text-sm whitespace-pre-wrap">
+                          {response.analysis}
+                        </div>
+                      </div>
 
-                  {/* Card 2: Karşı Tarafın Motivasyonu */}
-                  <div className="relative p-5 md:p-6 rounded-sm bg-abyss border border-gold/30 shadow-[0_0_20px_rgba(201,168,76,0.03)] animate-[fade-in_1s_ease-out_forwards] delay-200">
-                    <div className="absolute top-0 left-4 md:left-6 -translate-y-1/2 bg-void px-2 font-serif text-gold text-xs sm:text-sm tracking-wider flex items-center gap-2">
-                      <span className="text-[10px] opacity-50">02</span>
-                      KARŞI TARAFIN MOTİVASYONU
-                    </div>
-                    <div className="mt-3 font-sans text-smoke leading-relaxed tracking-wide text-xs md:text-sm whitespace-pre-wrap">
-                      {response.targetWeakness}
-                    </div>
-                  </div>
+                      {/* Card 2: Karşı Tarafın Motivasyonu */}
+                      {response.targetWeakness && (
+                        <div className="relative p-5 md:p-6 rounded-sm bg-abyss border border-gold/30 shadow-[0_0_20px_rgba(201,168,76,0.03)] animate-[fade-in_1s_ease-out_forwards] delay-200">
+                          <div className="absolute top-0 left-4 md:left-6 -translate-y-1/2 bg-void px-2 font-serif text-gold text-xs sm:text-sm tracking-wider flex items-center gap-2">
+                            <span className="text-[10px] opacity-50">02</span>
+                            KARŞI TARAFIN MOTİVASYONU
+                          </div>
+                          <div className="mt-3 font-sans text-smoke leading-relaxed tracking-wide text-xs md:text-sm whitespace-pre-wrap">
+                            {response.targetWeakness}
+                          </div>
+                        </div>
+                      )}
 
-                  {/* Card 3: Stratejik Hamle */}
-                  <div className="relative p-5 md:p-6 rounded-sm bg-abyss border border-obsidian animate-[fade-in_1s_ease-out_forwards] delay-400">
-                    <div className="absolute top-0 left-4 md:left-6 -translate-y-1/2 bg-void px-2 font-serif text-gold text-xs sm:text-sm tracking-wider flex items-center gap-2">
-                      <span className="text-[10px] opacity-50">03</span>
-                      STRATEJİK HAMLE
-                    </div>
-                    <div className="mt-3 font-sans text-smoke leading-relaxed tracking-wide text-xs md:text-sm whitespace-pre-wrap">
-                      {response.execution}
-                    </div>
-                  </div>
+                      {/* Card 3: Stratejik Hamle */}
+                      {response.execution && (
+                        <div className="relative p-5 md:p-6 rounded-sm bg-abyss border border-obsidian animate-[fade-in_1s_ease-out_forwards] delay-400">
+                          <div className="absolute top-0 left-4 md:left-6 -translate-y-1/2 bg-void px-2 font-serif text-gold text-xs sm:text-sm tracking-wider flex items-center gap-2">
+                            <span className="text-[10px] opacity-50">03</span>
+                            STRATEJİK HAMLE
+                          </div>
+                          <div className="mt-3 font-sans text-smoke leading-relaxed tracking-wide text-xs md:text-sm whitespace-pre-wrap">
+                            {response.execution}
+                          </div>
+                        </div>
+                      )}
+                    </>
+                  )}
                 </div>
               </div>
 

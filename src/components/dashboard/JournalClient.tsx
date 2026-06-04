@@ -427,18 +427,31 @@ export default function JournalClient() {
 
                       {/* Prescriptions */}
                       <div className="space-y-6">
-                        <div>
-                          <h4 className="text-xs font-serif text-gold uppercase tracking-widest mb-2">01 — Durum Analizi</h4>
-                          <p className="text-sm text-smoke/90 leading-relaxed whitespace-pre-wrap">{selectedStrategy.analysis}</p>
-                        </div>
-                        <div>
-                          <h4 className="text-xs font-serif text-gold uppercase tracking-widest mb-2">02 — Karşı Tarafın Motivasyonu</h4>
-                          <p className="text-sm text-smoke/90 leading-relaxed whitespace-pre-wrap">{selectedStrategy.target_weakness}</p>
-                        </div>
-                        <div>
-                          <h4 className="text-xs font-serif text-gold uppercase tracking-widest mb-2">03 — Stratejik Hamle</h4>
-                          <p className="text-sm text-smoke/90 leading-relaxed whitespace-pre-wrap">{selectedStrategy.execution}</p>
-                        </div>
+                        {!selectedStrategy.target_weakness && !selectedStrategy.execution ? (
+                          <div>
+                            <h4 className="text-xs font-serif text-gold uppercase tracking-widest mb-2">Mentis Yönlendirmesi</h4>
+                            <p className="text-sm text-smoke/90 leading-relaxed whitespace-pre-wrap">{selectedStrategy.analysis}</p>
+                          </div>
+                        ) : (
+                          <>
+                            <div>
+                              <h4 className="text-xs font-serif text-gold uppercase tracking-widest mb-2">01 — Durum Analizi</h4>
+                              <p className="text-sm text-smoke/90 leading-relaxed whitespace-pre-wrap">{selectedStrategy.analysis}</p>
+                            </div>
+                            {selectedStrategy.target_weakness && (
+                              <div>
+                                <h4 className="text-xs font-serif text-gold uppercase tracking-widest mb-2">02 — Karşı Tarafın Motivasyonu</h4>
+                                <p className="text-sm text-smoke/90 leading-relaxed whitespace-pre-wrap">{selectedStrategy.target_weakness}</p>
+                              </div>
+                            )}
+                            {selectedStrategy.execution && (
+                              <div>
+                                <h4 className="text-xs font-serif text-gold uppercase tracking-widest mb-2">03 — Stratejik Hamle</h4>
+                                <p className="text-sm text-smoke/90 leading-relaxed whitespace-pre-wrap">{selectedStrategy.execution}</p>
+                              </div>
+                            )}
+                          </>
+                        )}
                       </div>
 
                       {/* Personal Progress Notes */}
