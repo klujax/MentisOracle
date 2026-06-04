@@ -29,7 +29,7 @@ export const HeroGate = () => {
         <div className="relative w-32 h-32 md:w-40 md:h-40 mb-8 drop-shadow-[0_0_15px_rgba(201,168,76,0.2)]">
           <Image
             src="/logo.png"
-            alt="Mentis Oracle Logo"
+            alt="Mentis Logo"
             fill
             className="object-contain"
             priority
@@ -37,7 +37,7 @@ export const HeroGate = () => {
         </div>
 
         <h1 className="font-serif text-4xl md:text-6xl tracking-[0.2em] text-smoke mb-2 font-light uppercase">
-          Mentis <span className="text-gold">Oracle</span>
+          Mentis
         </h1>
         
         <GoldDivider className="my-6" />

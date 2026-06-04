@@ -48,10 +48,10 @@ export async function POST(request: Request) {
 
     shopier.setBuyer({
       buyer_id_nr: customOrderId,
-      product_name: `${credits} Kredi (Mentis Oracle)`,
+      product_name: `${credits} Kredi (Mentis)`,
       buyer_name: "Ajan",
-      buyer_surname: "Oracle",
-      buyer_email: user.email || "no-email@mentisoracle.com",
+      buyer_surname: "Mentis",
+      buyer_email: user.email || "no-email@mentis.com",
       buyer_phone: "05555555555",
     });
 

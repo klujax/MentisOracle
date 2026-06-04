@@ -46,13 +46,13 @@ export default function LoginPage() {
             <div className="relative w-16 h-16 rounded-sm overflow-hidden border border-gold/30 mb-3 shadow-[0_0_10px_rgba(201,168,76,0.15)]">
               <Image
                 src="/logo.png"
-                alt="Mentis Oracle Logo"
+                alt="Mentis Logo"
                 fill
                 className="object-cover"
               />
             </div>
             <h1 className="font-serif text-2xl tracking-[0.2em] text-smoke uppercase">
-              Mentis <span className="text-gold">Oracle</span>
+              Mentis
             </h1>
           </Link>
           <h2 className="text-xl font-medium tracking-wide text-smoke mb-2">Giriş Protokolü</h2>

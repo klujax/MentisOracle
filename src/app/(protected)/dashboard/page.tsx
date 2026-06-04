@@ -3,8 +3,8 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { StrategyInput } from "@/components/dashboard/StrategyInput";
-import { LoadingOracle } from "@/components/ui/LoadingOracle";
-import { OracleResponse } from "@/components/dashboard/OracleResponse";
+import { LoadingMentis } from "@/components/ui/LoadingMentis";
+import { MentisResponse } from "@/components/dashboard/MentisResponse";
 import { createClient } from "@/lib/supabase/client";
 import { Coins } from "lucide-react";
 
@@ -47,7 +47,7 @@ export default function DashboardPage() {
     setRequiresPayment(false);
     
     try {
-      const res = await fetch("/api/oracle", {
+      const res = await fetch("/api/mentis", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ problem }),
@@ -118,13 +118,13 @@ export default function DashboardPage() {
 
       {status === "analyzing" && (
         <div className="w-full">
-          <LoadingOracle />
+          <LoadingMentis />
         </div>
       )}
 
       {status === "complete" && response && (
         <div className="w-full flex flex-col items-center">
-          <OracleResponse 
+          <MentisResponse 
             analysis={response.analysis}
             counterMove={response.targetWeakness}
             execution={response.execution}

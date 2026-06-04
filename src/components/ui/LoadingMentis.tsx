@@ -11,7 +11,7 @@ const LOADING_PHASES = [
   "Strateji reçetesi hazırlanıyor...",
 ];
 
-export const LoadingOracle = () => {
+export const LoadingMentis = () => {
   const [phaseIndex, setPhaseIndex] = useState(0);
 
   useEffect(() => {

@@ -38,7 +38,7 @@ export const StrategyInput = ({ onSubmit, disabled }: StrategyInputProps) => {
           disabled={disabled || problem.trim().length < 10}
           className="tracking-widest uppercase font-bold text-sm w-full md:w-auto"
         >
-          Oracle&apos;a Danış
+          Mentis&apos;e Danış
         </Button>
       </div>
     </form>

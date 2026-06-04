@@ -25,7 +25,7 @@ const PACKAGES = [
   },
   {
     id: "pkg_1000",
-    title: "Oracle",
+    title: "Elit",
     credits: 1000,
     price: 1400,
     icon: Crown,

@@ -19,7 +19,7 @@ const cormorant = Cormorant_Garamond({
 });
 
 export const metadata: Metadata = {
-  title: "Mentis Oracle",
+  title: "Mentis",
   description: "Gücü ele almanın sessiz mimarisi.",
 };
 

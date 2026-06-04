@@ -35,13 +35,13 @@ export const Navbar = () => {
         <div className="relative w-8 h-8 rounded-sm overflow-hidden border border-gold/30 flex-shrink-0">
           <Image
             src="/logo.png"
-            alt="Mentis Oracle Logo"
+            alt="Mentis Logo"
             fill
             className="object-cover"
           />
         </div>
         <h1 className="font-serif text-xl tracking-[0.2em] text-smoke uppercase">
-          Mentis <span className="text-gold">Oracle</span>
+          Mentis
         </h1>
       </Link>
 

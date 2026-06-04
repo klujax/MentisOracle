@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
-import { consultOracle } from "@/lib/mentis-engine";
+import { consultMentis } from "@/lib/mentis-engine";
 
 export async function POST(req: Request) {
   try {
@@ -48,7 +48,7 @@ export async function POST(req: Request) {
     }
 
     // Call the Mentis Engine
-    const strategy = await consultOracle(problem);
+    const strategy = await consultMentis(problem);
 
     // Save consultation and deduct credit
     if (hasSupabase && userId) {

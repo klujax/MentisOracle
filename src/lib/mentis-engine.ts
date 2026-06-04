@@ -28,13 +28,13 @@ Karşı tarafın bu eylemi yaparken güttüğü asıl zafiyeti (onay ihtiyacı, 
 Kullanıcıya kontrolü geri alması için 3 adımlı, uygulaması net, duygusal izolasyon barındıran (sessizlik, geri çekilme, mesafelendirme) rasyonel bir eylem planı ver.
 Duygularını felç et ve masayı yönet.`;
 
-export interface OracleResponse {
+export interface MentisResponse {
   analysis: string;
   targetWeakness: string;
   execution: string;
 }
 
-export async function consultOracle(problem: string): Promise<OracleResponse> {
+export async function consultMentis(problem: string): Promise<MentisResponse> {
   // If no API key, return a mock response that matches the style
   if (!genAI) {
     return new Promise((resolve) => {
@@ -69,7 +69,7 @@ export async function consultOracle(problem: string): Promise<OracleResponse> {
       execution: cleanExecution
     };
   } catch (error) {
-    console.error("Oracle consultation failed, falling back to mock:", error);
+    console.error("Mentis consultation failed, falling back to mock:", error);
     // Fallback to mock data to save costs and bypass quota issues
     return {
       analysis: "Buradaki güç dinamiği tamamen senin ulaşılabiliten üzerine inşa edilmiş. Karşı taraf, senin taviz vermeye yatkın olduğunu bildiği için sınırlarını ihlal ediyor. Sen masada reaktif bir pozisyon alarak kontrolü çoktan devrettin.",

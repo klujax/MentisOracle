@@ -8,12 +8,12 @@ interface StrategyProps {
   execution: string;
 }
 
-export const OracleResponse = ({ analysis, counterMove, execution }: StrategyProps) => {
+export const MentisResponse = ({ analysis, counterMove, execution }: StrategyProps) => {
   return (
     <div className="w-full max-w-4xl mx-auto space-y-8 animate-fade-in mt-8">
       
       <div className="text-center mb-12">
-        <h3 className="font-serif text-2xl text-smoke uppercase tracking-widest mb-2">Mentis Oracle Reçetesi</h3>
+        <h3 className="font-serif text-2xl text-smoke uppercase tracking-widest mb-2">Mentis Reçetesi</h3>
         <p className="font-accent italic text-ash">Soğukkanlı. Rasyonel. Kesin.</p>
       </div>
 

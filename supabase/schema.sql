@@ -1,4 +1,4 @@
--- Mentis Oracle: Supabase Schema
+-- Mentis: Supabase Schema
 -- Bu SQL'i Supabase Dashboard > SQL Editor'a yapıştırın.
 
 -- Strateji geçmişi tablosu
