@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, Clock, ChevronDown, ChevronUp } from "lucide-react";
+import { ArrowLeft, Clock, ChevronDown, ChevronUp, Brain } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 
 interface Consultation {
@@ -14,6 +14,8 @@ interface Consultation {
   created_at: string;
   is_starred: boolean;
   character?: string;
+  mode?: string;
+  target_name?: string;
   chat_history?: { role: string; content: string }[];
 }
 
@@ -137,11 +139,17 @@ export default function HistoryPage() {
                 className="w-full flex items-center justify-between p-6 text-left hover:bg-obsidian/30 transition-colors"
               >
                 <div className="flex-1 min-w-0 pr-4">
-                  <p className="text-smoke font-medium truncate">{c.problem}</p>
+                  <p className="text-smoke font-medium truncate">
+                    {c.mode === "simulation" ? `Simülasyon: ${c.target_name || "Hedef Kişi"}` : c.problem}
+                  </p>
                   <div className="flex items-center gap-2 mt-2 text-xs text-ash font-accent">
                     <Clock className="w-3 h-3" />
                     {formatDate(c.created_at)}
-                    {c.character && (
+                    {c.mode === "simulation" ? (
+                      <span className="text-[9px] text-yellow-500 bg-yellow-500/5 border border-yellow-500/20 px-1.5 py-0.5 rounded-sm">
+                        SOHBET SİMÜLASYONU
+                      </span>
+                    ) : c.character && (
                       <span className="text-[9px] text-gold/80 bg-gold/5 border border-gold/20 px-1.5 py-0.5 rounded-sm">
                         {getCharacterName(c.character)} İLE
                       </span>
@@ -157,9 +165,9 @@ export default function HistoryPage() {
 
               {expandedId === c.id && (
                 <div className="border-t border-obsidian p-6 space-y-6 animate-fade-in">
-                  <div className="space-y-2">
+                   <div className="space-y-2">
                     <h4 className="text-xs uppercase tracking-widest text-gold font-bold">
-                      01 — Durum Analizi
+                      01 — {c.mode === "simulation" ? "KARAKTER PROFİLİ" : "Durum Analizi"}
                     </h4>
                     <p className="text-smoke/90 text-sm leading-relaxed whitespace-pre-wrap">
                       {c.analysis}
@@ -167,7 +175,7 @@ export default function HistoryPage() {
                   </div>
                   <div className="space-y-2">
                     <h4 className="text-xs uppercase tracking-widest text-gold font-bold">
-                      02 — Karşı Tarafın Motivasyonu
+                      02 — {c.mode === "simulation" ? "MASADAKİ DENGE" : "Karşı Tarafın Motivasyonu"}
                     </h4>
                     <p className="text-smoke/90 text-sm leading-relaxed whitespace-pre-wrap">
                       {c.target_weakness}
@@ -175,7 +183,7 @@ export default function HistoryPage() {
                   </div>
                   <div className="space-y-2">
                     <h4 className="text-xs uppercase tracking-widest text-gold font-bold">
-                      03 — Stratejik Hamle
+                      03 — {c.mode === "simulation" ? "STRATEJİK PLAN" : "Stratejik Hamle"}
                     </h4>
                     <p className="text-smoke/90 text-sm leading-relaxed whitespace-pre-wrap">
                       {c.execution}
@@ -189,6 +197,19 @@ export default function HistoryPage() {
                       </h4>
                       {c.chat_history.slice(2).map((msg, index) => {
                         const isUser = msg.role === "user";
+                        
+                        let replyText = msg.content;
+                        let adviceText = null;
+
+                        if (!isUser && c.mode === "simulation") {
+                          const adviceSplitKey = "**[MENTİS ÖNERİSİ]**";
+                          if (msg.content.includes(adviceSplitKey)) {
+                            const parts = msg.content.split(adviceSplitKey);
+                            replyText = parts[0]?.trim();
+                            adviceText = parts[1]?.trim();
+                          }
+                        }
+
                         return (
                           <div key={index} className={`flex w-full ${isUser ? "justify-end" : "justify-start"}`}>
                             <div className={`max-w-[85%] rounded-sm p-4 text-xs md:text-sm leading-relaxed ${
@@ -199,9 +220,25 @@ export default function HistoryPage() {
                               <p className={`text-[10px] uppercase tracking-widest mb-1.5 font-accent ${
                                 isUser ? "text-ash/60" : "text-gold font-bold"
                               }`}>
-                                {isUser ? "SİZ" : getCharacterName(c.character)}
+                                {isUser 
+                                  ? "SİZ" 
+                                  : c.mode === "simulation"
+                                    ? (c.target_name || "KARŞI TARAF").toUpperCase()
+                                    : getCharacterName(c.character)}
                               </p>
-                              <div className="whitespace-pre-wrap font-sans">{msg.content}</div>
+                              <div className="whitespace-pre-wrap font-sans">{replyText}</div>
+
+                              {!isUser && adviceText && (
+                                <div className="mt-3 pt-3 border-t border-gold/20 text-left flex items-start gap-2 bg-gold/5 -mx-4 -mb-4 p-4 rounded-b-sm">
+                                  <Brain className="w-3.5 h-3.5 text-gold flex-shrink-0 mt-0.5" />
+                                  <div className="text-[11px] text-smoke/90 leading-relaxed font-accent">
+                                    <span className="text-gold font-bold uppercase tracking-wider block mb-0.5">
+                                      Mentis Önerisi
+                                    </span>
+                                    {adviceText}
+                                  </div>
+                                </div>
+                              )}
                             </div>
                           </div>
                         );

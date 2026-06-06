@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { 
   BookMarked, Plus, Trash2, Save, FileText, 
-  AlertTriangle, CheckCircle, Calendar, Edit, ChevronRight, ChevronLeft
+  AlertTriangle, CheckCircle, Calendar, Edit, ChevronRight, ChevronLeft, Brain
 } from "lucide-react";
 
 interface SavedStrategy {
@@ -15,6 +15,8 @@ interface SavedStrategy {
   execution: string;
   personal_notes: string;
   character?: string;
+  mode?: string;
+  target_name?: string;
   created_at: string;
   chat_history?: { role: string; content: string }[];
 }
@@ -425,11 +427,15 @@ export default function JournalClient() {
                           : "border-obsidian/50 bg-abyss/30 hover:border-obsidian/80 hover:bg-abyss/50"
                       }`}
                     >
-                      <span className="text-smoke text-sm font-medium line-clamp-2 pr-4">{s.problem}</span>
+                      <span className="text-smoke text-sm font-medium line-clamp-2 pr-4 text-left">
+                        {s.mode === "simulation" ? `Simülasyon: ${s.target_name || "Hedef Kişi"}` : s.problem}
+                      </span>
                       <div className="flex items-center justify-between w-full mt-4 text-[10px] text-ash/60 font-accent uppercase tracking-widest">
                         <div className="flex flex-col gap-1 text-left">
                           <span className="flex items-center gap-1"><Calendar className="w-3 h-3" /> {formatDate(s.created_at)}</span>
-                          {s.character && (
+                          {s.mode === "simulation" ? (
+                            <span className="text-[9px] text-yellow-500/80">SOHBET SİMÜLASYONU</span>
+                          ) : s.character && (
                             <span className="text-[9px] text-gold/60">{getCharacterName(s.character)}</span>
                           )}
                         </div>
@@ -457,14 +463,24 @@ export default function JournalClient() {
                       <div className="flex items-start justify-between border-b border-obsidian/50 pb-6">
                         <div className="space-y-1 text-left">
                           <div className="flex flex-wrap items-center gap-2">
-                            <span className="text-[10px] text-gold font-accent tracking-widest uppercase">Kayıtlı Hamle Hedefi</span>
-                            {selectedStrategy.character && (
+                            <span className="text-[10px] text-gold font-accent tracking-widest uppercase">
+                              {selectedStrategy.mode === "simulation" ? "KAYITLI CANLI SİMÜLASYON" : "Kayıtlı Hamle Hedefi"}
+                            </span>
+                            {selectedStrategy.mode === "simulation" ? (
+                              <span className="text-[9px] text-yellow-500 bg-void border border-yellow-500/20 px-2 py-0.5 rounded-sm font-accent tracking-widest uppercase">
+                                SİMÜLASYON
+                              </span>
+                            ) : selectedStrategy.character && (
                               <span className="text-[9px] text-ash bg-void border border-obsidian px-2 py-0.5 rounded-sm font-accent tracking-widest uppercase">
                                 {getCharacterName(selectedStrategy.character)} İLE
                               </span>
                             )}
                           </div>
-                          <h3 className="text-xl font-medium text-smoke">{selectedStrategy.problem}</h3>
+                          <h3 className="text-xl font-medium text-smoke font-serif">
+                            {selectedStrategy.mode === "simulation" 
+                              ? `Simülasyon: ${selectedStrategy.target_name || "Hedef Kişi"}` 
+                              : selectedStrategy.problem}
+                          </h3>
                         </div>
                         <button 
                           onClick={() => handleDeleteStarredStrategy(selectedStrategy.id)}
@@ -479,24 +495,32 @@ export default function JournalClient() {
                       <div className="space-y-6">
                         {!selectedStrategy.target_weakness && !selectedStrategy.execution ? (
                           <div>
-                            <h4 className="text-xs font-serif text-gold uppercase tracking-widest mb-2">Mentis Yönlendirmesi</h4>
+                            <h4 className="text-xs font-serif text-gold uppercase tracking-widest mb-2">
+                              {selectedStrategy.mode === "simulation" ? "Karakter Analizi" : "Mentis Yönlendirmesi"}
+                            </h4>
                             <p className="text-sm text-smoke/90 leading-relaxed whitespace-pre-wrap">{selectedStrategy.analysis}</p>
                           </div>
                         ) : (
                           <>
                             <div>
-                              <h4 className="text-xs font-serif text-gold uppercase tracking-widest mb-2">01 — Durum Analizi</h4>
+                              <h4 className="text-xs font-serif text-gold uppercase tracking-widest mb-2">
+                                01 — {selectedStrategy.mode === "simulation" ? "KARAKTER PROFİLİ" : "Durum Analizi"}
+                              </h4>
                               <p className="text-sm text-smoke/90 leading-relaxed whitespace-pre-wrap">{selectedStrategy.analysis}</p>
                             </div>
                             {selectedStrategy.target_weakness && (
                               <div>
-                                <h4 className="text-xs font-serif text-gold uppercase tracking-widest mb-2">02 — Karşı Tarafın Motivasyonu</h4>
+                                <h4 className="text-xs font-serif text-gold uppercase tracking-widest mb-2">
+                                  02 — {selectedStrategy.mode === "simulation" ? "MASADAKİ DENGE" : "Karşı Tarafın Motivasyonu"}
+                                </h4>
                                 <p className="text-sm text-smoke/90 leading-relaxed whitespace-pre-wrap">{selectedStrategy.target_weakness}</p>
                               </div>
                             )}
                             {selectedStrategy.execution && (
                               <div>
-                                <h4 className="text-xs font-serif text-gold uppercase tracking-widest mb-2">03 — Stratejik Hamle</h4>
+                                <h4 className="text-xs font-serif text-gold uppercase tracking-widest mb-2">
+                                  03 — {selectedStrategy.mode === "simulation" ? "STRATEJİK PLAN" : "Stratejik Hamle"}
+                                </h4>
                                 <p className="text-sm text-smoke/90 leading-relaxed whitespace-pre-wrap">{selectedStrategy.execution}</p>
                               </div>
                             )}
@@ -510,6 +534,19 @@ export default function JournalClient() {
                           <h4 className="text-sm font-serif text-smoke uppercase tracking-wider text-center mb-6 border-b border-obsidian/30 pb-4">Takip Sohbeti</h4>
                           {selectedStrategy.chat_history.slice(2).map((msg, index) => {
                             const isUser = msg.role === "user";
+                            
+                            let replyText = msg.content;
+                            let adviceText = null;
+
+                            if (!isUser && selectedStrategy.mode === "simulation") {
+                              const adviceSplitKey = "**[MENTİS ÖNERİSİ]**";
+                              if (msg.content.includes(adviceSplitKey)) {
+                                const parts = msg.content.split(adviceSplitKey);
+                                replyText = parts[0]?.trim();
+                                adviceText = parts[1]?.trim();
+                              }
+                            }
+
                             return (
                               <div key={index} className={`flex w-full ${isUser ? "justify-end" : "justify-start"} animate-fade-in`}>
                                 <div className={`max-w-[85%] rounded-sm p-4 text-xs md:text-sm leading-relaxed ${
@@ -520,9 +557,25 @@ export default function JournalClient() {
                                   <p className={`text-[10px] uppercase tracking-widest mb-1.5 font-accent ${
                                     isUser ? "text-ash/60" : "text-gold font-bold"
                                   }`}>
-                                    {isUser ? "SİZ" : getCharacterName(selectedStrategy.character)}
+                                    {isUser 
+                                      ? "SİZ" 
+                                      : selectedStrategy.mode === "simulation"
+                                        ? (selectedStrategy.target_name || "KARŞI TARAF").toUpperCase()
+                                        : getCharacterName(selectedStrategy.character)}
                                   </p>
-                                  <div className="whitespace-pre-wrap font-sans">{msg.content}</div>
+                                  <div className="whitespace-pre-wrap font-sans">{replyText}</div>
+
+                                  {!isUser && adviceText && (
+                                    <div className="mt-3 pt-3 border-t border-gold/20 text-left flex items-start gap-2 bg-gold/5 -mx-4 -mb-4 p-4 rounded-b-sm">
+                                      <Brain className="w-3.5 h-3.5 text-gold flex-shrink-0 mt-0.5" />
+                                      <div className="text-[11px] text-smoke/90 leading-relaxed font-accent">
+                                        <span className="text-gold font-bold uppercase tracking-wider block mb-0.5">
+                                          Mentis Önerisi
+                                        </span>
+                                        {adviceText}
+                                      </div>
+                                    </div>
+                                  )}
                                 </div>
                               </div>
                             );

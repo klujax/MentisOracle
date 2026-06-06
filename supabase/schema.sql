@@ -12,6 +12,8 @@ create table if not exists public.consultations (
   is_starred boolean default false not null,
   personal_notes text,
   character text default 'mentis' not null,
+  mode text default 'standard' not null,
+  target_name text,
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 
@@ -112,5 +114,31 @@ create policy "Users can delete own notes" on public.notes
 
 create index if not exists idx_notes_user_id on public.notes(user_id);
 create index if not exists idx_notes_created_at on public.notes(created_at desc);
+
+-- Simülasyon Hedefleri Tablosu
+create table if not exists public.simulation_targets (
+  id uuid default gen_random_uuid() primary key,
+  user_id uuid references auth.users(id) on delete cascade not null,
+  name text not null,
+  transcript text not null,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+alter table public.simulation_targets enable row level security;
+
+create policy "Users can view own simulation targets" on public.simulation_targets
+  for select using (auth.uid() = user_id);
+
+create policy "Users can insert own simulation targets" on public.simulation_targets
+  for insert with check (auth.uid() = user_id);
+
+create policy "Users can update own simulation targets" on public.simulation_targets
+  for update using (auth.uid() = user_id);
+
+create policy "Users can delete own simulation targets" on public.simulation_targets
+  for delete using (auth.uid() = user_id);
+
+create index if not exists idx_simulation_targets_user_id on public.simulation_targets(user_id);
+create index if not exists idx_simulation_targets_created_at on public.simulation_targets(created_at desc);
 
 

@@ -7,7 +7,8 @@ export const maxDuration = 60;
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { problem, history, message, character, mode, transcript } = body;
+    const { problem, history, message, character, mode, transcript, targetName, target_name } = body;
+    const resolvedTargetName = targetName || target_name || null;
 
     // Check if Supabase is configured
     const hasSupabase = process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -53,7 +54,7 @@ export async function POST(req: Request) {
         }
       }
       if (mode === "simulation") {
-        const simResult = await continueSimulation(history, message, transcript || "", character);
+        const simResult = await continueSimulation(history, message, transcript || "", "mentis");
         return NextResponse.json(simResult);
       } else {
         const reply = await continueMentis(history, message, character);
@@ -99,7 +100,8 @@ export async function POST(req: Request) {
     }
 
     // Call the Mentis Engine
-    const strategy = await consultMentis(problem, character, mode);
+    const resolvedCharacter = mode === "simulation" ? "mentis" : (character || "mentis");
+    const strategy = await consultMentis(problem, resolvedCharacter, mode);
 
     // Save consultation and deduct credit
     if (hasSupabase && userId) {
@@ -112,8 +114,9 @@ export async function POST(req: Request) {
         analysis: strategy.analysis,
         target_weakness: strategy.targetWeakness,
         execution: strategy.execution,
-        character: character || "mentis",
+        character: resolvedCharacter,
         mode: mode || "standard",
+        target_name: resolvedTargetName,
       }).select("id").single();
 
       if (inserted) {
