@@ -722,14 +722,13 @@ export default function DashboardPage() {
                         {targets.map((t) => {
                           const isSelected = selectedTarget?.id === t.id;
                           return (
-                            <button
+                            <div
                               key={t.id}
-                              type="button"
                               onClick={() => {
                                 setSelectedTarget(t);
                                 handleStartSimulation(t);
                               }}
-                              className={`p-4 rounded-sm border flex items-center justify-between text-left transition-all duration-300 ${
+                              className={`p-4 rounded-sm border flex items-center justify-between text-left transition-all duration-300 cursor-pointer ${
                                 isSelected 
                                   ? 'bg-gradient-to-b from-gold/10 to-yellow-600/10 border-gold shadow-[0_0_15px_rgba(201,168,76,0.05)]' 
                                   : 'border-obsidian bg-abyss/20 hover:border-obsidian/80 hover:bg-abyss/45'
@@ -751,12 +750,12 @@ export default function DashboardPage() {
                               <button
                                 type="button"
                                 onClick={(e) => handleDeleteTarget(t.id, e)}
-                                className="text-ash/40 hover:text-red-500 transition-colors p-1"
+                                className="text-ash/40 hover:text-red-500 transition-colors p-1 z-10"
                                 title="Kişiyi Sil"
                               >
                                 <Trash2 className="w-3.5 h-3.5" />
                               </button>
-                            </button>
+                            </div>
                           );
                         })}
                       </div>
