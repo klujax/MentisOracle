@@ -22,6 +22,12 @@ const cormorant = Cormorant_Garamond({
 export const metadata: Metadata = {
   title: "Mentis",
   description: "Gücü ele almanın sessiz mimarisi.",
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "Mentis",
+  },
 };
 
 export default function RootLayout({
