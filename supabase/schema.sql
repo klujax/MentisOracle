@@ -11,6 +11,7 @@ create table if not exists public.consultations (
   execution text,
   is_starred boolean default false not null,
   personal_notes text,
+  character text default 'mentis' not null,
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 

@@ -14,9 +14,20 @@ interface SavedStrategy {
   target_weakness: string;
   execution: string;
   personal_notes: string;
+  character?: string;
   created_at: string;
   chat_history?: { role: string; content: string }[];
 }
+
+const getCharacterName = (charId?: string) => {
+  switch(charId) {
+    case "tyler_durden": return "TYLER DURDEN";
+    case "walter_white": return "WALTER WHITE";
+    case "don_corleone": return "DON CORLEONE";
+    case "sherlock": return "SHERLOCK HOLMES";
+    default: return "MENTIS";
+  }
+};
 
 interface CustomNote {
   id: string;
@@ -416,7 +427,12 @@ export default function JournalClient() {
                     >
                       <span className="text-smoke text-sm font-medium line-clamp-2 pr-4">{s.problem}</span>
                       <div className="flex items-center justify-between w-full mt-4 text-[10px] text-ash/60 font-accent uppercase tracking-widest">
-                        <span className="flex items-center gap-1"><Calendar className="w-3 h-3" /> {formatDate(s.created_at)}</span>
+                        <div className="flex flex-col gap-1 text-left">
+                          <span className="flex items-center gap-1"><Calendar className="w-3 h-3" /> {formatDate(s.created_at)}</span>
+                          {s.character && (
+                            <span className="text-[9px] text-gold/60">{getCharacterName(s.character)}</span>
+                          )}
+                        </div>
                         <ChevronRight className="w-3.5 h-3.5 text-gold/50" />
                       </div>
                     </button>
@@ -439,8 +455,15 @@ export default function JournalClient() {
                       
                       {/* Header */}
                       <div className="flex items-start justify-between border-b border-obsidian/50 pb-6">
-                        <div className="space-y-1">
-                          <span className="text-[10px] text-gold font-accent tracking-widest uppercase">Kayıtlı Hamle Hedefi</span>
+                        <div className="space-y-1 text-left">
+                          <div className="flex flex-wrap items-center gap-2">
+                            <span className="text-[10px] text-gold font-accent tracking-widest uppercase">Kayıtlı Hamle Hedefi</span>
+                            {selectedStrategy.character && (
+                              <span className="text-[9px] text-ash bg-void border border-obsidian px-2 py-0.5 rounded-sm font-accent tracking-widest uppercase">
+                                {getCharacterName(selectedStrategy.character)} İLE
+                              </span>
+                            )}
+                          </div>
                           <h3 className="text-xl font-medium text-smoke">{selectedStrategy.problem}</h3>
                         </div>
                         <button 
@@ -497,7 +520,7 @@ export default function JournalClient() {
                                   <p className={`text-[10px] uppercase tracking-widest mb-1.5 font-accent ${
                                     isUser ? "text-ash/60" : "text-gold font-bold"
                                   }`}>
-                                    {isUser ? "SİZ" : "MENTIS"}
+                                    {isUser ? "SİZ" : getCharacterName(selectedStrategy.character)}
                                   </p>
                                   <div className="whitespace-pre-wrap font-sans">{msg.content}</div>
                                 </div>

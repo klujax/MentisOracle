@@ -6,7 +6,7 @@ import { StrategyInput } from "@/components/dashboard/StrategyInput";
 import { LoadingMentis } from "@/components/ui/LoadingMentis";
 import { MentisResponse } from "@/components/dashboard/MentisResponse";
 import { createClient } from "@/lib/supabase/client";
-import { Coins, BookMarked, Send, RefreshCw, MessageSquare } from "lucide-react";
+import { Coins, BookMarked, Send, RefreshCw, MessageSquare, Brain, Flame, FlaskConical, ShieldAlert, Search } from "lucide-react";
 
 interface StrategyResponse {
   id?: string;
@@ -20,6 +20,59 @@ interface ChatMessage {
   content: string;
 }
 
+const CHARACTERS = [
+  {
+    id: "mentis",
+    name: "Mentis",
+    title: "Analist",
+    description: "Soğuk, analitik ve duygu barındırmayan rasyonel zihin.",
+    icon: Brain,
+    color: "from-gold/30 to-yellow-600/30",
+    textColor: "text-gold",
+    borderColor: "border-gold/30"
+  },
+  {
+    id: "tyler_durden",
+    name: "Tyler Durden",
+    title: "Fight Club",
+    description: "Korkularını ve sistem kurallarını yıkan radikal anarşist.",
+    icon: Flame,
+    color: "from-red-500/20 to-orange-600/20",
+    textColor: "text-red-500",
+    borderColor: "border-red-900/50"
+  },
+  {
+    id: "walter_white",
+    name: "Walter White",
+    title: "Heisenberg",
+    description: "Riskleri kimyasal hassasiyetle hesaplayan deha oyun kurucu.",
+    icon: FlaskConical,
+    color: "from-emerald-500/20 to-teal-600/20",
+    textColor: "text-emerald-500",
+    borderColor: "border-emerald-900/50"
+  },
+  {
+    id: "don_corleone",
+    name: "Don Corleone",
+    title: "Baba",
+    description: "Saygınlık, onur ve sadakatle sessiz gücü yöneten lider.",
+    icon: ShieldAlert,
+    color: "from-purple-500/20 to-indigo-600/20",
+    textColor: "text-purple-400",
+    borderColor: "border-purple-900/50"
+  },
+  {
+    id: "sherlock",
+    name: "Sherlock Holmes",
+    title: "Dedektif",
+    description: "Duyguları yok sayıp sadece verilere odaklanan hiper-aktif zeka.",
+    icon: Search,
+    color: "from-blue-500/20 to-cyan-600/20",
+    textColor: "text-blue-400",
+    borderColor: "border-blue-900/50"
+  }
+];
+
 export default function DashboardPage() {
   const [status, setStatus] = useState<"idle" | "analyzing" | "complete">("idle");
   const [response, setResponse] = useState<StrategyResponse | null>(null);
@@ -28,6 +81,7 @@ export default function DashboardPage() {
   const [plan, setPlan] = useState<string>("free");
   const [requiresPayment, setRequiresPayment] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
+  const [character, setCharacter] = useState<string>("mentis");
 
   // Chat follow-up state
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
@@ -82,7 +136,7 @@ export default function DashboardPage() {
       const res = await fetch("/api/mentis", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ problem }),
+        body: JSON.stringify({ problem, character }),
       });
 
       const data = await res.json();
@@ -130,7 +184,8 @@ export default function DashboardPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           history: updatedHistory,
-          message: userMsg
+          message: userMsg,
+          character
         }),
       });
 
@@ -143,7 +198,37 @@ export default function DashboardPage() {
         throw new Error(data.error || "Yanıt alınamadı.");
       }
 
-      setChatHistory(prev => [...prev, { role: "model", content: data.reply }]);
+      const newHistory: ChatMessage[] = [...updatedHistory, { role: "model", content: data.reply }];
+      setChatHistory(newHistory);
+      
+      // Auto-save follow-up to DB in background
+      if (response?.id && userId) {
+        const supabase = createClient();
+        supabase
+          .from("consultations")
+          .update({ chat_history: newHistory })
+          .eq("id", response.id)
+          .then(({ error }) => {
+            if (error) console.error("Error auto-saving follow-up:", error);
+          });
+      }
+
+      // Update in localStorage if saved locally
+      try {
+        const localJournal = JSON.parse(localStorage.getItem("mentis_local_journal") || "[]");
+        const entryId = response?.id;
+        if (entryId) {
+          const updatedLocal = localJournal.map((entry: any) => {
+            if (entry.id === entryId || entry.id === `local_${entryId}`) {
+              return { ...entry, chat_history: newHistory };
+            }
+            return entry;
+          });
+          localStorage.setItem("mentis_local_journal", JSON.stringify(updatedLocal));
+        }
+      } catch (localErr) {
+        console.error("Failed to update chat history in local storage:", localErr);
+      }
       
       // Refresh credits
       await fetchCredits();
@@ -261,7 +346,47 @@ export default function DashboardPage() {
               </Link>
             </div>
           )}
-          {!requiresPayment && <StrategyInput onSubmit={handleConsult} />}
+          {!requiresPayment && (
+            <div className="w-full flex flex-col items-center space-y-6">
+              <div className="w-full max-w-3xl">
+                <p className="text-xs uppercase tracking-widest text-ash/80 font-accent mb-3 text-center sm:text-left">Stratejik Karakter Seçimi</p>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+                  {CHARACTERS.map((char) => {
+                    const Icon = char.icon;
+                    const isSelected = character === char.id;
+                    return (
+                      <button
+                        key={char.id}
+                        onClick={() => setCharacter(char.id)}
+                        className={`relative p-3 rounded-sm border flex flex-col items-center text-center transition-all duration-300 ${
+                          isSelected 
+                            ? `bg-gradient-to-b ${char.color} ${char.borderColor} shadow-[0_0_15px_rgba(201,168,76,0.05)]` 
+                            : 'border-obsidian bg-abyss/20 hover:border-obsidian/80 hover:bg-abyss/45'
+                        }`}
+                      >
+                        <Icon className={`w-5 h-5 mb-2 ${isSelected ? char.textColor : 'text-ash/60'}`} />
+                        <span className={`text-xs font-serif tracking-wider font-semibold ${isSelected ? 'text-smoke' : 'text-ash'}`}>
+                          {char.name}
+                        </span>
+                        <span className="text-[9px] text-ash/40 font-accent mt-0.5 tracking-wider uppercase">
+                          {char.title}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+                {/* Description of active character */}
+                <div className="mt-3 p-3 bg-abyss/30 border border-obsidian/40 rounded-sm text-center sm:text-left">
+                  <p className="text-[11px] text-ash font-accent leading-relaxed">
+                    <span className="text-gold font-bold">Karakter Analizi: </span>
+                    {CHARACTERS.find(c => c.id === character)?.description}
+                  </p>
+                </div>
+              </div>
+              
+              <StrategyInput onSubmit={handleConsult} />
+            </div>
+          )}
         </div>
       )}
 
@@ -282,7 +407,9 @@ export default function DashboardPage() {
                 <MessageSquare className="w-5 h-5 text-gold" />
                 <div className="text-left">
                   <div className="flex flex-wrap items-center gap-2">
-                    <h4 className="text-sm font-serif text-smoke tracking-wider uppercase">Stratejik Plan ve Diyalog</h4>
+                    <h4 className="text-sm font-serif text-smoke tracking-wider uppercase">
+                      Stratejik Plan ve Diyalog ({CHARACTERS.find(c => c.id === character)?.name} ile)
+                    </h4>
                     {credits !== null && (
                       <span className="flex items-center gap-1 text-[10px] font-accent text-ash bg-void border border-obsidian px-2 py-0.5 rounded-sm">
                         <Coins className="w-3 h-3 text-gold" />
@@ -399,7 +526,7 @@ export default function DashboardPage() {
                       <p className={`text-[10px] uppercase tracking-widest mb-1.5 font-accent ${
                         isUser ? "text-ash/60" : "text-gold font-bold"
                       }`}>
-                        {isUser ? "SİZ" : "MENTIS"}
+                        {isUser ? "SİZ" : (CHARACTERS.find(c => c.id === character)?.name || "MENTIS").toUpperCase()}
                       </p>
                       <div className="whitespace-pre-wrap font-sans">{msg.content}</div>
                     </div>
@@ -410,7 +537,9 @@ export default function DashboardPage() {
               {followUpLoading && (
                 <div className="flex justify-start animate-pulse">
                   <div className="bg-abyss/85 border border-obsidian/50 rounded-sm p-4 max-w-[85%] text-smoke text-xs md:text-sm">
-                    <p className="text-[10px] text-gold font-bold uppercase tracking-widest mb-1.5 font-accent">Mentis</p>
+                    <p className="text-[10px] text-gold font-bold uppercase tracking-widest mb-1.5 font-accent">
+                      {CHARACTERS.find(c => c.id === character)?.name || "Mentis"}
+                    </p>
                     <p className="italic font-accent text-ash">Hamleler hesaplanıyor...</p>
                   </div>
                 </div>

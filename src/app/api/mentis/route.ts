@@ -5,7 +5,7 @@ import { consultMentis, continueMentis } from "@/lib/mentis-engine";
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { problem, history, message } = body;
+    const { problem, history, message, character } = body;
 
     // Check if Supabase is configured
     const hasSupabase = process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -50,7 +50,7 @@ export async function POST(req: Request) {
             .eq("user_id", userId);
         }
       }
-      const reply = await continueMentis(history, message);
+      const reply = await continueMentis(history, message, character);
       return NextResponse.json({ reply });
     }
 
@@ -92,7 +92,7 @@ export async function POST(req: Request) {
     }
 
     // Call the Mentis Engine
-    const strategy = await consultMentis(problem);
+    const strategy = await consultMentis(problem, character);
 
     // Save consultation and deduct credit
     if (hasSupabase && userId) {
@@ -105,6 +105,7 @@ export async function POST(req: Request) {
         analysis: strategy.analysis,
         target_weakness: strategy.targetWeakness,
         execution: strategy.execution,
+        character: character || "mentis",
       }).select("id").single();
 
       if (inserted) {

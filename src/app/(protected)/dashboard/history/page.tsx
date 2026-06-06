@@ -13,8 +13,19 @@ interface Consultation {
   execution: string;
   created_at: string;
   is_starred: boolean;
+  character?: string;
   chat_history?: { role: string; content: string }[];
 }
+
+const getCharacterName = (charId?: string) => {
+  switch(charId) {
+    case "tyler_durden": return "TYLER DURDEN";
+    case "walter_white": return "WALTER WHITE";
+    case "don_corleone": return "DON CORLEONE";
+    case "sherlock": return "SHERLOCK HOLMES";
+    default: return "MENTIS";
+  }
+};
 
 export default function HistoryPage() {
   const [consultations, setConsultations] = useState<Consultation[]>([]);
@@ -130,6 +141,11 @@ export default function HistoryPage() {
                   <div className="flex items-center gap-2 mt-2 text-xs text-ash font-accent">
                     <Clock className="w-3 h-3" />
                     {formatDate(c.created_at)}
+                    {c.character && (
+                      <span className="text-[9px] text-gold/80 bg-gold/5 border border-gold/20 px-1.5 py-0.5 rounded-sm">
+                        {getCharacterName(c.character)} İLE
+                      </span>
+                    )}
                   </div>
                 </div>
                 {expandedId === c.id ? (
@@ -183,7 +199,7 @@ export default function HistoryPage() {
                               <p className={`text-[10px] uppercase tracking-widest mb-1.5 font-accent ${
                                 isUser ? "text-ash/60" : "text-gold font-bold"
                               }`}>
-                                {isUser ? "SİZ" : "MENTIS"}
+                                {isUser ? "SİZ" : getCharacterName(c.character)}
                               </p>
                               <div className="whitespace-pre-wrap font-sans">{msg.content}</div>
                             </div>
