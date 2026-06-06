@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Inter, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
+import { MobilePwaBanner } from "@/components/layout/MobilePwaBanner";
 
 const playfair = Playfair_Display({
   variable: "--font-playfair",
@@ -33,7 +34,19 @@ export default function RootLayout({
       lang="tr"
       className={`${playfair.variable} ${inter.variable} ${cormorant.variable} antialiased bg-void text-smoke`}
     >
-      <body className="min-h-screen flex flex-col font-sans overflow-x-hidden">{children}</body>
+      <head>
+        <link rel="manifest" href="/manifest.json" />
+        <link rel="apple-touch-icon" href="/logo.png" />
+        <link rel="apple-touch-icon" sizes="256x256" href="/logo-sm.png" />
+        <link rel="apple-touch-icon" sizes="512x512" href="/logo-intro.png" />
+        <meta name="theme-color" content="#0A0A0A" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+      </head>
+      <body className="min-h-screen flex flex-col font-sans overflow-x-hidden">
+        {children}
+        <MobilePwaBanner />
+      </body>
     </html>
   );
 }
