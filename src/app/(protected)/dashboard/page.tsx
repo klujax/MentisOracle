@@ -6,7 +6,7 @@ import { StrategyInput } from "@/components/dashboard/StrategyInput";
 import { LoadingMentis } from "@/components/ui/LoadingMentis";
 import { MentisResponse } from "@/components/dashboard/MentisResponse";
 import { createClient } from "@/lib/supabase/client";
-import { Coins, BookMarked, Send, RefreshCw, MessageSquare, Brain, Flame, FlaskConical, ShieldAlert, Search, Trash2, UserPlus, User, Copy } from "lucide-react";
+import { Coins, BookMarked, Send, RefreshCw, MessageSquare, Brain, Trash2, UserPlus, User, Copy } from "lucide-react";
 
 interface StrategyResponse {
   id?: string;
@@ -31,46 +31,6 @@ const CHARACTERS = [
     color: "from-gold/30 to-yellow-600/30",
     textColor: "text-gold",
     borderColor: "border-gold/30"
-  },
-  {
-    id: "tyler_durden",
-    name: "Tyler Durden",
-    title: "Fight Club",
-    description: "Korkularını ve sistem kurallarını yıkan radikal anarşist.",
-    icon: Flame,
-    color: "from-red-500/20 to-orange-600/20",
-    textColor: "text-red-500",
-    borderColor: "border-red-900/50"
-  },
-  {
-    id: "walter_white",
-    name: "Walter White",
-    title: "Heisenberg",
-    description: "Riskleri kimyasal hassasiyetle hesaplayan deha oyun kurucu.",
-    icon: FlaskConical,
-    color: "from-emerald-500/20 to-teal-600/20",
-    textColor: "text-emerald-500",
-    borderColor: "border-emerald-900/50"
-  },
-  {
-    id: "don_corleone",
-    name: "Don Corleone",
-    title: "Baba",
-    description: "Saygınlık, onur ve sadakatle sessiz gücü yöneten lider.",
-    icon: ShieldAlert,
-    color: "from-purple-500/20 to-indigo-600/20",
-    textColor: "text-purple-400",
-    borderColor: "border-purple-900/50"
-  },
-  {
-    id: "sherlock",
-    name: "Sherlock Holmes",
-    title: "Dedektif",
-    description: "Duyguları yok sayıp sadece verilere odaklanan hiper-aktif zeka.",
-    icon: Search,
-    color: "from-blue-500/20 to-cyan-600/20",
-    textColor: "text-blue-400",
-    borderColor: "border-blue-900/50"
   }
 ];
 
@@ -578,40 +538,13 @@ export default function DashboardPage() {
 
               {mode === "standard" ? (
                 <div className="w-full flex flex-col items-center space-y-6">
-                  <div className="w-full max-w-3xl">
-                    <p className="text-xs uppercase tracking-widest text-ash/80 font-accent mb-3 text-center sm:text-left">Stratejik Karakter Seçimi</p>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
-                      {CHARACTERS.map((char) => {
-                        const Icon = char.icon;
-                        const isSelected = character === char.id;
-                        return (
-                          <button
-                            key={char.id}
-                            onClick={() => setCharacter(char.id)}
-                            className={`relative p-3 rounded-sm border flex flex-col items-center text-center transition-all duration-300 ${
-                              isSelected 
-                                ? `bg-gradient-to-b ${char.color} ${char.borderColor} shadow-[0_0_15px_rgba(201,168,76,0.05)]` 
-                                : 'border-obsidian bg-abyss/20 hover:border-obsidian/80 hover:bg-abyss/45'
-                            }`}
-                          >
-                            <Icon className={`w-5 h-5 mb-2 ${isSelected ? char.textColor : 'text-ash/60'}`} />
-                            <span className={`text-xs font-serif tracking-wider font-semibold ${isSelected ? 'text-smoke' : 'text-ash'}`}>
-                              {char.name}
-                            </span>
-                            <span className="text-[9px] text-ash/40 font-accent mt-0.5 tracking-wider uppercase">
-                              {char.title}
-                            </span>
-                          </button>
-                        );
-                      })}
-                    </div>
-                    {/* Description of active character */}
-                    <div className="mt-3 p-3 bg-abyss/30 border border-obsidian/40 rounded-sm text-center sm:text-left">
-                      <p className="text-[11px] text-ash font-accent leading-relaxed">
-                        <span className="text-gold font-bold">Karakter Analizi: </span>
-                        {CHARACTERS.find(c => c.id === character)?.description}
-                      </p>
-                    </div>
+                  {/* Mentis active info block */}
+                  <div className="w-full max-w-3xl p-4 bg-abyss/30 border border-obsidian/40 rounded-sm text-center sm:text-left relative overflow-hidden">
+                    <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-gold/30 to-transparent" />
+                    <p className="text-[11px] md:text-xs text-ash font-accent leading-relaxed">
+                      <span className="text-gold font-bold uppercase tracking-wider">Mentis Karargah Ağı: </span>
+                      Soğuk, analitik ve duygu barındırmayan rasyonel zihin devrededir. Fantezi karakterler ve kurgusal maskeler kaldırılmıştır. Masadaki konumunu zayıflatan o son hamleyi anlat ve oyun kurucu olmak için rasyonel planını al.
+                    </p>
                   </div>
                   
                   <StrategyInput 

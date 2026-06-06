@@ -13,19 +13,39 @@ export async function POST(req: Request) {
     // Check if Supabase is configured
     const hasSupabase = process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-    // Process follow-up chat message
-    if (history && message) {
-      if (hasSupabase) {
-        const supabase = await createClient();
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) {
-          return NextResponse.json(
-            { error: "Kimlik doğrulaması gerekli." },
-            { status: 401 }
-          );
-        }
+    let userId: string | null = null;
 
-        const userId = user.id;
+    if (hasSupabase) {
+      const supabase = await createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        return NextResponse.json(
+          { error: "Kimlik doğrulaması gerekli." },
+          { status: 401 }
+        );
+      }
+
+      userId = user.id;
+
+      // Auto-delete unsaved (is_starred = false) consultations older than 30 days
+      try {
+        const cutoffDate = new Date();
+        cutoffDate.setDate(cutoffDate.getDate() - 30);
+        await supabase
+          .from("consultations")
+          .delete()
+          .eq("user_id", userId)
+          .eq("is_starred", false)
+          .lt("created_at", cutoffDate.toISOString());
+      } catch (cleanErr) {
+        console.error("Auto clean-up error:", cleanErr);
+      }
+    }
+
+    // Process follow-up chat message (Costs 1 credit always)
+    if (history && message) {
+      if (hasSupabase && userId) {
+        const supabase = await createClient();
 
         // Check credits
         const { data: credits } = await supabase
@@ -69,31 +89,24 @@ export async function POST(req: Request) {
       );
     }
 
-    let userId: string | null = null;
+    const cost = mode === "simulation" ? 15 : 1;
 
-    if (hasSupabase) {
+    if (hasSupabase && userId) {
       const supabase = await createClient();
-      const { data: { user } } = await supabase.auth.getUser();
-
-      if (!user) {
-        return NextResponse.json(
-          { error: "Kimlik doğrulaması gerekli." },
-          { status: 401 }
-        );
-      }
-
-      userId = user.id;
 
       // Check credits
       const { data: credits } = await supabase
         .from("user_credits")
         .select("credits, plan")
-        .eq("user_id", user.id)
+        .eq("user_id", userId)
         .single();
 
-      if (!credits || (credits.plan !== "elite" && credits.credits <= 0)) {
+      if (!credits || (credits.plan !== "elite" && credits.credits < cost)) {
+        const errorMsg = mode === "simulation"
+          ? `Kişi analizi başlatmak için en az 15 kredin olmalı. Şu anki kredin: ${credits?.credits || 0}`
+          : "Kredilerin tükendi. Devam etmek için abonelik gerekli.";
         return NextResponse.json(
-          { error: "Kredilerin tükendi. Devam etmek için abonelik gerekli.", requiresPayment: true },
+          { error: errorMsg, requiresPayment: true },
           { status: 403 }
         );
       }
@@ -103,7 +116,7 @@ export async function POST(req: Request) {
     const resolvedCharacter = mode === "simulation" ? "mentis" : (character || "mentis");
     const strategy = await consultMentis(problem, resolvedCharacter, mode);
 
-    // Save consultation and deduct credit
+    // Save consultation and deduct credits
     if (hasSupabase && userId) {
       const supabase = await createClient();
 
@@ -123,19 +136,19 @@ export async function POST(req: Request) {
         (strategy as any).id = inserted.id;
       }
 
-      // Deduct 1 credit (atomic: only deduct if credits > 0)
+      // Deduct credits based on cost (15 for simulation target start, 1 for standard start)
       const { data: currentCredits } = await supabase
         .from("user_credits")
         .select("credits, plan, total_used")
         .eq("user_id", userId)
         .single();
 
-      if (currentCredits && currentCredits.plan !== "elite" && currentCredits.credits > 0) {
+      if (currentCredits && currentCredits.plan !== "elite" && currentCredits.credits >= cost) {
         await supabase
           .from("user_credits")
           .update({ 
-            credits: currentCredits.credits - 1,
-            total_used: (currentCredits.total_used || 0) + 1,
+            credits: currentCredits.credits - cost,
+            total_used: (currentCredits.total_used || 0) + cost,
             updated_at: new Date().toISOString()
           })
           .eq("user_id", userId);
@@ -152,4 +165,3 @@ export async function POST(req: Request) {
     );
   }
 }
-

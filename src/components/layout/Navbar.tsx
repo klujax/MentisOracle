@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { LogOut, User, History, ShoppingCart, BookOpen } from "lucide-react";
+import { User, History, ShoppingCart, BookOpen } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import Image from "next/image";
 
@@ -18,12 +18,6 @@ export const Navbar = () => {
     });
   }, []);
 
-  const handleLogout = async () => {
-    const supabase = createClient();
-    await supabase.auth.signOut();
-    window.location.href = "/";
-  };
-
   const displayName = userEmail ? userEmail.split("@")[0] : "Misafir";
 
   return (
@@ -34,6 +28,7 @@ export const Navbar = () => {
             src="/logo.png"
             alt="Mentis Logo"
             fill
+            sizes="(max-width: 768px) 28px, 32px"
             className="object-cover"
           />
         </div>
@@ -60,9 +55,6 @@ export const Navbar = () => {
           <Link href="/dashboard/profile" className="text-ash hover:text-gold transition-colors" title="Profil">
             <User className="w-4.5 h-4.5 md:w-5 md:h-5" />
           </Link>
-          <button onClick={handleLogout} className="text-ash hover:text-red-900 transition-colors" title="Çıkış">
-            <LogOut className="w-4.5 h-4.5 md:w-5 md:h-5" />
-          </button>
         </div>
       </div>
     </nav>

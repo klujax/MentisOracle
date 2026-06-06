@@ -6,11 +6,14 @@ import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { createClient } from "@/lib/supabase/client";
 import Image from "next/image";
+import { Shield, Terminal } from "lucide-react";
 
 export default function LoginClient() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
+  const [transitionState, setTransitionState] = useState<"idle" | "authenticating" | "approved">("idle");
+  const [userEmail, setUserEmail] = useState("");
 
   useEffect(() => {
     setMounted(true);
@@ -28,6 +31,9 @@ export default function LoginClient() {
     const formData = new FormData(e.currentTarget);
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
+    
+    setUserEmail(email);
+    setTransitionState("authenticating");
 
     const supabase = createClient();
     
@@ -39,68 +45,144 @@ export default function LoginClient() {
     if (error) {
       setError(error.message === "Invalid login credentials" ? "E-posta veya şifre hatalı." : error.message);
       setLoading(false);
+      setTransitionState("idle");
     } else {
-      window.location.href = "/dashboard";
+      // Show premium success transition before redirect
+      setTransitionState("approved");
+      setTimeout(() => {
+        window.location.href = "/dashboard";
+      }, 2200);
     }
   };
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-void p-4">
-      <div className="w-full max-w-md animate-fade-in relative z-10">
-        <div className="flex flex-col items-center mb-8">
-          <Link href="/" className="mb-4 hover:opacity-80 transition-opacity flex flex-col items-center">
-            <div className="relative w-16 h-16 rounded-sm overflow-hidden border border-gold/30 mb-3 shadow-[0_0_10px_rgba(201,168,76,0.15)]">
-              <Image
-                src="/logo.png"
-                alt="Mentis Logo"
-                fill
-                className="object-cover"
+    <>
+      {/* Premium transition overlay */}
+      {transitionState !== "idle" && (
+        <div className="fixed inset-0 z-[100] bg-void flex flex-col items-center justify-center transition-all duration-500 animate-fade-in">
+          {/* Cybernetic Scanner Graphic */}
+          <div className="relative w-32 h-32 mb-8 flex items-center justify-center">
+            {/* Ambient gold glow */}
+            <div className="absolute w-28 h-28 bg-gold/5 rounded-full blur-3xl pointer-events-none" />
+            
+            {/* Tech Rings */}
+            <div className="absolute inset-0 rounded-full border border-dashed border-gold/25 animate-[spin_15s_linear_infinite]" />
+            <div className="absolute inset-3 rounded-full border border-gold/15 border-t-gold/50 animate-[spin_4s_linear_infinite_reverse]" />
+            <div className="absolute inset-6 rounded-full border border-dashed border-gold/10" />
+            
+            {/* Core Icon */}
+            <div className="absolute inset-8 rounded-full bg-abyss border border-gold/30 flex items-center justify-center shadow-[0_0_20px_rgba(201,168,76,0.1)]">
+              {transitionState === "authenticating" ? (
+                <Terminal className="w-5 h-5 text-gold/60 animate-pulse" />
+              ) : (
+                <Shield className="w-5 h-5 text-gold animate-[bounce_1s_infinite]" />
+              )}
+            </div>
+          </div>
+          
+          {/* Status Text Console */}
+          <div className="flex flex-col items-center text-center space-y-4 max-w-sm px-6">
+            <div className="space-y-1">
+              <span className="text-[10px] tracking-[0.3em] font-bold text-gold/50 uppercase font-mono">
+                {transitionState === "authenticating" ? "GÜVENLİK PROTOKOLÜ" : "KİMLİK DOĞRULANDI"}
+              </span>
+              <h3 className="font-serif text-xl md:text-2xl text-smoke tracking-wider">
+                {transitionState === "authenticating" ? "Bağlantı Kuruluyor..." : "Hoş Geldin, Ajan"}
+              </h3>
+            </div>
+
+            {/* Personalized Info */}
+            <div className="flex flex-col items-center space-y-2">
+              <p className="font-mono text-xs text-ash/80 bg-abyss border border-obsidian px-3 py-1 rounded-sm">
+                ID: <span className="text-smoke font-semibold">{userEmail ? userEmail.split("@")[0] : "misafir"}</span>
+              </p>
+              
+              {transitionState === "authenticating" ? (
+                <p className="font-accent text-sm text-ash/60 italic animate-pulse">
+                  Karargah sunucularıyla güvenli tünel oluşturuluyor...
+                </p>
+              ) : (
+                <p className="font-accent text-sm text-gold/80 italic animate-fade-in">
+                  Karargah veri ağına başarıyla yönlendiriliyorsunuz.
+                </p>
+              )}
+            </div>
+
+            {/* Glowing progress line */}
+            <div className="w-48 h-[1px] bg-obsidian relative overflow-hidden rounded-full">
+              <div 
+                className={`absolute top-0 h-full bg-gradient-to-r from-transparent via-gold to-transparent ${
+                  transitionState === "authenticating" 
+                    ? "w-24 animate-shimmer" 
+                    : "w-full bg-gold transition-all duration-1000"
+                }`} 
+                style={{
+                  left: transitionState === "authenticating" ? undefined : "0px",
+                }}
               />
             </div>
-            <h1 className="font-serif text-2xl tracking-[0.2em] text-gold uppercase">
-              Mentis
-            </h1>
-          </Link>
-          <h2 className="text-xl font-medium tracking-wide text-smoke mb-2">Giriş Protokolü</h2>
-          <p className="text-sm text-ash font-accent italic">Kimliğini doğrula ve karargaha dön.</p>
+          </div>
         </div>
+      )}
 
-        <form onSubmit={handleSubmit} className="space-y-6 bg-abyss p-8 rounded-sm border border-obsidian/50 shadow-2xl relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-gold/30 to-transparent" />
-          
-          {error && (
-            <div className="p-3 bg-red-900/10 border border-red-900/50 text-red-500/90 text-sm font-accent italic text-center">
-              {error}
-            </div>
-          )}
-
-          <div className="space-y-4">
-            <Input 
-              name="email"
-              type="email" 
-              placeholder="Kod adın veya e-postan" 
-              required 
-            />
-            <Input 
-              name="password"
-              type="password" 
-              placeholder="••••••••" 
-              required 
-            />
+      <main className="min-h-screen flex items-center justify-center bg-void p-4">
+        <div className="w-full max-w-md animate-fade-in relative z-10">
+          <div className="flex flex-col items-center mb-8">
+            <Link href="/" className="mb-4 hover:opacity-80 transition-opacity flex flex-col items-center">
+              <div className="relative w-16 h-16 rounded-sm overflow-hidden border border-gold/30 mb-3 shadow-[0_0_10px_rgba(201,168,76,0.15)]">
+                <Image
+                  src="/logo.png"
+                  alt="Mentis Logo"
+                  fill
+                  sizes="64px"
+                  className="object-cover"
+                />
+              </div>
+              <h1 className="font-serif text-2xl tracking-[0.2em] text-gold uppercase">
+                Mentis
+              </h1>
+            </Link>
+            <h2 className="text-xl font-medium tracking-wide text-smoke mb-2">Giriş Protokolü</h2>
+            <p className="text-sm text-ash font-accent italic">Kimliğini doğrula ve karargaha dön.</p>
           </div>
 
-          <Button type="submit" className="w-full" disabled={loading}>
-            {loading ? "Doğrulanıyor..." : "Giriş Yap"}
-          </Button>
+          <form onSubmit={handleSubmit} className="space-y-6 bg-abyss p-8 rounded-sm border border-obsidian/50 shadow-2xl relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-gold/30 to-transparent" />
+            
+            {error && (
+              <div className="p-3 bg-red-900/10 border border-red-900/50 text-red-500/90 text-sm font-accent italic text-center">
+                {error}
+              </div>
+            )}
 
-          <p className="text-center text-sm text-ash">
-            Erişim iznin yok mu?{" "}
-            <Link href="/register" className="text-gold hover:text-gold-dim underline underline-offset-4 decoration-gold/30 transition-colors">
-              Talep oluştur
-            </Link>
-          </p>
-        </form>
-      </div>
-    </main>
+            <div className="space-y-4">
+              <Input 
+                name="email"
+                type="email" 
+                placeholder="Kod adın veya e-postan" 
+                required 
+              />
+              <Input 
+                name="password"
+                type="password" 
+                placeholder="••••••••" 
+                required 
+              />
+            </div>
+
+            <Button type="submit" className="w-full" disabled={loading}>
+              {loading ? "Doğrulanıyor..." : "Giriş Yap"}
+            </Button>
+
+            <p className="text-center text-sm text-ash">
+              Erişim iznin yok mu?{" "}
+              <Link href="/register" className="text-gold hover:text-gold-dim underline underline-offset-4 decoration-gold/30 transition-colors">
+                Talep oluştur
+              </Link>
+            </p>
+          </form>
+        </div>
+      </main>
+    </>
   );
 }

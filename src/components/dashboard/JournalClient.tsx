@@ -22,13 +22,7 @@ interface SavedStrategy {
 }
 
 const getCharacterName = (charId?: string) => {
-  switch(charId) {
-    case "tyler_durden": return "TYLER DURDEN";
-    case "walter_white": return "WALTER WHITE";
-    case "don_corleone": return "DON CORLEONE";
-    case "sherlock": return "SHERLOCK HOLMES";
-    default: return "MENTIS";
-  }
+  return "MENTİS";
 };
 
 interface CustomNote {

@@ -22,10 +22,16 @@
   --animate-fade-in: fade-in 1s ease-out forwards;
   --animate-pulse-gold: pulse-gold 2s infinite;
   --animate-glow: glow 2s ease-in-out infinite alternate;
+  --animate-shimmer: shimmer 1.5s infinite linear;
 
   @keyframes fade-in {
     0% { opacity: 0; transform: translateY(10px); }
     100% { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
   }
 
   @keyframes pulse-gold {
@@ -73,5 +79,31 @@ body {
   &::-webkit-scrollbar-thumb:hover {
     background: var(--color-gold-dim);
   }
+}
+
+/* === Cinematic Intro: single continuous fly-through, zero pauses === */
+@keyframes introLogoFly {
+  0% {
+    transform: scale3d(0, 0, 1);
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  55% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale3d(5, 5, 1);
+    opacity: 0;
+  }
+}
+
+.intro-logo-anim {
+  animation: introLogoFly 2s ease-in-out forwards;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  contain: layout style paint;
 }
 

@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { User, CreditCard, Shield } from "lucide-react";
+import { LogoutButton } from "@/components/ui/LogoutButton";
 
 export const dynamic = "force-dynamic";
 
@@ -70,7 +71,12 @@ export default async function ProfilePage() {
               </div>
             </div>
           </div>
+
+          {/* Divider */}
+          <div className="mt-8 w-full h-[1px] bg-gradient-to-r from-transparent via-obsidian to-transparent" />
           
+          {/* Logout Button */}
+          <LogoutButton />
         </div>
       </div>
     </div>

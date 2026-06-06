@@ -44,7 +44,11 @@ export async function proxy(request: NextRequest) {
   }
 
   if (isAuthPage && user) {
-    return NextResponse.redirect(new URL("/dashboard", request.url));
+    // Only redirect full page document loads, not background Next.js RSC fetches/prefetches
+    const isRSC = request.headers.get("rsc") === "1" || request.nextUrl.searchParams.has("_rsc");
+    if (!isRSC) {
+      return NextResponse.redirect(new URL("/dashboard", request.url));
+    }
   }
 
   return supabaseResponse;
