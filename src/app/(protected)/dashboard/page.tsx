@@ -6,7 +6,7 @@ import { StrategyInput } from "@/components/dashboard/StrategyInput";
 import { LoadingMentis } from "@/components/ui/LoadingMentis";
 import { MentisResponse } from "@/components/dashboard/MentisResponse";
 import { createClient } from "@/lib/supabase/client";
-import { Coins, BookMarked, Send, RefreshCw, MessageSquare, Brain, Flame, FlaskConical, ShieldAlert, Search, Trash2, UserPlus, User } from "lucide-react";
+import { Coins, BookMarked, Send, RefreshCw, MessageSquare, Brain, Flame, FlaskConical, ShieldAlert, Search, Trash2, UserPlus, User, Copy } from "lucide-react";
 
 interface StrategyResponse {
   id?: string;
@@ -653,12 +653,32 @@ export default function DashboardPage() {
                       </div>
 
                       <div className="space-y-1.5">
-                        <label className="text-[10px] text-ash uppercase tracking-wider font-accent">Örnek Yazışma Geçmişi (Konuşma Tarzı Analizi İçin)</label>
+                        <div className="flex justify-between items-center">
+                          <label className="text-[10px] text-ash uppercase tracking-wider font-accent">Örnek Yazışma Geçmişi (Konuşma Tarzı Analizi İçin)</label>
+                          <label className="text-[10px] text-gold cursor-pointer hover:text-gold-dim transition-colors font-accent uppercase tracking-wider flex items-center gap-1">
+                            <Copy className="w-3 h-3" /> Txt Dosyası Yükle (.txt)
+                            <input
+                              type="file"
+                              accept=".txt"
+                              className="hidden"
+                              onChange={(e) => {
+                                const file = e.target.files?.[0];
+                                if (file) {
+                                  const reader = new FileReader();
+                                  reader.onload = (event) => {
+                                    setNewTargetTranscript(event.target?.result as string);
+                                  };
+                                  reader.readAsText(file);
+                                }
+                              }}
+                            />
+                          </label>
+                        </div>
                         <textarea
                           required
                           value={newTargetTranscript}
                           onChange={(e) => setNewTargetTranscript(e.target.value)}
-                          placeholder="Karşı tarafın konuşma tarzını, noktalama işaretlerini, emoji alışkanlıklarını taklit edebilmesi için ondan gelen birkaç mesajı veya aranızdaki eski bir diyaloğu kopyalayıp buraya yapıştırın..."
+                          placeholder="Karşı tarafın konuşma tarzını, noktalama işaretlerini, emoji alışkanlıklarını taklit edebilmesi için ondan gelen birkaç mesajı veya aranızdaki eski bir diyaloğu kopyalayıp buraya yapıştırın ya da WhatsApp konuşmasını .txt dosyası olarak doğrudan yükleyin..."
                           className="w-full h-32 bg-void border border-obsidian text-smoke placeholder:text-ash/40 p-4 rounded-sm text-xs md:text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gold resize-none transition-all"
                         />
                       </div>
@@ -787,6 +807,31 @@ export default function DashboardPage() {
               </div>
               
               <div className="flex items-center gap-3 w-full md:w-auto justify-end">
+                <button
+                  type="button"
+                  onClick={() => {
+                    const formattedChat = chatHistory.slice(2).map(msg => {
+                      const speaker = msg.role === "user" 
+                        ? "SİZ" 
+                        : mode === "simulation" 
+                          ? (response?.targetName || "KARŞI TARAF").toUpperCase()
+                          : (CHARACTERS.find(c => c.id === character)?.name || "MENTIS").toUpperCase();
+                      
+                      let replyText = msg.content;
+                      if (mode === "simulation" && msg.content.includes("**[MENTİS ÖNERİSİ]**")) {
+                        replyText = msg.content.split("**[MENTİS ÖNERİSİ]**")[0]?.trim();
+                      }
+                      return `${speaker}: ${replyText}`;
+                    }).join("\n\n");
+                    
+                    navigator.clipboard.writeText(formattedChat);
+                    alert("Tüm sohbet geçmişi panoya kopyalandı!");
+                  }}
+                  className="flex items-center gap-1.5 px-4 py-2 border border-obsidian bg-obsidian/50 text-ash hover:text-white transition-colors rounded-sm font-accent tracking-widest text-[10px] uppercase"
+                >
+                  <Copy className="w-3.5 h-3.5" />
+                  Sohbeti Kopyala
+                </button>
                 <button
                   onClick={handleSaveToJournal}
                   disabled={isSaved || saveLoading}
