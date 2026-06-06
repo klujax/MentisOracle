@@ -87,13 +87,26 @@ Kullanıcının anlattığı durumdaki karşı tarafın zafiyetini kendi karakte
 [STRATEJİK HAMLE]
 Kullanıcıya kontrolü ele alması için kendi karakterine uygun tarzda 3 adımlı rasyonel bir eylem planı ver.`;
 
+const CHAT_ANALYSIS_FORMAT = `
+
+YANIT MİMARİSİ (Her yanıtı tam olarak bu 3 yapıya ve başlığa göre ver. Bölümleri ||| ile ayır):
+
+[DURUM ANALİZİ]
+Sohbet geçmişindeki tarafların dilini, tonunu ve yazışma kalıplarını incele. Karşı tarafın karakter profilini, zafiyetlerini ve taktiklerini rasyonel bir şekilde tek bir paragrafta çıkar.
+|||
+[KARŞI TARAFIN MOTİVASYONU]
+Yazışmadaki güç dengesini (kaldıraç kimin elinde, kim kovalıyor, kim savunmada) analiz et. Karşı tarafın asıl motivasyonunu deşifre et.
+|||
+[STRATEJİK HAMLE]
+Bu kişiyi yönetmek veya simülasyonda test etmek için kullanıcıya 3 adımlı bir iletişim stratejisi sun.`;
+
 export interface MentisResponse {
   analysis: string;
   targetWeakness: string;
   execution: string;
 }
 
-export async function consultMentis(problem: string, character: string = "mentis"): Promise<MentisResponse> {
+export async function consultMentis(problem: string, character: string = "mentis", mode: string = "standard"): Promise<MentisResponse> {
   // If no API key, return a mock response that matches the style
   if (!genAI) {
     return new Promise((resolve) => {
@@ -108,7 +121,7 @@ export async function consultMentis(problem: string, character: string = "mentis
   }
 
   const activeChar = CHARACTER_PROMPTS[character] || CHARACTER_PROMPTS.mentis;
-  const sysPrompt = activeChar.prompt + RESPONSE_FORMAT;
+  const sysPrompt = activeChar.prompt + (mode === "simulation" ? CHAT_ANALYSIS_FORMAT : RESPONSE_FORMAT);
 
   try {
     const model = genAI.getGenerativeModel({
@@ -180,6 +193,75 @@ export async function continueMentis(history: ChatMessage[], nextMessage: string
     console.error("Mentis chat failed:", error);
     // Graceful fallback on API error
     return "Bu durum için sessizlik en güçlü kaldıraçtır. Karşı taraf reaksiyon göstermeni bekliyor, tepkisizlik onları zayıflatacaktır. Hamleni sakinlikle planla.";
+  }
+}
+
+export async function continueSimulation(
+  history: ChatMessage[], 
+  nextMessage: string, 
+  transcript: string,
+  character: string = "mentis"
+): Promise<{ reply: string; advice: string }> {
+  if (!genAI) {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({
+          reply: "Bak, gerçekten üzerime çok geliyorsun. Sadece biraz zamana ihtiyacım var dedim, neden bu kadar baskı yapıyorsun anlamıyorum.",
+          advice: "Hedef savunma pozisyonuna geçti ve sizi suçlamaya çalışıyor. Reaktif olmayın. Onun suçlamalarına cevap vermek yerine hedefinize odaklanın ve net sınırlarınızı koruyun."
+        });
+      }, 1500);
+    });
+  }
+
+  const activeChar = CHARACTER_PROMPTS[character] || CHARACTER_PROMPTS.mentis;
+  const sysInstruction = `GÖREVİN:
+Sen çift katmanli bir simülasyon motorusun. Aşağıda, kullanıcının yüklediği bir sohbet transkripti yer alıyor.
+
+[YÜKLENEN SOHBET TRANSKRİPTİ]
+${transcript}
+
+Senin iki görevin var:
+1. SİMÜLE EDİLEN KİŞİ (Karakter Rolü): Transkriptteki "karşı tarafın" (kullanıcının konuştuğu kişinin) kimliğine bürün. Onun konuşma tarzını, tonunu, kelime seçimlerini, noktalama işaretlerini, emoji kullanımını ve manipülatif/duygusal kalıplarını birebir taklit ederek kullanıcının son mesajına yanıt ver.
+2. DANIŞMAN (${activeChar.name}): ${activeChar.prompt} 
+Kullanıcının son mesajını rasyonel olarak analiz et. Kullanıcıya bu simülasyon adımında yaptığı hataları söyle ve karşı tarafın (senin simüle ettiğin kişinin) bir sonraki hamlesine karşı ne yazması gerektiği konusunda kısa, keskin, taktiksel bir tüyo ver.
+
+YANIT MİMARİSİ (Yanıtta tam olarak bu iki başlığı kullan ve aralarını ||| ile ayır):
+
+[REPLY]
+(Simüle edilen karşı tarafın, kullanıcının mesajına vereceği yanıt. Karakteri birebir yaşat.)
+|||
+[ADVICE]
+(${activeChar.name} olarak kullanıcının son mesajına dair analiz ve bir sonraki hamle için taktiksel ipucu. 2-3 cümle.)`;
+
+  try {
+    const model = genAI.getGenerativeModel({
+      model: "gemini-2.5-flash",
+      systemInstruction: sysInstruction,
+    });
+
+    const geminiHistory = history.map((msg) => ({
+      role: msg.role === "user" ? "user" : "model",
+      parts: [{ text: msg.content }],
+    }));
+
+    const chat = model.startChat({
+      history: geminiHistory,
+    });
+
+    const result = await chat.sendMessage(nextMessage);
+    const text = result.response.text() || "";
+    const parts = text.split("|||").map(p => p.trim());
+    
+    const reply = parts[0]?.replace(/\[REPLY\]/i, "").trim() || "Simülasyon yanıt veremedi.";
+    const advice = parts[1]?.replace(/\[ADVICE\]/i, "").trim() || "Stratejik analiz yapılamadı.";
+
+    return { reply, advice };
+  } catch (error: any) {
+    console.error("Simulation chat failed:", error);
+    return {
+      reply: "Bak, gerçekten üzerime çok geliyorsun. Sadece biraz zamana ihtiyacım var dedim, neden bu kadar baskı yapıyorsun anlamıyorum.",
+      advice: "Hedef savunma pozisyonuna geçti ve sizi suçlamaya çalışıyor. Reaktif olmayın. Onun suçlamalarına cevap vermek yerine hedefinize odaklanın ve net sınırlarınızı koruyun."
+    };
   }
 }
 

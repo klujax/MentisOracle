@@ -82,6 +82,8 @@ export default function DashboardPage() {
   const [requiresPayment, setRequiresPayment] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
   const [character, setCharacter] = useState<string>("mentis");
+  const [mode, setMode] = useState<"standard" | "simulation">("standard");
+  const [activeAdvice, setActiveAdvice] = useState<string | null>(null);
 
   // Chat follow-up state
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
@@ -133,10 +135,11 @@ export default function DashboardPage() {
     setIsSaved(false);
     
     try {
+      setActiveAdvice(null);
       const res = await fetch("/api/mentis", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ problem, character }),
+        body: JSON.stringify({ problem, character, mode }),
       });
 
       const data = await res.json();
@@ -185,7 +188,9 @@ export default function DashboardPage() {
         body: JSON.stringify({
           history: updatedHistory,
           message: userMsg,
-          character
+          character,
+          mode,
+          transcript: chatHistory[0]?.content || ""
         }),
       });
 
@@ -198,7 +203,14 @@ export default function DashboardPage() {
         throw new Error(data.error || "Yanıt alınamadı.");
       }
 
-      const newHistory: ChatMessage[] = [...updatedHistory, { role: "model", content: data.reply }];
+      const botReply = mode === "simulation" ? data.reply : data.reply;
+      const botAdvice = mode === "simulation" ? data.advice : null;
+
+      if (botAdvice) {
+        setActiveAdvice(botAdvice);
+      }
+
+      const newHistory: ChatMessage[] = [...updatedHistory, { role: "model", content: botReply }];
       setChatHistory(newHistory);
       
       // Auto-save follow-up to DB in background
@@ -268,7 +280,9 @@ export default function DashboardPage() {
           target_weakness: response.targetWeakness,
           execution: response.execution,
           is_starred: true,
-          chat_history: chatHistory
+          chat_history: chatHistory,
+          character: character,
+          mode: mode
         });
 
         if (error) throw error;
@@ -290,7 +304,9 @@ export default function DashboardPage() {
           created_at: new Date().toISOString(),
           is_starred: true,
           personal_notes: "",
-          chat_history: chatHistory
+          chat_history: chatHistory,
+          character: character,
+          mode: mode
         };
         localJournal.push(entry);
         localStorage.setItem("mentis_local_journal", JSON.stringify(localJournal));
@@ -348,6 +364,32 @@ export default function DashboardPage() {
           )}
           {!requiresPayment && (
             <div className="w-full flex flex-col items-center space-y-6">
+              {/* Mode Toggle */}
+              <div className="flex border border-obsidian/80 bg-abyss/45 p-1 rounded-sm max-w-sm w-full">
+                <button
+                  type="button"
+                  onClick={() => setMode("standard")}
+                  className={`flex-1 py-1.5 text-[10px] font-accent tracking-widest uppercase transition-colors rounded-sm ${
+                    mode === "standard" 
+                      ? "bg-gold text-void font-bold shadow-md" 
+                      : "text-ash hover:text-smoke bg-transparent"
+                  }`}
+                >
+                  Durum Analizi
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setMode("simulation")}
+                  className={`flex-1 py-1.5 text-[10px] font-accent tracking-widest uppercase transition-colors rounded-sm ${
+                    mode === "simulation" 
+                      ? "bg-gold text-void font-bold shadow-md" 
+                      : "text-ash hover:text-smoke bg-transparent"
+                  }`}
+                >
+                  Sohbet Simülasyonu
+                </button>
+              </div>
+
               <div className="w-full max-w-3xl">
                 <p className="text-xs uppercase tracking-widest text-ash/80 font-accent mb-3 text-center sm:text-left">Stratejik Karakter Seçimi</p>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
@@ -384,7 +426,14 @@ export default function DashboardPage() {
                 </div>
               </div>
               
-              <StrategyInput onSubmit={handleConsult} />
+              <StrategyInput 
+                onSubmit={handleConsult} 
+                placeholder={
+                  mode === "simulation"
+                    ? "Karşı tarafla olan WhatsApp, Instagram veya e-posta yazışmanızı buraya yapıştırın. Mentis onun konuşma dilini çözüp simülasyonu başlatacak..."
+                    : "Masadaki konumunu zayıflatan o son hamleyi anlat..."
+                }
+              />
             </div>
           )}
         </div>
@@ -417,7 +466,11 @@ export default function DashboardPage() {
                       </span>
                     )}
                   </div>
-                  <p className="text-xs text-ash">Mentis Reçetesi&apos;ni inceleyin ve sorularınızla derinleştirin.</p>
+                  <p className="text-xs text-ash">
+                    {mode === "simulation" 
+                      ? "Karşı tarafın simülasyonunu test edin. Verdiğiniz cevaplara göre yapay zeka onu taklit edecektir." 
+                      : "Mentis Reçetesi'ni inceleyin ve sorularınızla derinleştirin."}
+                  </p>
                 </div>
               </div>
               
@@ -439,6 +492,7 @@ export default function DashboardPage() {
                     setStatus("idle");
                     setResponse(null);
                     setChatHistory([]);
+                    setActiveAdvice(null);
                   }}
                   className="flex items-center gap-1.5 px-4 py-2 border border-obsidian bg-obsidian/50 text-ash hover:text-white transition-colors rounded-sm font-accent tracking-widest text-[10px] uppercase"
                 >
@@ -474,7 +528,7 @@ export default function DashboardPage() {
                       <div className="relative p-5 md:p-6 rounded-sm bg-abyss border border-obsidian animate-[fade-in_1s_ease-out_forwards]">
                         <div className="absolute top-0 left-4 md:left-6 -translate-y-1/2 bg-void px-2 font-serif text-gold text-xs sm:text-sm tracking-wider flex items-center gap-2">
                           <span className="text-[10px] opacity-50">01</span>
-                          DURUM ANALİZİ
+                          {mode === "simulation" ? "KARAKTER PROFİLİ" : "DURUM ANALİZİ"}
                         </div>
                         <div className="mt-3 font-sans text-smoke leading-relaxed tracking-wide text-xs md:text-sm whitespace-pre-wrap">
                           {response.analysis}
@@ -486,7 +540,7 @@ export default function DashboardPage() {
                         <div className="relative p-5 md:p-6 rounded-sm bg-abyss border border-gold/30 shadow-[0_0_20px_rgba(201,168,76,0.03)] animate-[fade-in_1s_ease-out_forwards] delay-200">
                           <div className="absolute top-0 left-4 md:left-6 -translate-y-1/2 bg-void px-2 font-serif text-gold text-xs sm:text-sm tracking-wider flex items-center gap-2">
                             <span className="text-[10px] opacity-50">02</span>
-                            KARŞI TARAFIN MOTİVASYONU
+                            {mode === "simulation" ? "MASADAKİ DENGE" : "KARŞI TARAFIN MOTİVASYONU"}
                           </div>
                           <div className="mt-3 font-sans text-smoke leading-relaxed tracking-wide text-xs md:text-sm whitespace-pre-wrap">
                             {response.targetWeakness}
@@ -499,7 +553,7 @@ export default function DashboardPage() {
                         <div className="relative p-5 md:p-6 rounded-sm bg-abyss border border-obsidian animate-[fade-in_1s_ease-out_forwards] delay-400">
                           <div className="absolute top-0 left-4 md:left-6 -translate-y-1/2 bg-void px-2 font-serif text-gold text-xs sm:text-sm tracking-wider flex items-center gap-2">
                             <span className="text-[10px] opacity-50">03</span>
-                            STRATEJİK HAMLE
+                            {mode === "simulation" ? "STRATEJİK PLAN" : "STRATEJİK HAMLE"}
                           </div>
                           <div className="mt-3 font-sans text-smoke leading-relaxed tracking-wide text-xs md:text-sm whitespace-pre-wrap">
                             {response.execution}
@@ -526,7 +580,11 @@ export default function DashboardPage() {
                       <p className={`text-[10px] uppercase tracking-widest mb-1.5 font-accent ${
                         isUser ? "text-ash/60" : "text-gold font-bold"
                       }`}>
-                        {isUser ? "SİZ" : (CHARACTERS.find(c => c.id === character)?.name || "MENTIS").toUpperCase()}
+                        {isUser 
+                          ? "SİZ" 
+                          : mode === "simulation" 
+                            ? "KARŞI TARAF (SİMÜLASYON)" 
+                            : (CHARACTERS.find(c => c.id === character)?.name || "MENTIS").toUpperCase()}
                       </p>
                       <div className="whitespace-pre-wrap font-sans">{msg.content}</div>
                     </div>
@@ -538,9 +596,11 @@ export default function DashboardPage() {
                 <div className="flex justify-start animate-pulse">
                   <div className="bg-abyss/85 border border-obsidian/50 rounded-sm p-4 max-w-[85%] text-smoke text-xs md:text-sm">
                     <p className="text-[10px] text-gold font-bold uppercase tracking-widest mb-1.5 font-accent">
-                      {CHARACTERS.find(c => c.id === character)?.name || "Mentis"}
+                      {mode === "simulation" ? "KARŞI TARAF" : (CHARACTERS.find(c => c.id === character)?.name || "Mentis")}
                     </p>
-                    <p className="italic font-accent text-ash">Hamleler hesaplanıyor...</p>
+                    <p className="italic font-accent text-ash">
+                      {mode === "simulation" ? "Yazıyor..." : "Hamleler hesaplanıyor..."}
+                    </p>
                   </div>
                 </div>
               )}
@@ -553,6 +613,19 @@ export default function DashboardPage() {
 
               <div ref={chatEndRef} />
             </div>
+
+            {/* Advisor Advice Banner for Simulation Mode */}
+            {mode === "simulation" && activeAdvice && (
+              <div className="mx-4 my-2 p-3 bg-gold/5 border border-gold/20 rounded-sm text-left animate-fade-in flex items-start gap-3">
+                <Brain className="w-4.5 h-4.5 text-gold flex-shrink-0 mt-0.5 animate-pulse-gold" />
+                <div className="text-xs text-smoke/90 leading-relaxed font-accent">
+                  <span className="text-gold font-bold uppercase tracking-wider block mb-1">
+                    {CHARACTERS.find(c => c.id === character)?.name} Stratejik Tavsiyesi
+                  </span>
+                  {activeAdvice}
+                </div>
+              </div>
+            )}
 
             {/* Chat Input Footer */}
             <form onSubmit={handleSendFollowUp} className="p-4 bg-abyss border-t border-obsidian/50 flex gap-3 flex-shrink-0">

@@ -6,9 +6,10 @@ import { Button } from "@/components/ui/Button";
 interface StrategyInputProps {
   onSubmit: (problem: string) => void;
   disabled?: boolean;
+  placeholder?: string;
 }
 
-export const StrategyInput = ({ onSubmit, disabled }: StrategyInputProps) => {
+export const StrategyInput = ({ onSubmit, disabled, placeholder }: StrategyInputProps) => {
   const [problem, setProblem] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -26,7 +27,7 @@ export const StrategyInput = ({ onSubmit, disabled }: StrategyInputProps) => {
           value={problem}
           onChange={(e) => setProblem(e.target.value)}
           disabled={disabled}
-          placeholder="Masadaki konumunu zayıflatan o son hamleyi anlat..."
+          placeholder={placeholder || "Masadaki konumunu zayıflatan o son hamleyi anlat..."}
           className="relative w-full h-48 md:h-64 bg-abyss border border-obsidian rounded-sm p-6 text-smoke font-sans text-base leading-relaxed resize-none focus:outline-none focus:border-gold/50 focus:ring-1 focus:ring-gold/30 transition-all duration-500 placeholder:text-ash/40 disabled:opacity-50"
         />
       </div>

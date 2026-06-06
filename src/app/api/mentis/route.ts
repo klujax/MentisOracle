@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
-import { consultMentis, continueMentis } from "@/lib/mentis-engine";
+import { consultMentis, continueMentis, continueSimulation } from "@/lib/mentis-engine";
 
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { problem, history, message, character } = body;
+    const { problem, history, message, character, mode, transcript } = body;
 
     // Check if Supabase is configured
     const hasSupabase = process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -50,8 +50,13 @@ export async function POST(req: Request) {
             .eq("user_id", userId);
         }
       }
-      const reply = await continueMentis(history, message, character);
-      return NextResponse.json({ reply });
+      if (mode === "simulation") {
+        const simResult = await continueSimulation(history, message, transcript || "", character);
+        return NextResponse.json(simResult);
+      } else {
+        const reply = await continueMentis(history, message, character);
+        return NextResponse.json({ reply });
+      }
     }
 
     if (!problem || problem.length < 10) {
@@ -92,7 +97,7 @@ export async function POST(req: Request) {
     }
 
     // Call the Mentis Engine
-    const strategy = await consultMentis(problem, character);
+    const strategy = await consultMentis(problem, character, mode);
 
     // Save consultation and deduct credit
     if (hasSupabase && userId) {
@@ -106,6 +111,7 @@ export async function POST(req: Request) {
         target_weakness: strategy.targetWeakness,
         execution: strategy.execution,
         character: character || "mentis",
+        mode: mode || "standard",
       }).select("id").single();
 
       if (inserted) {
