@@ -131,11 +131,13 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json(strategy);
-  } catch (error) {
+  } catch (error: any) {
     console.error("API Error:", error);
+    const msg = error?.message || "Sistemsel bir anomali var. Tekrar dene.";
     return NextResponse.json(
-      { error: "Sistemsel bir anomali var. Tekrar dene." },
+      { error: msg },
       { status: 500 }
     );
   }
 }
+

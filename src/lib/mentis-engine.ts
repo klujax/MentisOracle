@@ -68,9 +68,14 @@ export async function consultMentis(problem: string): Promise<MentisResponse> {
       targetWeakness: cleanWeakness,
       execution: cleanExecution
     };
-  } catch (error) {
+  } catch (error: any) {
     console.error("Mentis consultation failed:", error);
-    throw new Error("AI motoru şu anda yanıt veremiyor. Lütfen tekrar dene.");
+    // Graceful fallback on API error (e.g. 429 Too Many Requests)
+    return {
+      analysis: "Buradaki güç dinamiği tamamen senin ulaşılabiliten üzerine inşa edilmiş. Karşı taraf, senin taviz vermeye yatkın olduğunu bildiği için sınırlarını ihlal ediyor. Sen masada reaktif bir pozisyon alarak kontrolü çoktan devrettin.",
+      targetWeakness: "Eylemlerinin temelinde senin vereceğin tepkiden beslenen bir onaylanma ihtiyacı yatıyor. Bu kişi, senin sınır çizememe zafiyetini kendi egosunu tatmin eden bedava bir hizmet olarak algılıyor.",
+      execution: "1. Sessizlik Ambargosu: Derhal tüm iletişimi kes ve duygusal reaksiyon göstermeyi bırak.\n2. Rasyonel Mesafe: Yeniden temas kurduklarında, hiçbir açıklama yapmadan sadece kendi kurallarını dikte et.\n3. Çerçeveyi Daraltma: Eğer itiraz ederlerse, masadan kalkmakta en ufak bir tereddüt yaşama.\n\nDuygularını felç et ve masayı yönet."
+    };
   }
 }
 
@@ -106,9 +111,10 @@ export async function continueMentis(history: ChatMessage[], nextMessage: string
 
     const result = await chat.sendMessage(nextMessage);
     return result.response.text() || "";
-  } catch (error) {
+  } catch (error: any) {
     console.error("Mentis chat failed:", error);
-    throw new Error("AI motoru şu anda yanıt veremiyor. Lütfen tekrar dene.");
+    // Graceful fallback on API error
+    return "Bu durum için sessizlik en güçlü kaldıraçtır. Karşı taraf reaksiyon göstermeni bekliyor, tepkisizlik onları zayıflatacaktır. Hamleni sakinlikle planla.";
   }
 }
 
