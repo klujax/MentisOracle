@@ -23,6 +23,9 @@ create policy "Users can view own consultations" on public.consultations
 create policy "Users can insert own consultations" on public.consultations
   for insert with check (auth.uid() = user_id);
 
+create policy "Users can update own consultations" on public.consultations
+  for update using (auth.uid() = user_id);
+
 -- Kredi/Kullanım hakkı tablosu
 create table if not exists public.user_credits (
   id uuid default gen_random_uuid() primary key,

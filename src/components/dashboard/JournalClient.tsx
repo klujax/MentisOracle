@@ -60,6 +60,8 @@ export default function JournalClient() {
       if (!user) throw new Error("Kullanıcı bulunamadı.");
 
       // 1. Fetch consultations (strategies) that are starred
+      let dbStrats: SavedStrategy[] = [];
+      let fetchStratsError = false;
       try {
         const { data: stratData, error: stratErr } = await supabase
           .from("consultations")
@@ -68,15 +70,28 @@ export default function JournalClient() {
           .order("created_at", { ascending: false });
 
         if (stratErr) throw stratErr;
-        setStrategies(stratData || []);
+        dbStrats = stratData || [];
       } catch (stratErr: any) {
-        console.warn("Consultations DB fetch failed, using local storage fallback:", stratErr.message || stratErr);
+        console.warn("Consultations DB fetch failed:", stratErr.message || stratErr);
         hasDbError = true;
-        const localStrats = JSON.parse(localStorage.getItem("mentis_local_journal") || "[]");
+        fetchStratsError = true;
+      }
+
+      // Load local strategies
+      const localStrats = JSON.parse(localStorage.getItem("mentis_local_journal") || "[]");
+      if (fetchStratsError) {
         setStrategies(localStrats);
+      } else {
+        // Merge DB strategies with local-only strategies (e.g. starting with local_ or not present in DB)
+        const localOnly = localStrats.filter((ls: SavedStrategy) => 
+          ls.id.toString().startsWith("local_") && !dbStrats.some(ds => ds.id === ls.id)
+        );
+        setStrategies([...localOnly, ...dbStrats]);
       }
 
       // 2. Fetch custom notes
+      let dbNotes: CustomNote[] = [];
+      let fetchNotesError = false;
       try {
         const { data: notesData, error: notesErr } = await supabase
           .from("notes")
@@ -84,12 +99,23 @@ export default function JournalClient() {
           .order("created_at", { ascending: false });
 
         if (notesErr) throw notesErr;
-        setCustomNotes(notesData || []);
+        dbNotes = notesData || [];
       } catch (notesErr: any) {
-        console.warn("Notes DB fetch failed, using local storage fallback:", notesErr.message || notesErr);
+        console.warn("Notes DB fetch failed:", notesErr.message || notesErr);
         hasDbError = true;
-        const localNotes = JSON.parse(localStorage.getItem("mentis_local_notes") || "[]");
+        fetchNotesError = true;
+      }
+
+      // Load local notes
+      const localNotes = JSON.parse(localStorage.getItem("mentis_local_notes") || "[]");
+      if (fetchNotesError) {
         setCustomNotes(localNotes);
+      } else {
+        // Merge DB notes with local-only notes (e.g. starting with note_ or not present in DB)
+        const localOnlyNotes = localNotes.filter((ln: CustomNote) => 
+          ln.id.toString().startsWith("note_") && !dbNotes.some(dn => dn.id === ln.id)
+        );
+        setCustomNotes([...localOnlyNotes, ...dbNotes]);
       }
 
       setDbStatus(hasDbError ? "local" : "connected");

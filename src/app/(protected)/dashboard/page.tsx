@@ -210,8 +210,10 @@ export default function DashboardPage() {
         localJournal.push(entry);
         localStorage.setItem("mentis_local_journal", JSON.stringify(localJournal));
         setIsSaved(true);
+        alert("Deftere kaydedildi (Veritabanı senkronizasyon hatası nedeniyle geçici olarak tarayıcı hafızasına kaydedildi).");
       } catch (localErr) {
         console.error("Local storage save failed:", localErr);
+        alert("Deftere kaydedilirken bir hata oluştu.");
       }
     } finally {
       setSaveLoading(false);
