@@ -14,6 +14,7 @@ create table if not exists public.consultations (
   character text default 'mentis' not null,
   mode text default 'standard' not null,
   target_name text,
+  chat_history jsonb,
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 
