@@ -167,7 +167,10 @@ export default function DashboardPage() {
       if (response.id) {
         const { error } = await supabase
           .from("consultations")
-          .update({ is_starred: true })
+          .update({ 
+            is_starred: true,
+            chat_history: chatHistory 
+          })
           .eq("id", response.id);
         
         if (error) throw error;
@@ -179,7 +182,8 @@ export default function DashboardPage() {
           analysis: response.analysis,
           target_weakness: response.targetWeakness,
           execution: response.execution,
-          is_starred: true
+          is_starred: true,
+          chat_history: chatHistory
         });
 
         if (error) throw error;
@@ -200,7 +204,8 @@ export default function DashboardPage() {
           execution: response.execution,
           created_at: new Date().toISOString(),
           is_starred: true,
-          personal_notes: ""
+          personal_notes: "",
+          chat_history: chatHistory
         };
         localJournal.push(entry);
         localStorage.setItem("mentis_local_journal", JSON.stringify(localJournal));

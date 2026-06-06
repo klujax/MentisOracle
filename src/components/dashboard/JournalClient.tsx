@@ -15,6 +15,7 @@ interface SavedStrategy {
   execution: string;
   personal_notes: string;
   created_at: string;
+  chat_history?: { role: string; content: string }[];
 }
 
 interface CustomNote {
@@ -453,6 +454,32 @@ export default function JournalClient() {
                           </>
                         )}
                       </div>
+
+                      {/* Render Chat History Follow-ups if they exist */}
+                      {selectedStrategy.chat_history && selectedStrategy.chat_history.length > 2 && (
+                        <div className="border-t border-obsidian/50 pt-8 space-y-6">
+                          <h4 className="text-sm font-serif text-smoke uppercase tracking-wider text-center mb-6 border-b border-obsidian/30 pb-4">Takip Sohbeti</h4>
+                          {selectedStrategy.chat_history.slice(2).map((msg, index) => {
+                            const isUser = msg.role === "user";
+                            return (
+                              <div key={index} className={`flex w-full ${isUser ? "justify-end" : "justify-start"} animate-fade-in`}>
+                                <div className={`max-w-[85%] rounded-sm p-4 text-xs md:text-sm leading-relaxed ${
+                                  isUser 
+                                    ? "bg-obsidian border border-gold/10 text-smoke" 
+                                    : "bg-abyss/85 border border-obsidian text-smoke"
+                                }`}>
+                                  <p className={`text-[10px] uppercase tracking-widest mb-1.5 font-accent ${
+                                    isUser ? "text-ash/60" : "text-gold font-bold"
+                                  }`}>
+                                    {isUser ? "SİZ" : "MENTIS"}
+                                  </p>
+                                  <div className="whitespace-pre-wrap font-sans">{msg.content}</div>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      )}
 
                       {/* Personal Progress Notes */}
                       <div className="border-t border-obsidian/50 pt-8 space-y-4">

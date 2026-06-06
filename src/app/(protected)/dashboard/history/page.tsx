@@ -12,12 +12,15 @@ interface Consultation {
   target_weakness: string;
   execution: string;
   created_at: string;
+  is_starred: boolean;
+  chat_history?: { role: string; content: string }[];
 }
 
 export default function HistoryPage() {
   const [consultations, setConsultations] = useState<Consultation[]>([]);
   const [loading, setLoading] = useState(true);
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [savingId, setSavingId] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchHistory = async () => {
@@ -46,6 +49,28 @@ export default function HistoryPage() {
       hour: "2-digit",
       minute: "2-digit",
     });
+  };
+
+  const handleSaveToJournal = async (id: string) => {
+    setSavingId(id);
+    try {
+      const supabase = createClient();
+      const { error } = await supabase
+        .from("consultations")
+        .update({ is_starred: true })
+        .eq("id", id);
+      
+      if (error) throw error;
+      
+      setConsultations(prev => prev.map(c => 
+        c.id === id ? { ...c, is_starred: true } : c
+      ));
+    } catch (err) {
+      console.error("Failed to save to journal:", err);
+      alert("Deftere kaydedilirken bir hata oluştu.");
+    } finally {
+      setSavingId(null);
+    }
   };
 
   return (
@@ -140,6 +165,52 @@ export default function HistoryPage() {
                       {c.execution}
                     </p>
                   </div>
+
+                  {c.chat_history && c.chat_history.length > 2 && (
+                    <div className="pt-4 mt-4 border-t border-obsidian/30 space-y-4">
+                      <h4 className="text-xs uppercase tracking-widest text-gold font-bold mb-4">
+                        Takip Sohbeti
+                      </h4>
+                      {c.chat_history.slice(2).map((msg, index) => {
+                        const isUser = msg.role === "user";
+                        return (
+                          <div key={index} className={`flex w-full ${isUser ? "justify-end" : "justify-start"}`}>
+                            <div className={`max-w-[85%] rounded-sm p-4 text-xs md:text-sm leading-relaxed ${
+                              isUser 
+                                ? "bg-obsidian border border-gold/10 text-smoke" 
+                                : "bg-abyss/85 border border-obsidian text-smoke"
+                            }`}>
+                              <p className={`text-[10px] uppercase tracking-widest mb-1.5 font-accent ${
+                                isUser ? "text-ash/60" : "text-gold font-bold"
+                              }`}>
+                                {isUser ? "SİZ" : "MENTIS"}
+                              </p>
+                              <div className="whitespace-pre-wrap font-sans">{msg.content}</div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+
+                  {!c.is_starred && (
+                    <div className="pt-4 flex justify-end">
+                      <button
+                        onClick={() => handleSaveToJournal(c.id)}
+                        disabled={savingId === c.id}
+                        className="bg-gold text-void px-6 py-2.5 rounded-sm text-xs font-accent tracking-widest uppercase font-bold hover:bg-gold-dim transition-colors disabled:opacity-50"
+                      >
+                        {savingId === c.id ? "Kaydediliyor..." : "Deftere Kaydet"}
+                      </button>
+                    </div>
+                  )}
+                  {c.is_starred && (
+                    <div className="pt-4 flex justify-end">
+                      <span className="text-green-500/80 text-xs font-accent uppercase tracking-widest flex items-center gap-1.5 border border-green-900/50 bg-green-950/20 px-4 py-2 rounded-sm">
+                        Defterde Kayıtlı
+                      </span>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
