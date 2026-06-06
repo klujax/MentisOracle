@@ -11,9 +11,9 @@ export const Navbar = () => {
 
   useEffect(() => {
     const supabase = createClient();
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      if (user) {
-        setUserEmail(user.email ?? null);
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session?.user) {
+        setUserEmail(session.user.email ?? null);
       }
     });
   }, []);
@@ -42,17 +42,33 @@ export const Navbar = () => {
           <span>Kod Adı: <span className="text-smoke italic">{displayName}</span></span>
         </div>
         
-        <div className="flex items-center gap-3 md:gap-4 border-l border-obsidian pl-3 md:pl-6">
-          <Link href="/dashboard/journal" className="text-ash hover:text-gold transition-colors" title="Strateji Defteri">
+        <div className="flex items-center gap-1 md:gap-2 border-l border-obsidian pl-2 md:pl-4">
+          <Link 
+            href="/dashboard/journal" 
+            className="p-2 rounded-full text-ash hover:text-gold hover:bg-gold/10 hover:shadow-[0_0_15px_rgba(201,168,76,0.25)] transition-all duration-300 hover:scale-110 active:scale-95 flex items-center justify-center" 
+            title="Strateji Defteri"
+          >
             <BookOpen className="w-4.5 h-4.5 md:w-5 md:h-5" />
           </Link>
-          <Link href="/dashboard/history" className="text-ash hover:text-gold transition-colors" title="Geçmiş Stratejiler">
+          <Link 
+            href="/dashboard/history" 
+            className="p-2 rounded-full text-ash hover:text-gold hover:bg-gold/10 hover:shadow-[0_0_15px_rgba(201,168,76,0.25)] transition-all duration-300 hover:scale-110 active:scale-95 flex items-center justify-center" 
+            title="Geçmiş Stratejiler"
+          >
             <History className="w-4.5 h-4.5 md:w-5 md:h-5" />
           </Link>
-          <Link href="/dashboard/billing" className="text-ash hover:text-gold transition-colors" title="Mağaza / Kredi Yükle">
+          <Link 
+            href="/dashboard/billing" 
+            className="p-2 rounded-full text-ash hover:text-gold hover:bg-gold/10 hover:shadow-[0_0_15px_rgba(201,168,76,0.25)] transition-all duration-300 hover:scale-110 active:scale-95 flex items-center justify-center" 
+            title="Mağaza / Kredi Yükle"
+          >
             <ShoppingCart className="w-4.5 h-4.5 md:w-5 md:h-5" />
           </Link>
-          <Link href="/dashboard/profile" className="text-ash hover:text-gold transition-colors" title="Profil">
+          <Link 
+            href="/dashboard/profile" 
+            className="p-2 rounded-full text-ash hover:text-gold hover:bg-gold/10 hover:shadow-[0_0_15px_rgba(201,168,76,0.25)] transition-all duration-300 hover:scale-110 active:scale-95 flex items-center justify-center" 
+            title="Profil"
+          >
             <User className="w-4.5 h-4.5 md:w-5 md:h-5" />
           </Link>
         </div>
