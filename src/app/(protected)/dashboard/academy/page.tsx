@@ -896,7 +896,7 @@ Bateman için sosyal statü ve onaylanma hayatta kalma meselesidir. Kendisini ba
 
   return (
     <>
-      <div className="flex flex-col items-center w-full max-w-5xl mx-auto space-y-8 pb-20 animate-fade-in relative px-4 md:px-0">
+      <div className="flex flex-col items-center w-full max-w-5xl mx-auto space-y-8 pb-20 animate-fade-in relative px-4 md:px-0 overflow-x-hidden">
       
       {/* Custom Styles Injection */}
       <style>{`
@@ -960,7 +960,7 @@ Bateman için sosyal statü ve onaylanma hayatta kalma meselesidir. Kendisini ba
             <span className="text-[9px] text-gold font-accent tracking-[0.2em] uppercase">
               {selectedLesson.categoryLabel} DOKTRİNİ
             </span>
-            <h3 className="text-3xl font-medium text-smoke font-serif tracking-wider uppercase">
+            <h3 className="text-xl sm:text-3xl font-medium text-smoke font-serif tracking-wider uppercase">
               {selectedLesson.title}
             </h3>
           </div>
@@ -1332,10 +1332,10 @@ Bateman için sosyal statü ve onaylanma hayatta kalma meselesidir. Kendisini ba
                 return (
                   <div className="lg:col-span-5 space-y-6 w-full overflow-x-hidden">
                     
-                    <div className="bg-void/45 border border-gold/15 p-6 rounded-sm space-y-5 text-left w-full shadow-lg relative overflow-hidden">
+                    <div className="bg-void/45 border border-gold/15 p-4 sm:p-6 rounded-sm space-y-5 text-left w-full shadow-lg relative overflow-hidden">
                       <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-gold/30 to-transparent" />
                       
-                      <div className="flex justify-between items-center border-b border-obsidian pb-3">
+                      <div className="flex flex-col sm:flex-row gap-2 justify-between sm:items-center border-b border-obsidian pb-3">
                         <span className="text-[10px] text-gold font-accent tracking-widest uppercase flex items-center gap-1.5">
                           <FileText className="w-3.5 h-3.5 text-gold" /> KLİNİK PROFİLLEME RAPORU
                         </span>
@@ -1405,7 +1405,7 @@ Bateman için sosyal statü ve onaylanma hayatta kalma meselesidir. Kendisini ba
 
                     {/* Strategy Notes Panel */}
                     <div className="bg-void/45 border border-obsidian p-4 rounded-sm space-y-3 text-left w-full shadow-md">
-                      <div className="flex justify-between items-center">
+                      <div className="flex flex-col sm:flex-row gap-2 justify-between sm:items-center">
                         <span className="text-[10px] text-gold font-accent tracking-widest uppercase">
                           STRATEJİ NOTLARIM
                         </span>
@@ -1481,8 +1481,8 @@ Bateman için sosyal statü ve onaylanma hayatta kalma meselesidir. Kendisini ba
             ) : (
               /* Strategy Journal Box Only */
               <div className="lg:col-span-5 space-y-6 w-full overflow-x-hidden">
-                <div className="bg-void/45 border border-gold/15 p-6 rounded-sm space-y-4 text-left w-full shadow-lg">
-                  <div className="flex justify-between items-center border-b border-obsidian pb-3">
+                <div className="bg-void/45 border border-gold/15 p-4 sm:p-6 rounded-sm space-y-4 text-left w-full shadow-lg">
+                  <div className="flex flex-col sm:flex-row gap-2 justify-between sm:items-center border-b border-obsidian pb-3">
                     <span className="text-[10px] text-gold font-accent tracking-widest uppercase">
                       STRATEJİK UYGULAMA NOTLARI
                     </span>
