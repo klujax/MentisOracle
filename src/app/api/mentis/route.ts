@@ -1,19 +1,22 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@/lib/supabase/server";
+import { createClient, createAdminClient } from "@/lib/supabase/server";
 import { consultMentis, continueMentis, continueSimulation } from "@/lib/mentis-engine";
 
 export const maxDuration = 60;
 
 export async function POST(req: Request) {
+  let creditsDeducted = false;
+  let cost = 1;
+  let userId: string | null = null;
+  let hasSupabase = false;
+
   try {
     const body = await req.json();
     const { problem, history, message, character, mode, transcript, targetName, target_name } = body;
     const resolvedTargetName = targetName || target_name || null;
 
     // Check if Supabase is configured
-    const hasSupabase = process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-    let userId: string | null = null;
+    hasSupabase = !!(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
 
     if (hasSupabase) {
       const supabase = await createClient();
@@ -44,35 +47,21 @@ export async function POST(req: Request) {
 
     // Process follow-up chat message (Costs 1 credit always)
     if (history && message) {
+      cost = 1;
       if (hasSupabase && userId) {
-        const supabase = await createClient();
+        const adminSupabase = createAdminClient();
+        const { data: success, error: rpcError } = await adminSupabase
+          .rpc("deduct_credits", { target_user_id: userId, cost: cost });
 
-        // Check credits
-        const { data: credits } = await supabase
-          .from("user_credits")
-          .select("credits, plan, total_used")
-          .eq("user_id", userId)
-          .single();
-
-        if (!credits || (credits.plan !== "elite" && credits.credits <= 0)) {
+        if (rpcError || !success) {
           return NextResponse.json(
             { error: "Kredilerin tükendi. Devam etmek için kredi yükle.", requiresPayment: true },
             { status: 403 }
           );
         }
-
-        // Deduct 1 credit (atomic)
-        if (credits && credits.plan !== "elite" && credits.credits > 0) {
-          await supabase
-            .from("user_credits")
-            .update({ 
-              credits: credits.credits - 1,
-              total_used: (credits.total_used || 0) + 1,
-              updated_at: new Date().toISOString()
-            })
-            .eq("user_id", userId);
-        }
+        creditsDeducted = true;
       }
+
       if (mode === "simulation") {
         const simResult = await continueSimulation(history, message, transcript || "", "mentis");
         return NextResponse.json(simResult);
@@ -89,19 +78,20 @@ export async function POST(req: Request) {
       );
     }
 
-    const cost = mode === "simulation" ? 15 : 1;
+    cost = mode === "simulation" ? 15 : 1;
 
     if (hasSupabase && userId) {
-      const supabase = await createClient();
+      const adminSupabase = createAdminClient();
+      const { data: success, error: rpcError } = await adminSupabase
+        .rpc("deduct_credits", { target_user_id: userId, cost: cost });
 
-      // Check credits
-      const { data: credits } = await supabase
-        .from("user_credits")
-        .select("credits, plan")
-        .eq("user_id", userId)
-        .single();
+      if (rpcError || !success) {
+        const { data: credits } = await adminSupabase
+          .from("user_credits")
+          .select("credits")
+          .eq("user_id", userId)
+          .single();
 
-      if (!credits || (credits.plan !== "elite" && credits.credits < cost)) {
         const errorMsg = mode === "simulation"
           ? `Kişi analizi başlatmak için en az 15 kredin olmalı. Şu anki kredin: ${credits?.credits || 0}`
           : "Kredilerin tükendi. Devam etmek için abonelik gerekli.";
@@ -110,13 +100,14 @@ export async function POST(req: Request) {
           { status: 403 }
         );
       }
+      creditsDeducted = true;
     }
 
     // Call the Mentis Engine
     const resolvedCharacter = mode === "simulation" ? "mentis" : (character || "mentis");
     const strategy = await consultMentis(problem, resolvedCharacter, mode);
 
-    // Save consultation and deduct credits
+    // Save consultation
     if (hasSupabase && userId) {
       const supabase = await createClient();
 
@@ -144,29 +135,37 @@ export async function POST(req: Request) {
       if (inserted) {
         (strategy as any).id = inserted.id;
       }
-
-      // Deduct credits based on cost (15 for simulation target start, 1 for standard start)
-      const { data: currentCredits } = await supabase
-        .from("user_credits")
-        .select("credits, plan, total_used")
-        .eq("user_id", userId)
-        .single();
-
-      if (currentCredits && currentCredits.plan !== "elite" && currentCredits.credits >= cost) {
-        await supabase
-          .from("user_credits")
-          .update({ 
-            credits: currentCredits.credits - cost,
-            total_used: (currentCredits.total_used || 0) + cost,
-            updated_at: new Date().toISOString()
-          })
-          .eq("user_id", userId);
-      }
     }
 
     return NextResponse.json(strategy);
   } catch (error: any) {
     console.error("API Error:", error);
+    
+    // Refund credits if they were pre-deducted but the process failed
+    if (hasSupabase && userId && creditsDeducted) {
+      try {
+        const adminSupabase = createAdminClient();
+        const { data: currentCredits } = await adminSupabase
+          .from("user_credits")
+          .select("credits, total_used, plan")
+          .eq("user_id", userId)
+          .single();
+
+        if (currentCredits && currentCredits.plan !== "elite") {
+          await adminSupabase
+            .from("user_credits")
+            .update({
+              credits: currentCredits.credits + cost,
+              total_used: Math.max(0, (currentCredits.total_used || 0) - cost),
+              updated_at: new Date().toISOString()
+            })
+            .eq("user_id", userId);
+        }
+      } catch (refundErr) {
+        console.error("Refund error:", refundErr);
+      }
+    }
+
     const msg = error?.message || "Sistemsel bir anomali var. Tekrar dene.";
     return NextResponse.json(
       { error: msg },

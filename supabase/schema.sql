@@ -48,9 +48,6 @@ alter table public.user_credits enable row level security;
 create policy "Users can view own credits" on public.user_credits
   for select using (auth.uid() = user_id);
 
-create policy "Users can update own credits" on public.user_credits
-  for update using (auth.uid() = user_id);
-
 -- Yeni kullanıcı kayıt olduğunda otomatik kredi ver
 create or replace function public.handle_new_user()
 returns trigger as $$
@@ -143,5 +140,34 @@ create policy "Users can delete own simulation targets" on public.simulation_tar
 
 create index if not exists idx_simulation_targets_user_id on public.simulation_targets(user_id);
 create index if not exists idx_simulation_targets_created_at on public.simulation_targets(created_at desc);
+
+-- Kredileri güvenli ve eşzamanlı (atomic) olarak düşme fonksiyonu
+create or replace function public.deduct_credits(target_user_id uuid, cost integer)
+returns boolean as $$
+declare
+  updated_rows integer;
+  user_plan text;
+begin
+  -- Kullanıcının planını kontrol et
+  select plan into user_plan from public.user_credits where user_id = target_user_id;
+  
+  -- Eğer plan elite ise kredi düşme, doğrudan true dön
+  if user_plan = 'elite' then
+    return true;
+  end if;
+
+  -- Krediyi düşür (sadece yeterli kredi varsa)
+  update public.user_credits
+  set credits = credits - cost,
+      total_used = total_used + cost,
+      updated_at = timezone('utc'::text, now())
+  where user_id = target_user_id
+    and credits >= cost;
+    
+  get diagnostics updated_rows = row_count;
+  
+  return updated_rows > 0;
+end;
+$$ language plpgsql security definer;
 
 
