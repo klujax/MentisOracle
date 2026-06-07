@@ -52,6 +52,8 @@ export async function POST(request: Request) {
     // Determine how many credits to give
     let creditsToAdd = 0;
     let amount = 0;
+    let isBookPurchase = false;
+
     if (packageId === "pkg_100") {
       creditsToAdd = 100;
       amount = 200;
@@ -61,6 +63,14 @@ export async function POST(request: Request) {
     } else if (packageId === "pkg_1000") {
       creditsToAdd = 1000;
       amount = 1400;
+    } else if (packageId === "book_mentis") {
+      creditsToAdd = 0;
+      amount = 299.99;
+      isBookPurchase = true;
+    } else if (packageId === "book_secret_vol1") {
+      creditsToAdd = 0;
+      amount = 249.99;
+      isBookPurchase = true;
     } else {
       console.error("Unknown packageId:", packageId);
       return NextResponse.json({ error: "Unknown package" }, { status: 400 });
@@ -94,27 +104,43 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "DB Error" }, { status: 500 });
     }
 
-    // 3. Update user's credits
-    const { data: currentCredits, error: fetchError } = await supabase
-      .from("user_credits")
-      .select("credits")
-      .eq("user_id", userId)
-      .single();
+    // 3. Update user credits or book status
+    if (isBookPurchase) {
+      const isSecret = packageId === "book_secret_vol1";
+      const { error: updateError } = await supabase
+        .from("user_credits")
+        .update({ 
+          [isSecret ? "has_secret_files" : "has_book"]: true, 
+          updated_at: new Date().toISOString() 
+        })
+        .eq("user_id", userId);
 
-    if (fetchError) {
-      console.error("Error fetching credits:", fetchError);
-    }
+      if (updateError) {
+        console.error("Error updating user_credits for book:", updateError);
+        return NextResponse.json({ error: "DB Error" }, { status: 500 });
+      }
+    } else {
+      const { data: currentCredits, error: fetchError } = await supabase
+        .from("user_credits")
+        .select("credits")
+        .eq("user_id", userId)
+        .single();
 
-    const newBalance = (currentCredits?.credits || 0) + creditsToAdd;
+      if (fetchError) {
+        console.error("Error fetching credits:", fetchError);
+      }
 
-    const { error: updateError } = await supabase
-      .from("user_credits")
-      .update({ credits: newBalance, updated_at: new Date().toISOString() })
-      .eq("user_id", userId);
+      const newBalance = (currentCredits?.credits || 0) + creditsToAdd;
 
-    if (updateError) {
-      console.error("Error updating credits:", updateError);
-      return NextResponse.json({ error: "DB Error" }, { status: 500 });
+      const { error: updateError } = await supabase
+        .from("user_credits")
+        .update({ credits: newBalance, updated_at: new Date().toISOString() })
+        .eq("user_id", userId);
+
+      if (updateError) {
+        console.error("Error updating credits:", updateError);
+        return NextResponse.json({ error: "DB Error" }, { status: 500 });
+      }
     }
 
     console.log(`Successfully added ${creditsToAdd} credits to user ${userId}`);

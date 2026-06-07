@@ -64,21 +64,48 @@ body {
 
 @utility scrollbar-custom {
   scrollbar-width: thin;
-  scrollbar-color: var(--color-obsidian) transparent;
+  scrollbar-color: rgba(201, 168, 76, 0.25) rgba(10, 10, 10, 0.4);
   
   &::-webkit-scrollbar {
-    width: 6px;
+    width: 8px;
+    height: 8px;
   }
   &::-webkit-scrollbar-track {
-    background: transparent;
+    background: rgba(10, 10, 10, 0.4);
+    border-radius: 999px;
   }
   &::-webkit-scrollbar-thumb {
-    background: var(--color-obsidian);
-    border-radius: 3px;
+    background: rgba(201, 168, 76, 0.25);
+    border: 2px solid rgba(10, 10, 10, 0.8);
+    border-radius: 999px;
+    transition: all 0.3s ease;
   }
   &::-webkit-scrollbar-thumb:hover {
-    background: var(--color-gold-dim);
+    background: rgba(201, 168, 76, 0.75);
   }
+}
+
+/* Global webkit scrollbars override for all elements */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(10, 10, 10, 0.5);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(201, 168, 76, 0.25);
+  border: 2px solid rgba(10, 10, 10, 0.8);
+  border-radius: 999px;
+  transition: all 0.3s ease;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(201, 168, 76, 0.75);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(201, 168, 76, 0.25) rgba(10, 10, 10, 0.5);
 }
 
 /* === Cinematic Intro: single continuous fly-through, zero pauses === */

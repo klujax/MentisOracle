@@ -18,19 +18,33 @@ export async function POST(request: Request) {
     // Determine price based on package
     let amount = 0;
     let credits = 0;
+    let productName = "";
 
     switch (packageId) {
       case "pkg_100":
         amount = 200;
         credits = 100;
+        productName = `${credits} Kredi (Mentis)`;
         break;
       case "pkg_500":
         amount = 800;
         credits = 500;
+        productName = `${credits} Kredi (Mentis)`;
         break;
       case "pkg_1000":
         amount = 1400;
         credits = 1000;
+        productName = `${credits} Kredi (Mentis)`;
+        break;
+      case "book_mentis":
+        amount = 299.99;
+        credits = 0;
+        productName = "Mentis: Gücün Sessiz Mimarisi (E-Kitap)";
+        break;
+      case "book_secret_vol1":
+        amount = 249.99;
+        credits = 0;
+        productName = "Mentis: Gizli Dosyalar - Cilt 1 (E-Kitap)";
         break;
       default:
         return NextResponse.json({ error: "Invalid package" }, { status: 400 });
@@ -51,7 +65,7 @@ export async function POST(request: Request) {
 
     shopier.setBuyer({
       buyer_id_nr: customOrderId,
-      product_name: `${credits} Kredi (Mentis)`,
+      product_name: productName,
       buyer_name: "Ajan",
       buyer_surname: "Mentis",
       buyer_email: user.email || "no-email@mentis.com",

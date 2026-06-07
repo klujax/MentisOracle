@@ -37,6 +37,8 @@ create table if not exists public.user_credits (
   credits integer default 3 not null, -- Yeni kullanıcıya 3 bedava kredi
   total_used integer default 0 not null,
   plan text default 'free' not null, -- 'free', 'pro', 'elite'
+  has_book boolean default false not null, -- Kitap satın alma durumu
+  has_secret_files boolean default false not null, -- Gizli Dosyalar satın alma durumu
   created_at timestamp with time zone default timezone('utc'::text, now()) not null,
   updated_at timestamp with time zone default timezone('utc'::text, now()) not null
 );

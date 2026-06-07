@@ -220,6 +220,45 @@ export default function DashboardPage() {
     }
   };
 
+  const saveToLocalHistory = (strat: any, problem: string, char: string, m: string, targetName?: string) => {
+    try {
+      const localHistory = JSON.parse(localStorage.getItem("mentis_local_history") || "[]");
+      const entryId = strat.id || `local_${Date.now()}`;
+      const entry = {
+        id: entryId,
+        problem,
+        analysis: strat.analysis,
+        target_weakness: strat.targetWeakness,
+        execution: strat.execution,
+        created_at: new Date().toISOString(),
+        is_starred: false,
+        personal_notes: "",
+        character: m === "simulation" ? "mentis" : char,
+        mode: m,
+        target_name: targetName || null,
+        chat_history: [
+          { role: "user", content: problem },
+          { 
+            role: "model", 
+            content: m === "simulation"
+              ? `**[KARAKTER PROFİLİ]**\n${strat.analysis}\n\n**[MASADAKİ DENGE]**\n${strat.targetWeakness}\n\n**[STRATEJİK PLAN]**\n${strat.execution}`
+              : `**[DURUM ANALİZİ]**\n${strat.analysis}\n\n**[KARŞI TARAFIN MOTİVASYONU]**\n${strat.targetWeakness}\n\n**[STRATEJİK HAMLE]**\n${strat.execution}`
+          }
+        ]
+      };
+      
+      const exists = localHistory.some((item: any) => item.id === entryId);
+      if (!exists) {
+        localHistory.unshift(entry);
+        localStorage.setItem("mentis_local_history", JSON.stringify(localHistory));
+      }
+      return entryId;
+    } catch (err) {
+      console.error("Failed to save local history:", err);
+      return null;
+    }
+  };
+
   const handleStartSimulation = async (target: SimulationTarget) => {
     setStatus("analyzing");
     setError(null);
@@ -248,10 +287,13 @@ export default function DashboardPage() {
         throw new Error(data.error || "Simülasyon başlatılamadı.");
       }
 
-      setResponse({
+      const localId = saveToLocalHistory(data, target.transcript, "mentis", "simulation", target.name);
+      const updatedData = {
         ...data,
+        id: data.id || localId,
         targetName: target.name
-      });
+      };
+      setResponse(updatedData);
       setStatus("complete");
       
       setChatHistory([
@@ -291,7 +333,12 @@ export default function DashboardPage() {
         throw new Error(data.error || "Mentis ağına bağlanılamadı.");
       }
 
-      setResponse(data);
+      const localId = saveToLocalHistory(data, problem, character, mode);
+      const updatedData = {
+        ...data,
+        id: data.id || localId
+      };
+      setResponse(updatedData);
       setStatus("complete");
       
       // Initialize chat history with the initial turn
@@ -357,8 +404,8 @@ export default function DashboardPage() {
       const newHistory: ChatMessage[] = [...updatedHistory, { role: "model", content: finalContent }];
       setChatHistory(newHistory);
       
-      // Auto-save follow-up to DB in background
-      if (response?.id && userId) {
+      // Auto-save follow-up to DB in background (only if it's a real database UUID and not a local fallback ID)
+      if (response?.id && !response.id.toString().startsWith("local_") && userId) {
         const supabase = createClient();
         supabase
           .from("consultations")
@@ -369,18 +416,29 @@ export default function DashboardPage() {
           });
       }
 
-      // Update in localStorage if saved locally
+      // Update in localStorage if saved locally (Journal and History)
       try {
-        const localJournal = JSON.parse(localStorage.getItem("mentis_local_journal") || "[]");
         const entryId = response?.id;
         if (entryId) {
-          const updatedLocal = localJournal.map((entry: any) => {
+          // 1. Update in local history
+          const localHistory = JSON.parse(localStorage.getItem("mentis_local_history") || "[]");
+          const updatedHistory = localHistory.map((entry: any) => {
             if (entry.id === entryId || entry.id === `local_${entryId}`) {
               return { ...entry, chat_history: newHistory };
             }
             return entry;
           });
-          localStorage.setItem("mentis_local_journal", JSON.stringify(updatedLocal));
+          localStorage.setItem("mentis_local_history", JSON.stringify(updatedHistory));
+
+          // 2. Update in local journal
+          const localJournal = JSON.parse(localStorage.getItem("mentis_local_journal") || "[]");
+          const updatedJournal = localJournal.map((entry: any) => {
+            if (entry.id === entryId || entry.id === `local_${entryId}`) {
+              return { ...entry, chat_history: newHistory };
+            }
+            return entry;
+          });
+          localStorage.setItem("mentis_local_journal", JSON.stringify(updatedJournal));
         }
       } catch (localErr) {
         console.error("Failed to update chat history in local storage:", localErr);
@@ -415,6 +473,21 @@ export default function DashboardPage() {
           .eq("id", response.id);
         
         if (error) throw error;
+
+        // Update star status in local history too
+        try {
+          const entryId = response.id;
+          const localHistory = JSON.parse(localStorage.getItem("mentis_local_history") || "[]");
+          const updated = localHistory.map((item: any) => {
+            if (item.id === entryId) {
+              return { ...item, is_starred: true };
+            }
+            return item;
+          });
+          localStorage.setItem("mentis_local_history", JSON.stringify(updated));
+        } catch (err) {
+          console.error("Failed to update star in local history:", err);
+        }
       } else {
         // Fallback if id was not returned for some reason
         const { error } = await supabase.from("consultations").insert({

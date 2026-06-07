@@ -32,15 +32,42 @@ export default function HistoryPage() {
   useEffect(() => {
     const fetchHistory = async () => {
       const supabase = createClient();
-      const { data, error } = await supabase
-        .from("consultations")
-        .select("*")
-        .order("created_at", { ascending: false })
-        .limit(50);
+      let dbConsultations: Consultation[] = [];
+      let dbError = false;
 
-      if (data) {
-        setConsultations(data);
+      try {
+        const { data, error } = await supabase
+          .from("consultations")
+          .select("*")
+          .order("created_at", { ascending: false })
+          .limit(50);
+
+        if (error) throw error;
+        dbConsultations = data || [];
+      } catch (err) {
+        console.warn("Failed to fetch history from database, falling back to local storage:", err);
+        dbError = true;
       }
+
+      // Load local history
+      try {
+        const localHistory = JSON.parse(localStorage.getItem("mentis_local_history") || "[]");
+        if (dbError) {
+          setConsultations(localHistory);
+        } else {
+          // Merge: show local-only entries (id starting with local_) along with DB entries
+          const localOnly = localHistory.filter((lh: Consultation) => 
+            lh.id.toString().startsWith("local_") && !dbConsultations.some(dh => dh.id === lh.id)
+          );
+          setConsultations([...localOnly, ...dbConsultations]);
+        }
+      } catch (localErr) {
+        console.error("Failed to load local history:", localErr);
+        if (!dbError) {
+          setConsultations(dbConsultations);
+        }
+      }
+
       setLoading(false);
     };
 
@@ -60,20 +87,68 @@ export default function HistoryPage() {
 
   const handleSaveToJournal = async (id: string) => {
     setSavingId(id);
+    const isLocal = id.toString().startsWith("local_");
+
+    if (!isLocal) {
+      try {
+        const supabase = createClient();
+        const { error } = await supabase
+          .from("consultations")
+          .update({ is_starred: true })
+          .eq("id", id);
+        
+        if (error) throw error;
+        
+        setConsultations(prev => prev.map(c => 
+          c.id === id ? { ...c, is_starred: true } : c
+        ));
+
+        // Update local history is_starred
+        try {
+          const localHistory = JSON.parse(localStorage.getItem("mentis_local_history") || "[]");
+          const updated = localHistory.map((item: any) => 
+            item.id === id ? { ...item, is_starred: true } : item
+          );
+          localStorage.setItem("mentis_local_history", JSON.stringify(updated));
+        } catch (localErr) {
+          console.error("Local history update failed:", localErr);
+        }
+        setSavingId(null);
+        return;
+      } catch (err) {
+        console.error("Failed to save to journal in DB, trying local storage fallback:", err);
+      }
+    }
+
+    // Save to local storage journal
     try {
-      const supabase = createClient();
-      const { error } = await supabase
-        .from("consultations")
-        .update({ is_starred: true })
-        .eq("id", id);
-      
-      if (error) throw error;
-      
-      setConsultations(prev => prev.map(c => 
-        c.id === id ? { ...c, is_starred: true } : c
-      ));
-    } catch (err) {
-      console.error("Failed to save to journal:", err);
+      const targetConsultation = consultations.find(c => c.id === id);
+      if (targetConsultation) {
+        const localJournal = JSON.parse(localStorage.getItem("mentis_local_journal") || "[]");
+        const entry = {
+          ...targetConsultation,
+          id: id,
+          is_starred: true
+        };
+        const exists = localJournal.some((item: any) => item.id === id);
+        if (!exists) {
+          localJournal.push(entry);
+          localStorage.setItem("mentis_local_journal", JSON.stringify(localJournal));
+        }
+
+        // Update local history
+        const localHistory = JSON.parse(localStorage.getItem("mentis_local_history") || "[]");
+        const updatedHistory = localHistory.map((item: any) => 
+          item.id === id ? { ...item, is_starred: true } : item
+        );
+        localStorage.setItem("mentis_local_history", JSON.stringify(updatedHistory));
+
+        setConsultations(prev => prev.map(c => 
+          c.id === id ? { ...c, is_starred: true } : c
+        ));
+      }
+    } catch (localErr) {
+      console.error("Failed to save to local journal:", localErr);
       alert("Deftere kaydedilirken bir hata oluştu.");
     } finally {
       setSavingId(null);
@@ -94,7 +169,7 @@ export default function HistoryPage() {
 
       <div className="text-center space-y-4 mb-4">
         <h2 className="font-serif text-3xl md:text-4xl text-smoke tracking-wider">
-          Geçmiş Stratejiler
+          Geçmiş <span className="text-gold font-normal">Stratejiler</span>
         </h2>
         <p className="font-accent text-ash italic md:text-lg">
           Her hamle bir iz bırakır. Arşivini oku.

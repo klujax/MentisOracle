@@ -130,6 +130,15 @@ export async function POST(req: Request) {
         character: resolvedCharacter,
         mode: mode || "standard",
         target_name: resolvedTargetName,
+        chat_history: [
+          { role: "user", content: problem },
+          { 
+            role: "model", 
+            content: mode === "simulation"
+              ? `**[KARAKTER PROFİLİ]**\n${strategy.analysis}\n\n**[MASADAKİ DENGE]**\n${strategy.targetWeakness}\n\n**[STRATEJİK PLAN]**\n${strategy.execution}`
+              : `**[DURUM ANALİZİ]**\n${strategy.analysis}\n\n**[KARŞI TARAFIN MOTİVASYONU]**\n${strategy.targetWeakness}\n\n**[STRATEJİK HAMLE]**\n${strategy.execution}`
+          }
+        ]
       }).select("id").single();
 
       if (inserted) {

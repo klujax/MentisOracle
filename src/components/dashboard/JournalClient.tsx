@@ -1,10 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import { 
   BookMarked, Plus, Trash2, Save, FileText, 
-  AlertTriangle, CheckCircle, Calendar, Edit, ChevronRight, ChevronLeft, Brain
+  AlertTriangle, CheckCircle, Calendar, Edit, ChevronRight, ChevronLeft, Brain, ArrowLeft
 } from "lucide-react";
 
 interface SavedStrategy {
@@ -343,7 +344,18 @@ export default function JournalClient() {
 
 
   return (
-    <div className="flex flex-col items-center w-full max-w-5xl mx-auto space-y-8 pb-20 animate-fade-in">
+    <div className="flex flex-col items-center w-full max-w-5xl mx-auto space-y-8 pb-20 animate-fade-in px-4 md:px-0">
+      
+      {/* Back Button */}
+      <div className="w-full flex justify-start">
+        <Link
+          href="/dashboard"
+          className="flex items-center gap-2 text-ash hover:text-gold transition-colors text-xs font-accent uppercase tracking-widest"
+        >
+          <ArrowLeft className="w-3.5 h-3.5" />
+          Karargaha Dön
+        </Link>
+      </div>
       
       {/* Page Header */}
       <div className="text-center space-y-4 w-full">

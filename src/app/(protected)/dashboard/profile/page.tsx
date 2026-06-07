@@ -1,7 +1,8 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
-import { User, CreditCard, Shield } from "lucide-react";
+import { User, CreditCard, Shield, ArrowLeft } from "lucide-react";
 import { LogoutButton } from "@/components/ui/LogoutButton";
+import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
@@ -29,8 +30,18 @@ export default async function ProfilePage() {
   const planDisplay = plan === "free" ? "Standart" : plan === "pro" ? "Profesyonel" : "Elit";
 
   return (
-    <div className="min-h-[calc(100vh-5rem)] bg-void p-6 md:p-12 animate-fade-in flex justify-center items-start">
+    <div className="min-h-[calc(100vh-5rem)] bg-void p-6 md:p-12 animate-fade-in flex flex-col items-center justify-start">
       <div className="w-full max-w-2xl mt-10">
+        {/* Back Button */}
+        <div className="w-full flex justify-start mb-6">
+          <Link
+            href="/dashboard"
+            className="flex items-center gap-2 text-ash hover:text-gold transition-colors text-xs font-accent uppercase tracking-widest"
+          >
+            <ArrowLeft className="w-3.5 h-3.5" />
+            Karargaha Dön
+          </Link>
+        </div>
         <div className="mb-10 text-center">
           <h1 className="font-serif text-3xl text-smoke uppercase tracking-widest mb-3">
             Ajan <span className="text-gold">Profili</span>

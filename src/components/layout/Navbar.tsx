@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { User, History, ShoppingCart, BookOpen } from "lucide-react";
+import { User, History, ShoppingCart, BookOpen, GraduationCap } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import Image from "next/image";
 
@@ -38,17 +38,20 @@ export const Navbar = () => {
       </Link>
 
       <div className="flex items-center gap-3 md:gap-6">
-        <div className="hidden md:flex items-center gap-3 text-sm text-ash font-accent">
-          <span>Kod Adı: <span className="text-smoke italic">{displayName}</span></span>
-        </div>
-        
-        <div className="flex items-center gap-1 md:gap-2 border-l border-obsidian pl-2 md:pl-4">
+        <div className="flex items-center gap-1 md:gap-2 pl-2 md:pl-4">
           <Link 
             href="/dashboard/journal" 
             className="p-2 rounded-full text-ash hover:text-gold hover:bg-gold/10 hover:shadow-[0_0_15px_rgba(201,168,76,0.25)] transition-all duration-300 hover:scale-110 active:scale-95 flex items-center justify-center" 
             title="Strateji Defteri"
           >
             <BookOpen className="w-4.5 h-4.5 md:w-5 md:h-5" />
+          </Link>
+          <Link 
+            href="/dashboard/academy" 
+            className="p-2 rounded-full text-ash hover:text-gold hover:bg-gold/10 hover:shadow-[0_0_15px_rgba(201,168,76,0.25)] transition-all duration-300 hover:scale-110 active:scale-95 flex items-center justify-center" 
+            title="Mentis Akademi"
+          >
+            <GraduationCap className="w-4.5 h-4.5 md:w-5 md:h-5" />
           </Link>
           <Link 
             href="/dashboard/history" 
