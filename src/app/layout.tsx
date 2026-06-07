@@ -38,7 +38,7 @@ export default function RootLayout({
   return (
     <html
       lang="tr"
-      className={`${playfair.variable} ${inter.variable} ${cormorant.variable} antialiased bg-void text-smoke`}
+      className={`${playfair.variable} ${inter.variable} ${cormorant.variable} antialiased bg-void text-smoke overflow-x-hidden`}
     >
       <head>
         <link rel="manifest" href="/manifest.json" />

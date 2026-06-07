@@ -306,7 +306,7 @@ export default function BillingPage() {
             Mentis: Gücün Sessiz Mimarisi
           </h2>
           <p className="text-xs md:text-sm text-ash/90 leading-relaxed font-sans">
-            Müzakerelerde, iş hayatında ve ikili ilişkilerde görünmez bir oyun kurucu olmak için sessizlik ilkeleri, çerçeve kontrolü ve zihinsel savunma mekanizmalarının klinik analizi. 120 sayfalık özel basılı el kitabı.
+            Müzakerelerde, iş hayatında ve ikili ilişkilerde görünmez bir oyun kurucu olmak için sessizlik ilkeleri, çerçeve kontrolü ve zihinsel savunma mekanizmalarının klinik analizi. 359 sayfalık özel basılı el kitabı.
           </p>
           <div className="flex flex-wrap items-center justify-center md:justify-start gap-6 pt-2">
             <div className="flex items-center gap-2.5">
