@@ -18,6 +18,7 @@ interface Lesson {
   whatItIsNot: string;
   howToApply: string[];
   scenario: string;
+  image?: string;
 }
 
 interface MimicDetail {
@@ -573,14 +574,15 @@ const LESSONS: Lesson[] = [
     categoryLabel: "Beden Dili",
     description: "Göz bebeklerinin büyüme/küçülme hızını, göz kırpma refleksini ve otonom sinir sistemi sızıntılarını tarama.",
     whatItIs: "Otonom Sinir Sistemi (ANS), bir insan yalan söylerken, stres altındayken veya heyecanlandığında kontrol edemediği fiziksel tepkileri yönetir. Bu tepkilerin en önemlisi göz bebekleridir (pupil dilation). Beyin yalan söylediğinde veya tehlike hissettiğinde adrenalin salgılar ve göz bebekleri anlık olarak genişler (dilation). Aynı şekilde, göz kırpma sıklığı (normalde dakikada 15-20 iken) stres altında 40-50'ye kadar çıkabilir veya aşırı bilişsel odaklanma anında (Poker Face) 5-6'ya kadar düşebilir. Bu otonom kaçakları okumak, karşınızdakinin zihinsel durumunu doğrudan taramanızı sağlar.",
-    whatItIsNot: "Kuru bir göz kırpma sayımı veya sadece gözlere odaklanıp genel tabloyu kaçırmak değildir. Otonom kaçaklar, beden dili baz hattı (baseline) okumasıyla doğrulanmalıdır.",
+    whatItIsNot: "Kuru bir göz kırpma sayımı veya sadece gözlere odaklanıp genel tabloyo kaçırmak değildir. Otonom kaçaklar, beden dili baz hattı (baseline) okumasıyla doğrulanmalıdır.",
     howToApply: [
       "Baz Hattı Saptama: Görüşmenin başında, havadan sudan konuşurken karşı tarafın normal göz kırpma sıklığını ve göz teması süresini kaydedin.",
       "Kritik Soru Anı: Asıl soruyu sorduğunuzda, göz kapaklarının titremesini (eyelid flutter), yutkunma sıklığının artmasını ve şah damarındaki (carotid artery) nabız atışının hızlanmasını izleyin.",
       "Pupil Genişlemesi Gözlemi: Işık seviyesi değişmediği halde, sorunuza yanıt verirken göz bebeklerinin aniden büyümesi zihinsel yükün (yalan veya heyecan) arttığının kanıtıdır.",
       "Mikro-Kaçış Analizi: Gözlerin sol-aşağı (kurgu) veya sağ-yukarı (hatırlama) yönüne hızlıca kaçışını otonom bir tepki olarak not edin."
     ],
-    scenario: "İş ortağınıza bütçe harcamalarındaki açığı sordunuz. 'Her şey yolunda, evrakları hazırlıyorum' derken göz kırpma hızının saniyede 3-4 katına çıktığını, boğazının istemsizce yutkunduğunu ve göz bebeklerinin büyüdüğünü fark ettiniz. Yalan söylediğini teşhis edip, kanıtları isteyene kadar baskıyı sürdürün."
+    scenario: "İş ortağınıza bütçe harcamalarındaki açığı sordunuz. 'Her şey yolunda, evrakları hazırlıyorum' derken göz kırpma hızının saniyede 3-4 katına çıktığını, boğazının istemsizce yutkunduğunu ve göz bebeklerinin büyüdüğünü fark ettiniz. Yalan söylediğini teşhis edip, kanıtları isteyene kadar baskıyı sürdürün.",
+    image: "/pupil_autonomic.png"
   },
   {
     id: "spatial-dominance",
@@ -596,7 +598,8 @@ const LESSONS: Lesson[] = [
       "Taktiksel Eşya Çapalama: Kendi bardağınızı veya kaleminizi, karşı tarafın kişisel alan sınırının (yaklaşık 45 cm) hemen üzerine yerleştirerek onun bölgesine sözsüz bir sınır çizgisi çekin.",
       "Yavaş Mekansal Hareketler: Sandalyenize yaslanırken veya doğrulurken ani hareketlerden kaçının. Hareketleriniz yavaş, kararlı ve asil olsun."
     ],
-    scenario: "Bir pazarlık toplantısında rakip firmanın temsilcisi sizi köşeye sıkıştırmaya çalışıyor. Kollarınızı bağlayıp büzülmek yerine, arkanıza yaslanıp kollarınızı sandalyenin kollarına rahatça yerleştirin. Konuşurken kendi kaleminizi masanın tam ortasına, onun tarafına yakın olacak şekilde yerleştirerek mekansal olarak masayı yönettiğinizi sözsüz şekilde gösterin."
+    scenario: "Bir pazarlık toplantısında rakip firmanın temsilcisi sizi köşeye sıkıştırmaya çalışıyor. Kollarınızı bağlayıp büzülmek yerine, arkanıza yaslanıp kollarınızı sandalyenin kollarına rahatça yerleştirin. Konuşurken kendi kaleminizi masanın tam ortasına, onun tarafına yakın olacak şekilde yerleştirerek mekansal olarak masayı yönettiğinizi sözsüz şekilde gösterin.",
+    image: "/spatial_dominance.png"
   },
   {
     id: "micro-expression",
@@ -612,7 +615,8 @@ const LESSONS: Lesson[] = [
       "Mikro-Öfke Teşhisi: Dudakların preslenerek incelmesi ve burun deliklerinin hafifçe açılması, karşı tarafın kontrolünü kaybetmeye başladığının sözsüz sinyalidir.",
       "Klinik Yanıt: Mikro ifadeyi yakaladığınız an konuyu derinleştirin: 'Bu maddedeki detaylar seni biraz düşündürdü sanırım, ne dersin?' diyerek onu açılmaya zorlayın."
     ],
-    scenario: "Şirketten ayrılmayı planlayan ortağınıza yeni bir ortaklık planı sundunuz. Ağzıyla 'Çok güzel bir plan, beğendim' derken, ağız köşesinin milisaniyelik bir hızla tek taraflı yukarı kalktığını (küçümseme) yakaladınız. Aslında planı ciddiye almadığını ve arkadan iş çevirmeye devam ettiğini anlayıp, planı revize etmek yerine savunma protokolüne geçin."
+    scenario: "Şirketten ayrılmayı planlayan ortağınıza yeni bir ortaklık planı sundunuz. Ağzıyla 'Çok güzel bir plan, beğendim' derken, ağız köşesinin milisaniyelik bir hızla tek taraflı yukarı kalktığını (küçümseme) yakaladınız. Aslında planı ciddiye almadığını ve arkadan iş çevirmeye devam ettiğini anlayıp, planı revize etmek yerine savunma protokolüne geçin.",
+    image: "/micro_expression.png"
   },
   {
     id: "tactile-anchoring",
@@ -628,7 +632,42 @@ const LESSONS: Lesson[] = [
       "Beden Isısı ve Nem Kontrolü: Tokalaşırken elinin soğuk ve nemli olması, karşı tarafın o an yoğun bir stres (adrenalin/kaç-savaş modu) altında olduğunu gösterir.",
       "Güven Çapası (Oxytocin Release): Olumlu bir diyalog anında temas kullanarak, o temas anı ile olumlu duyguyu zihninde eşleştirin (çapalayın)."
     ],
-    scenario: "Bir anlaşmayı bağlamak üzeresiniz ama müşteri kararsız duruyor. Tok sesle 'Bu ortaklık ikimiz için de büyük bir zafer olacak' derken, müşterinin sağ dirseğine hafifçe ve samimi bir saygıyla 0.5 saniye dokunup çekin. Bu dokunsal çapa, müşterinin karar vermesini kolaylaştırarak imzayı atmasını sağlayacaktır."
+    scenario: "Bir anlaşmayı bağlamak üzeresiniz ama müşteri kararsız duruyor. Tok sesle 'Bu ortaklık ikimiz için de büyük bir zafer olacak' derken, müşterinin sağ dirseğine hafifçe ve samimi bir saygıyla 0.5 saniye dokunup çekin. Bu dokunsal çapa, müşterinin karar vermesini kolaylaştırarak imzayı atmasını sağlayacaktır.",
+    image: "/tactile_anchoring.png"
+  },
+  {
+    id: "masking-protocol",
+    title: "Maskeleme Protokolü & Duygusal Ekranlama",
+    category: "body",
+    categoryLabel: "Beden Dili",
+    description: "Mikro ve makro beden dili sinyallerini bilinçli olarak perdeleyerek, yalan veya stres anında dış dünyaya tamamen yanıltıcı bir sakinlik ve meşruiyet yansıtma sanatı.",
+    whatItIs: "Maskeleme Protokolü, otonom sinir sisteminin kontrol dışı stres ve kaygı tepkilerini (mikro ifadeler, yutkunma, göz kaçırma vb.) bilinçli olarak başka bir duygu mimiğiyle örtme veya tamamen nötrleme (ekranlama) sanatıdır. Masada köşeye sıkıştığınızda veya beklenmedik bir saldırıyla karşılaştığınızda, zihninizdeki şoku dışarıya 'bilinçli bir mikro-esneme', 'hafif, doğal bir gülümseme' veya 'soğukkanlı bir kafa eğme' ile yansıtarak, karşı tarafın zafer hissini elinden alırsınız.",
+    whatItIsNot: "Maskeleme yapay bir yapmacıklık veya sürekli donuk kalmak değildir. Başarılı bir maskeleme, karşı tarafın beklentilerini bozacak derecede doğal ve sosyal ritme uygun olmalıdır.",
+    howToApply: [
+      "Nefes ve Nabız Regülasyonu: Stres anında diyafram nefesine geçerek ses tonunun çatallaşmasını veya incelmesini engelleyin.",
+      "Karşıt Mimik Yerleştirme: Mikro-korku veya şüphe hissettiğiniz an, ağız kaslarınızı serbest bırakıp çok hafif ve simetrik bir memnuniyet ifadesi (gülümseme) takının.",
+      "Zoraki Olmayan Göz Teması: Bakışları kaçırma refleksini bastırın; göz kırpma hızınızı bilinçli olarak yavaşlatıp doğrudan rakibin göz bebeklerine odaklanın.",
+      "Mikro-Eylemsizlik: Ellerinizi veya ayaklarınızı sallama gibi ritmik stres boşaltma hareketlerini tamamen dondurun."
+    ],
+    scenario: "Müzakere esnasında en büyük zafiyetiniz veya gizli bir mali açığınız ortaya döküldü. Paniklemek veya savunmaya geçmek yerine, yavaşça geriye yaslanın, yüzünüze hafif ve kendinden emin bir tebessüm yerleştirip: 'Bu detayların masaya gelmesi güzel, her şeyi şeffafça konuşalım.' diyerek şoku maskeleyin.",
+    image: "/masking_protocol.png"
+  },
+  {
+    id: "mirror-neuron",
+    title: "Ayna Nöron Manipülasyonu & Uyum Senkronizasyonu",
+    category: "psychology",
+    categoryLabel: "Klinik Psikoloji",
+    description: "Karşı tarafın beyindeki ayna nöronlarını tetikleyerek, onun sizinle bilinç dışı bir uyum (rapport) ve benzerlik hissetmesini sağlama, jest ve mimiklerini sizin ritminize senkronize etme sanatı.",
+    whatItIs: "Ayna Nöron Manipülasyonu, insanların kendilerine benzeyen ve kendi hareket ritimlerine uyum sağlayan kişilere karşı duydukları bilinç dışı güven refleksini sömürmektir. Karşı tarafın oturma duruşunu, konuşma hızını, nefes ritmini ve el hareketlerini (10-15 saniyelik bir gecikmeyle) çok ince bir şekilde taklit ederek (aynalayarak) onun beyninde 'benim gibi biri, ona güvenebilirim' sinyalini uyandırırsınız. Uyum sağlandıktan sonra, hareketlerinizi değiştirerek (ritmi siz belirleyerek) onu kendi ritminize çekersiniz.",
+    whatItIsNot: "Bu taktik karşı tarafın her hareketini anında ve karikatürize bir şekilde birebir taklit etmek değildir. Bu durum fark edildiği an derin bir antipati ve güvensizlik yaratır.",
+    howToApply: [
+      "Gecikmeli Senkronizasyon: Karşı taraf elini çenesine götürdüğünde, hemen değil, 10-12 saniye sonra benzer ama kendinize özgü bir hareketle elinizi çene veya boyun bölgenize götürün.",
+      "Vokal Aynalama: Konuşma temposunu, ses tonunun yüksekliğini ve kelime seçimlerini (örn. kullandığı teknik terimler veya metaforlar) onun ritmine uydurun.",
+      "Nefes Senkronizasyonu: Karşınızdaki kişinin göğüs hareketlerini izleyerek nefes alış-veriş ritminizi onunkiyle eşitleyin; bu, bilinçdışı uyumu maksimuma çıkarır.",
+      "Liderlik Testi: Yaklaşık 5-10 dakikalık aynalamadan sonra, duruşunuzu değiştirin (örn: arkanıza yaslanın veya bardağınızı alın). Eğer o da sizi taklit ediyorsa, uyum senkronizasyonu tamamlanmış ve liderlik size geçmiştir."
+    ],
+    scenario: "Sizi oldukça mesafeli karşılayan soğuk bir yatırımcı ile görüşüyorsunuz. Onun gergin ve dik oturma pozisyonunu ve yavaş konuşma ritmini gecikmeli olarak aynalayın. 10 dakika sonra sakince arkanıza yaslanıp rahat bir nefes alın. Yatırımcının da gevşeyip arkasına yaslandığını ve ses tonunun yumuşadığını fark edeceksiniz. Artık masayı siz yönetiyorsunuz.",
+    image: "/mirror_neuron.png"
   }
 ];
 
@@ -1668,6 +1707,60 @@ Bateman için sosyal statü ve onaylanma hayatta kalma meselesidir. Kendisini ba
                     value={notes[selectedLesson.id] || ""}
                     onChange={(e) => handleSaveNote(selectedLesson.id, e.target.value)}
                     placeholder="Bu mimiği veya duruşu kendi görüşmelerinizde nasıl konumlandıracaksınız? Planınızı buraya yazın..."
+                    className="w-full h-36 bg-void/80 border border-obsidian text-smoke placeholder:text-ash/30 p-3 rounded-sm text-xs focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gold/60 transition-all font-sans resize-none scrollbar-custom"
+                  />
+                </div>
+
+              </div>
+            ) : selectedLesson.image ? (
+              /* Visuals & Notes Layout for Standard Lessons with Images */
+              <div className="lg:col-span-5 space-y-6 w-full overflow-x-hidden">
+                
+                {/* Visual Panel - Click to Zoom Lightbox */}
+                <div 
+                  onClick={() => setZoomedImage(selectedLesson.image || null)}
+                  className="bg-void/65 border border-obsidian/60 p-6 rounded-sm flex flex-col items-center justify-center min-h-[300px] relative overflow-hidden group cursor-zoom-in hover:border-gold/30 transition-all duration-300 shadow-md"
+                >
+                  <div className="absolute top-3 left-3 text-[8px] font-accent text-gold/50 tracking-widest uppercase">
+                    GÖRSEL DOKTRİN VE ANALİZ
+                  </div>
+                  
+                  {/* Magnifying Glass Indicator */}
+                  <div className="absolute inset-0 bg-void/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-10">
+                    <div className="flex items-center gap-2 bg-abyss border border-gold/20 px-3 py-1.5 rounded-sm text-xs text-gold font-accent tracking-widest uppercase">
+                      <ZoomIn className="w-3.5 h-3.5" /> Görseli Büyüt
+                    </div>
+                  </div>
+
+                  <div className="w-full flex flex-col items-center space-y-4">
+                    <div className="w-full aspect-square max-w-[220px] border border-obsidian relative rounded-sm overflow-hidden bg-void">
+                      <img 
+                        src={selectedLesson.image} 
+                        alt={selectedLesson.title}
+                        className="w-full h-full object-cover grayscale opacity-90 transition-all duration-500"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-void via-transparent to-transparent opacity-60" />
+                    </div>
+                    <span className="text-[10px] text-ash font-accent uppercase tracking-wider text-center">
+                      {selectedLesson.title} Şeması
+                    </span>
+                  </div>
+                </div>
+
+                {/* Strategy Notes Panel */}
+                <div className="bg-void/45 border border-obsidian p-4 rounded-sm space-y-3 text-left w-full shadow-md">
+                  <div className="flex justify-between items-center">
+                    <span className="text-[10px] text-gold font-accent tracking-widest uppercase">
+                      STRATEJİ NOTLARIM
+                    </span>
+                    <span className="text-[8px] text-ash/40 font-accent uppercase">
+                      Lokal Kayıt
+                    </span>
+                  </div>
+                  <textarea
+                    value={notes[selectedLesson.id] || ""}
+                    onChange={(e) => handleSaveNote(selectedLesson.id, e.target.value)}
+                    placeholder="Bu doktrini kendi hayatınızda ve stratejinizde nasıl uygulayacaksınız? Planınızı buraya yazın..."
                     className="w-full h-36 bg-void/80 border border-obsidian text-smoke placeholder:text-ash/30 p-3 rounded-sm text-xs focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gold/60 transition-all font-sans resize-none scrollbar-custom"
                   />
                 </div>
