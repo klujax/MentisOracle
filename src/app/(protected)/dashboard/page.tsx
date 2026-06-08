@@ -148,6 +148,20 @@ export default function DashboardPage() {
     }
   };
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!followUpMessage.trim() || followUpLoading || status === "analyzing") return;
+    
+    if (chatHistory.length === 0) {
+      if (followUpMessage.trim().length >= 10) {
+        handleConsult(followUpMessage);
+        setFollowUpMessage("");
+      }
+    } else {
+      handleSendFollowUp(e);
+    }
+  };
+
   const handleConsult = async (problem: string) => {
     setStatus("analyzing");
     setError(null);
@@ -370,58 +384,32 @@ export default function DashboardPage() {
       setSaveLoading(false);
     }
   };
+
   return (
     <div className="flex flex-col w-full h-[calc(100vh-100px)] max-w-4xl mx-auto px-4 pb-4 animate-fade-in">
       
-      {/* Sticky Header Bar */}
-      <div className="flex flex-col md:flex-row items-center justify-between gap-4 py-4 border-b border-obsidian/45 flex-shrink-0">
-        <div className="flex items-center gap-3">
+      {/* Centered Sticky Header Bar */}
+      <div className="flex items-center justify-center py-4 border-b border-obsidian/45 flex-shrink-0 w-full relative">
+        <div className="flex items-center gap-2.5">
           <Brain className="w-6 h-6 text-gold animate-pulse-gold" />
-          <div className="text-left">
-            <h2 className="font-serif text-xl md:text-2xl text-smoke tracking-wider uppercase">Zihin Karargahı</h2>
-            {credits !== null && (
-              <div className="flex items-center gap-2 text-xs font-accent text-ash">
-                <Coins className="w-3.5 h-3.5 text-gold" />
-                <span>Kalan Kredi: <span className="text-gold font-bold">{plan === "elite" ? "∞" : credits}</span></span>
-                <span className="text-obsidian">|</span>
-                <span className="text-smoke uppercase text-[10px] tracking-wider">{plan}</span>
-              </div>
-            )}
-          </div>
+          <h2 className="font-serif text-xl md:text-2xl text-smoke tracking-wider uppercase">Zihin Karargahı</h2>
         </div>
 
         {/* Action buttons shown only when chat is active */}
         {chatHistory.length > 0 && (
-          <div className="flex items-center gap-2.5 w-full md:w-auto justify-end">
-            <button
-              type="button"
-              onClick={() => {
-                const formattedChat = chatHistory.map(msg => {
-                  const speaker = msg.role === "user" 
-                    ? "SİZ" 
-                    : "MENTIS";
-                  return `${speaker}: ${msg.content}`;
-                }).join("\n\n");
-                
-                navigator.clipboard.writeText(formattedChat);
-                alert("Tüm sohbet geçmişi panoya kopyalandı!");
-              }}
-              className="flex items-center gap-1.5 px-3 py-1.5 border border-obsidian bg-obsidian/40 text-ash hover:text-white transition-all rounded-sm font-accent tracking-widest text-[9px] uppercase"
-            >
-              <Copy className="w-3 h-3" />
-              Kopyala
-            </button>
+          <div className="absolute right-0 top-1/2 -translate-y-1/2 flex items-center gap-2">
             <button
               onClick={handleSaveToJournal}
               disabled={isSaved || saveLoading || status === "analyzing"}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-sm font-accent tracking-widest text-[9px] uppercase transition-all duration-300 border ${
+              className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-sm font-accent tracking-widest text-[9px] uppercase transition-all duration-300 border ${
                 isSaved 
                   ? "border-green-800 text-green-500 bg-green-950/20" 
                   : "border-gold text-gold hover:bg-gold/15"
               }`}
+              title={isSaved ? "Defterde Kayıtlı" : "Deftere Kaydet"}
             >
               <BookMarked className="w-3 h-3" />
-              {saveLoading ? "..." : isSaved ? "Defterde" : "Deftere Kaydet"}
+              {saveLoading ? "..." : isSaved ? <span className="hidden sm:inline">Defterde</span> : <span className="hidden sm:inline">Kaydet</span>}
             </button>
             <button 
               onClick={() => {
@@ -429,10 +417,11 @@ export default function DashboardPage() {
                 setResponse(null);
                 setChatHistory([]);
               }}
-              className="flex items-center gap-1.5 px-3 py-1.5 border border-obsidian bg-obsidian/40 text-ash hover:text-white transition-all rounded-sm font-accent tracking-widest text-[9px] uppercase"
+              className="flex items-center gap-1.5 px-2.5 py-1.5 border border-obsidian bg-obsidian/40 text-ash hover:text-white transition-all rounded-sm font-accent tracking-widest text-[9px] uppercase"
+              title="Sohbeti Temizle"
             >
               <RefreshCw className="w-3 h-3" />
-              Sıfırla
+              <span className="hidden sm:inline">Temizle</span>
             </button>
           </div>
         )}
@@ -442,72 +431,54 @@ export default function DashboardPage() {
       <div className="flex-1 min-h-0 flex flex-col justify-between relative mt-4">
         
         {chatHistory.length === 0 ? (
-          /* Idle / Onboarding State */
-          <div className="flex-1 overflow-y-auto space-y-8 py-6 pr-2 scrollbar-custom flex flex-col justify-center">
-            <div className="flex flex-col items-center text-center space-y-8 max-w-2xl mx-auto px-4">
-              <div className="relative flex items-center justify-center w-20 h-20">
-                <div className="absolute inset-0 rounded-full border border-gold/20 animate-[spin_6s_linear_infinite]" />
-                <div className="absolute inset-1.5 rounded-full border border-t-gold border-r-transparent border-b-gold/30 border-l-transparent animate-[spin_4s_linear_infinite_reverse]" />
-                <Brain className="w-8 h-8 text-gold animate-pulse-gold absolute" strokeWidth={1.5} />
+          /* Sleek, Minimal Welcome / Onboarding State */
+          <div className="flex-1 flex flex-col items-center justify-center p-4 max-w-2xl mx-auto space-y-8 animate-fade-in select-none">
+            {/* Logo */}
+            <div className="relative flex items-center justify-center w-16 h-16 mb-2">
+              <div className="absolute inset-0 rounded-full border border-gold/20 animate-[spin_8s_linear_infinite]" />
+              <div className="absolute inset-2 rounded-full border border-t-gold border-r-transparent border-b-gold/30 border-l-transparent animate-[spin_5s_linear_infinite_reverse]" />
+              <Brain className="w-7 h-7 text-gold animate-pulse-gold absolute" strokeWidth={1.5} />
+            </div>
+
+            {/* Welcome Text */}
+            <div className="text-center space-y-3">
+              <h3 className="font-serif text-lg tracking-[0.2em] text-gold uppercase">MENTIS ANALİZ MODÜLÜ</h3>
+              <p className="font-sans text-xs text-ash/70 max-w-sm mx-auto leading-relaxed">
+                Rasyonel akıl ve soğukkanlı strateji. Çıkmaza girdiğin durumu aşağıya yazarak eylem reçeteni oluştur.
+              </p>
+            </div>
+
+            {/* Error Message */}
+            {error && (
+              <div className="w-full px-4 py-2.5 border border-red-900/45 bg-red-900/10 text-red-400 text-xs font-accent italic text-center rounded-sm animate-fade-in">
+                {error}
               </div>
+            )}
 
-              <div className="space-y-3">
-                <h3 className="font-serif text-2xl md:text-3xl text-smoke tracking-wider uppercase">Zihin Karargahı</h3>
-                <p className="font-accent text-ash italic text-sm md:text-base max-w-md mx-auto leading-relaxed">
-                  Duygularını dışarıda bırak. Burada sadece saf rasyonel strateji var.
-                </p>
+            {/* Suggestion Chips */}
+            <div className="w-full space-y-3 pt-4">
+              <div className="flex items-center gap-2">
+                <div className="h-[1px] flex-1 bg-obsidian/45" />
+                <span className="text-[9px] uppercase tracking-widest text-ash/40 font-accent font-bold">Örnek Durumlar</span>
+                <div className="h-[1px] flex-1 bg-obsidian/45" />
               </div>
-
-              {error && (
-                <div className="w-full px-6 py-3 border border-red-900/50 bg-red-900/10 text-red-400 text-xs font-accent italic text-center rounded-sm animate-fade-in">
-                  {error}
-                </div>
-              )}
-
-              {requiresPayment && (
-                <div className="text-center space-y-3">
-                  <p className="text-ash font-accent italic text-sm">Bedava kredilerin tükendi. Oyun burada bitmiyor.</p>
-                  <Link
-                    href="/dashboard/billing"
-                    className="inline-block bg-gold text-void px-8 py-3 text-sm font-bold uppercase tracking-widest hover:bg-gold-dim transition-colors"
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                {[
+                  "Yöneticim hak ettiğim terfiyi sürekli erteliyor ve geçiştiriyor.",
+                  "Ortağım kararları benden gizli alıyor, gücümü kazanmak istiyorum.",
+                  "Müşterim fiyat indirimi istiyor, aksi halde gitmekle tehdit ediyor.",
+                  "Çatışma yaşadığım meslektaşımla masada üstünlük kurmak istiyorum."
+                ].map((suggestion, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    onClick={() => handleConsult(suggestion)}
+                    className="text-left p-3 border border-obsidian/60 bg-abyss/10 hover:border-gold/45 hover:bg-gold/5 text-xs text-ash hover:text-gold rounded-sm transition-all duration-300 font-sans leading-relaxed cursor-pointer hover:shadow-[0_0_10px_rgba(201,168,76,0.05)]"
                   >
-                    Kredi Yükle
-                  </Link>
-                </div>
-              )}
-
-              {!requiresPayment && (
-                <>
-                  <div className="w-full bg-abyss/30 border border-obsidian/40 p-5 rounded-sm relative overflow-hidden text-left shadow-lg">
-                    <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-gold/30 to-transparent" />
-                    <p className="text-xs md:text-sm text-ash font-accent leading-relaxed">
-                      <span className="text-gold font-bold uppercase tracking-wider block mb-1">Mentis İletişim Protokolü:</span>
-                      Masadaki konumunu zayıflatan o son hamleyi, yaşanan çatışmayı veya çıkmazı detaylıca anlat. Mentis, soğukkanlı ve klinik analizle sana özel 3 adımlı stratejik reçeteni hazırlayacaktır.
-                    </p>
-                  </div>
-
-                  {/* Suggestion pills */}
-                  <div className="w-full space-y-3 text-left">
-                    <p className="text-[10px] uppercase tracking-widest text-ash/60 font-accent font-bold">Örnek Durumlar</p>
-                    <div className="grid grid-cols-1 gap-2.5">
-                      {[
-                        "Yöneticim hak ettiğim terfiyi sürekli erteliyor ve geçiştirici cevaplar veriyor.",
-                        "Ortağım kararları benden gizli almaya başladı, masada gücümü geri kazanmak istiyorum.",
-                        "Müşterim fiyatı yarıya indirmem için baskı yapıyor, aksi halde gitmekle tehdit ediyor."
-                      ].map((suggestion, idx) => (
-                        <button
-                          key={idx}
-                          type="button"
-                          onClick={() => handleConsult(suggestion)}
-                          className="text-left p-3.5 border border-obsidian bg-abyss/10 hover:border-gold/30 hover:bg-abyss/30 text-xs text-ash hover:text-smoke rounded-sm transition-all duration-300 font-accent leading-relaxed cursor-pointer"
-                        >
-                          {suggestion}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                </>
-              )}
+                    {suggestion}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         ) : (
@@ -546,7 +517,7 @@ export default function DashboardPage() {
                         <div className="absolute top-0 left-4 md:left-6 -translate-y-1/2 bg-void px-2 font-serif text-gold text-xs sm:text-sm tracking-wider flex items-center gap-2">
                           <span className="text-[10px] opacity-50">01</span>
                         </div>
-                        <div className="mt-3 font-sans text-smoke leading-relaxed tracking-wide text-xs md:text-sm whitespace-pre-wrap">
+                        <div className="mt-3 font-sans text-smoke leading-relaxed tracking-wide text-xs md:text-sm whitespace-pre-wrap animate-[fade-in_0.5s_ease-out]">
                           {response.analysis}
                         </div>
                       </div>
@@ -558,7 +529,7 @@ export default function DashboardPage() {
                             <span className="text-[10px] opacity-50">02</span>
                             KARŞI TARAFIN MOTİVASYONU
                           </div>
-                          <div className="mt-3 font-sans text-smoke leading-relaxed tracking-wide text-xs md:text-sm whitespace-pre-wrap">
+                          <div className="mt-3 font-sans text-smoke leading-relaxed tracking-wide text-xs md:text-sm whitespace-pre-wrap animate-[fade-in_0.5s_ease-out]">
                             {response.targetWeakness}
                           </div>
                         </div>
@@ -571,7 +542,7 @@ export default function DashboardPage() {
                             <span className="text-[10px] opacity-50">03</span>
                             STRATEJİK HAMLE
                           </div>
-                          <div className="mt-3 font-sans text-smoke leading-relaxed tracking-wide text-xs md:text-sm whitespace-pre-wrap">
+                          <div className="mt-3 font-sans text-smoke leading-relaxed tracking-wide text-xs md:text-sm whitespace-pre-wrap animate-[fade-in_0.5s_ease-out]">
                             {response.execution}
                           </div>
                         </div>
@@ -626,33 +597,67 @@ export default function DashboardPage() {
 
         {/* Input Footer Container */}
         <div className="bg-void border-t border-obsidian/40 pt-4 flex-shrink-0">
-          {chatHistory.length === 0 ? (
-            /* Large Input box in Onboarding mode */
-            !requiresPayment && (
-              <StrategyInput 
-                onSubmit={handleConsult} 
-                disabled={status === "analyzing"}
-                placeholder="Masadaki durumu ve seni çıkmaza sokan son hamleyi detaylıca anlat..."
-              />
-            )
-          ) : (
-            /* Sleek chat input pinned to bottom in Active mode */
-            <form onSubmit={handleSendFollowUp} className="flex gap-3 items-center">
-              <input
-                type="text"
-                value={followUpMessage}
-                onChange={(e) => setFollowUpMessage(e.target.value)}
-                disabled={followUpLoading || status === "analyzing"}
-                placeholder="Eylem planını derinleştirin: 'İlk kelime ne olmalı?' veya 'Yazmazsa ne yapmalıyım?'"
-                className="flex-1 bg-abyss border border-obsidian text-smoke placeholder:text-ash/40 px-4 py-3.5 rounded-sm text-xs md:text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gold focus-visible:border-gold/50 transition-all duration-300 disabled:opacity-50"
-              />
-              <button
-                type="submit"
-                disabled={!followUpMessage.trim() || followUpLoading || status === "analyzing"}
-                className="bg-gold text-void p-3.5 rounded-sm hover:bg-gold-dim transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center flex-shrink-0"
+          {requiresPayment ? (
+            <div className="text-center py-4 bg-red-950/15 border border-red-900/40 rounded-sm">
+              <p className="text-ash font-accent italic text-xs mb-2">Bedava kredilerin tükendi. Oyun burada bitmiyor.</p>
+              <Link
+                href="/dashboard/billing"
+                className="inline-block bg-gold text-void px-6 py-2 text-xs font-bold uppercase tracking-widest hover:bg-gold-dim transition-colors"
               >
-                <Send className="w-4 h-4" />
-              </button>
+                Kredi Yükle
+              </Link>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="flex flex-col gap-2.5">
+              <div className="flex gap-3 items-end">
+                <textarea
+                  rows={2}
+                  value={followUpMessage}
+                  onChange={(e) => setFollowUpMessage(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && !e.shiftKey) {
+                      e.preventDefault();
+                      if (followUpMessage.trim().length >= (chatHistory.length === 0 ? 10 : 1)) {
+                        handleSubmit(e);
+                      }
+                    }
+                  }}
+                  disabled={followUpLoading || status === "analyzing"}
+                  placeholder={chatHistory.length === 0 
+                    ? "Masadaki durumu ve seni çıkmaza sokan son hamleyi detaylıca anlat..." 
+                    : "Eylem planını derinleştirin: 'İlk kelime ne olmalı?' veya 'Yazmazsa ne yapmalıyım?'"}
+                  className="flex-1 bg-abyss border border-obsidian text-smoke placeholder:text-ash/40 px-4 py-3 rounded-sm text-xs md:text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gold focus-visible:border-gold/50 transition-all duration-300 disabled:opacity-50 resize-none scrollbar-none"
+                />
+                <button
+                  type="submit"
+                  disabled={followUpLoading || status === "analyzing" || followUpMessage.trim().length < (chatHistory.length === 0 ? 10 : 1)}
+                  className="bg-gold text-void p-3.5 rounded-sm hover:bg-gold-dim transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center flex-shrink-0 h-[46px] w-[46px]"
+                >
+                  <Send className="w-4 h-4" />
+                </button>
+              </div>
+
+              <div className="flex justify-between items-center px-1 text-[10px] text-ash/50 font-accent">
+                <div>
+                  {credits !== null && (
+                    <span className="flex items-center gap-1.5">
+                      <Coins className="w-3.5 h-3.5 text-gold" />
+                      Kalan Kredi: <span className="text-gold font-bold">{plan === "elite" ? "∞" : credits}</span>
+                    </span>
+                  )}
+                </div>
+                <div>
+                  {chatHistory.length === 0 ? (
+                    followUpMessage.trim().length > 0 && followUpMessage.trim().length < 10 ? (
+                      <span className="text-red-400/80 font-bold">Durumu analiz etmek için en az 10 karakter yazın ({followUpMessage.trim().length}/10)</span>
+                    ) : (
+                      <span className="opacity-60">Durumu detaylandırıp gönderin (En az 10 karakter)</span>
+                    )
+                  ) : (
+                    <span className="opacity-60">Enter ile gönder, Shift + Enter ile yeni satır</span>
+                  )}
+                </div>
+              </div>
             </form>
           )}
         </div>
