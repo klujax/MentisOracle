@@ -670,6 +670,411 @@ const LESSONS: Lesson[] = [
     ],
     scenario: "Sizi oldukça mesafeli karşılayan soğuk bir yatırımcı ile görüşüyorsunuz. Onun gergin ve dik oturma pozisyonunu ve yavaş konuşma ritmini gecikmeli olarak aynalayın. 10 dakika sonra sakince arkanıza yaslanıp rahat bir nefes alın. Yatırımcının da gevşeyip arkasına yaslandığını ve ses tonunun yumuşadığını fark edeceksiniz. Artık masayı siz yönetiyorsunuz.",
     image: "/mirror_neuron.png"
+  },
+  {
+    id: "vertical-split",
+    title: "Dikey Bölünme (Kutuplaştırma)",
+    category: "strategy",
+    categoryLabel: "Saldırı & Strateji",
+    description: "Hedef kitleyi veya rakip grubu iki karşıt kutba bölerek güçlerini zayıflatma ve onları yönetme stratejisi.",
+    whatItIs: "Dikey Bölünme (Vertical Split), karşınızdaki rakip koalisyonu veya karar vericiler grubunu ortak paydalarından koparıp birbirine düşman iki kutba ayırma sanatıdır. Güç birliği yapan taraflar tek başlarına zayıftır ancak birleştiklerinde sizin çerçevenizi tehdit ederler. Bu doktrin, onların arasına ideolojik, finansal veya kişisel şüphe tohumları ekerek, dikkatlerini sizin üzerinizden çekip birbirlerine yöneltmelerini sağlar. Bölünen gruplar kendi iç savaşlarıyla meşgulken, siz masanın mutlak hakimi haline gelirsiniz.",
+    whatItIsNot: "Basit ve dedikodu seviyesinde çocukçe ara bozmak değildir. Stratejik ve yapısal olarak, grupların temel çıkar çatışmalarını veya güvensizliklerini tespit edip bunları sistematik olarak tetikleme eylemidir.",
+    howToApply: [
+      "Çıkar Çatışması Analizi: Hedef gruptaki aktörlerin birbirine güvenmeyen yönlerini ve gizli rekabet alanlarını saptayın.",
+      "Kademeli Bilgi Sızdırma: Bir tarafa, diğer tarafın onun arkasından iş çevirdiğine dair kısmi ve teyit edilemeyen ancak şüphe uyandıran bilgiler ulaştırın.",
+      "Asimetrik Ayrıcalık Sağlama: Masadaki taraflardan birine diğerinin haberi olmadan ufak ayrıcalıklar sunarak aralarında kıskançlık ve güvensizlik yaratın.",
+      "Kutuplaştırıcı Retorik: Konuşmalarda tarafların ayrışan görüşlerini sürekli vurgulayın ve onları taraf seçmeye zorlayın."
+    ],
+    scenario: "Projenizde size karşı birleşen iki departman yöneticisinin ittifakını kırmak için, yöneticilerden birine özel bir e-posta atıp onun fikrine çok değer verdiğinizi belirterek projenin bütçe yönetim yetkisini sadece ona vermeyi teklif edin. Diğer yönetici bunu öğrendiğinde ittifak çökecek ve ikisi de birbirini suçlamaya başlayacaktır."
+  },
+  {
+    id: "cross-siege",
+    title: "Kademeli Çapraz Kuşatma",
+    category: "strategy",
+    categoryLabel: "Saldırı & Strateji",
+    description: "Masada rakibi tek bir argümandan değil, eş zamanlı 3 farklı kaynaktan gelen baskıyla kıskaca alma stratejisi.",
+    whatItIs: "Çapraz Kuşatma, rakibin bilişsel savunmasını felç etmek için onu tek bir cepheden değil, eş zamanlı olarak farklı açılardan (örn. finansal baskı, zaman kıtlığı ve itibar riski) baskı altında tutmaktır. İnsan zihni tek bir tehdide karşı güçlü savunma kalkanları kurabilir; ancak tehditler eş zamanlı olarak farklı katmanlardan geldiğinde bilişsel işlemci aşırı yüklenir (ego depletion) ve savunma sistemi çöker. Bu strateji rakibi hızlı taviz vermeye ve teslim olmaya zorlar.",
+    whatItIsNot: "Bağırıp çağırarak veya agresif tehditler savurarak kaba bir baskı uygulamak değildir. Rakibin zayıf noktalarını farklı açılardan sakin ve sistematik olarak kuşatma eylemidir.",
+    howToApply: [
+      "Kuşatma Odaklarını Belirleme: Rakibin en duyarlı olduğu 3 alanı seçin (örn. bütçe limiti, teslim tarihi ve yönetim kurulundaki prestiji).",
+      "Eş Zamanlı Tetikleme: Bu üç alandaki krizleri aynı gün veya aynı toplantıda masaya getirin.",
+      "Çapraz Telkin: Bir sorunun çözümünü diğer sorun üzerinden tavize bağlayarak onu kıskaçta tutun.",
+      "Çıkış İllüzyonu Sunumu: Ona tek bir çıkış yolu sunun; bu çıkış yolu sizin asıl nihai hedefinizi içeriyor olmalıdır."
+    ],
+    scenario: "Bir yazılım tedarikçisiyle pazarlık yaparken, aynı anda teslimat gecikmesi cezalarını hatırlatın, rakip firmanın daha ucuz fiyat verdiğini fısıldayın ve yönetim kurulunun bu projeyi iptal etme aşamasında olduğunu söyleyin. Üç taraftan kuşatılan tedarikçi fiyatı hemen indirecektir."
+  },
+  {
+    id: "illusion-bridge",
+    title: "Yanılsama Köprüsü (Rehavet Tuzağı)",
+    category: "strategy",
+    categoryLabel: "Saldırı & Strateji",
+    description: "Rakibe zafer kazandığını hissettirerek onun rehavete kapılmasını sağlama ve asıl hamleyi hazırlama sanatı.",
+    whatItIs: "Yanılsama Köprüsü, rakibin şüpheci savunma duvarlarını indirmek için ona masada küçük veya önemsiz zaferler hediye etmektir. İnsanlar kazandıklarını düşündüklerinde amigdalaları gevşer, dopamin seviyeleri yükselir ve dikkatleri dağılır. Rakibinize 'kazanıyorum' hissini verdiğiniz an, onun zihinsel gardı tamamen düşer. Bu rehavet anında, onun ruhu bile duymadan asıl büyük ve stratejik hamlenizi gerçekleştirirsiniz.",
+    whatItIsNot: "Kendi temel çıkarlarınızdan veya kırmızı çizgilerinizden büyük tavizler vererek gerçekten masada kaybetmek değildir. Verilen zafer sadece kontrollü bir illüzyondur.",
+    howToApply: [
+      "Yapay Hedef Tanımlama: Rakibin çok önemser göründüğü ama sizin için stratejik değeri olmayan bir konuyu tespit edin.",
+      "Zorlu Mücadele İllüzyonu: O konuyu hemen teslim etmeyin; sertçe mücadele ediyor gibi görünün ki rakibiniz kazandığında zaferin gerçek olduğuna inansın.",
+      "Taktiksel Geri Çekilme: Mücadelenin sonunda teslim bayrağını çekip o önemsiz konuyu ona bırakın.",
+      "Asıl Hamlenin İcrası: Rakip zafer sarhoşluğu içindeyken, sessizce asıl stratejik sözleşme maddesini veya kararı onaylatın."
+    ],
+    scenario: "Müşteriyle fiyat pazarlığında, projenin tasarım detayları üzerinde saatlerce tartışıp en sonunda 'Peki, sizin dediğiniz renk şeması olsun, büyük taviz verdik' diyerek pes edin. Müşteri bu 'zaferle' mutlu olmuşken, projenin bakım ücretlerini yıllık %30 artıran maddeyi sessizce imzalatın."
+  },
+  {
+    id: "boundary-shifting",
+    title: "Sınır Kaydırma (Mikro-Dayatma)",
+    category: "strategy",
+    categoryLabel: "Saldırı & Strateji",
+    description: "Kabul edilen sınırları zaman içinde mikroskobik düzeyde esneterek, başlangıçta reddedilecek şartları kademeli olarak kabul ettirme.",
+    whatItIs: "Sınır Kaydırma, karşınızdaki kişinin sınır bilincini aşındırmak için tasarlanmış sinsi bir ikna metodudur. Bir insana en başta büyük bir sınır ihlali veya ağır bir şart dayatırsanız, güçlü bir savunma reaksiyonu (reactance) ile karşılaşırsınız. Ancak sınırları milimetrik adımlarla, fark edilmeyecek kadar küçük ve tolere edilebilir taleplerle kaydırırsanız, karşı tarafın adaptasyon mekanizması devreye girer. Zamanla, başlangıçta 'kesinlikle hayır' diyeceği noktaya kendi rızasıyla gelmiş olur.",
+    whatItIsNot: "Karşı tarafa açıkça saldırmak veya sınırları hoyratça çiğnemek değildir. Tamamen kademeli ve fark edilmeyen bir mikroskobik aşındırma sürecidir.",
+    howToApply: [
+      "İlk Kabul Edilebilir Adım: Karşı tarafın sınırını çok hafifçe aşan, itiraz edilmeyecek kadar küçük bir talepte bulunun.",
+      "Normalleştirme Süreci: Bu yeni durumu bir süre sürdürerek karşı tarafın zihninde 'yeni normal' haline gelmesini sağlayın.",
+      "Bir Sonraki Milimetre: Sınırı bir adım daha kaydırın ve yine sessizce normalleştirin.",
+      "Kümülatif Sonuç: Süreç sonunda, ilk başta asla kabul etmeyeceği büyük sınırı tamamen ortadan kaldırmış olursunuz."
+    ],
+    scenario: "Çalışanınızın mesai saatleri dışında çalışmasını istiyorsunuz. İlk hafta akşam saat 19:00'da sadece 1 dakikalık acil bir soru sorun. İkinci hafta 19:30'da kısa bir e-posta atın. Üçüncü hafta 20:00'de ufak bir analiz isteyin. Birkaç ay sonra çalışanınız akşam saatlerinde çalışmayı kendi rutin görevi olarak kabul edecektir."
+  },
+  {
+    id: "catalyst-sacrifice",
+    title: "Katalizör Kurban (Taktiksel Feda)",
+    category: "strategy",
+    categoryLabel: "Saldırı & Strateji",
+    description: "Büyük bir kazanım elde etmek amacıyla geçici ve kontrol edilebilir küçük bir kayıp veya kriz yaratma.",
+    whatItIs: "Katalizör Kurban, satrançtaki vezir veya piyon fedası mantığına dayanan üst düzey bir stratejidir. Masadaki durgunluğu bozmak, karşı tarafın niyetini öğrenmek veya kendi üzerinizdeki şüpheleri dağıtmak için bilerek ve isteyerek kendinize ait küçük bir kaleyi veya projeyi feda edersiniz. Bu feda, karşı tarafta zafer illüzyonu veya suçluluk duygusu yaratırken, sizin arka planda daha büyük bir gücü ve alanı ele geçirmenizi sağlayan bir katalizör işlevi görür.",
+    whatItIsNot: "Kontrolsüzce zarar etmek veya aptalca hatalarla kaybetmek değildir. Kayıp tamamen hesaplanmış, limitleri çizilmiş ve daha büyük bir kazanca hizmet eden bir yatırımdır.",
+    howToApply: [
+      "Feda Edilecek Değerin Seçimi: Kaybı size büyük zarar vermeyecek ama karşı tarafta büyük etki yaratacak bir varlığı seçin.",
+      "Kurgusal Hata Sahneleme: Bu kaybı tamamen kendi kontrolünüzde bir 'hata' veya 'şanssızlık' gibi göstererek gerçekleştirin.",
+      "Mağduriyet/Borçluluk Algısı Yaratma: Bu feda sonrası karşı tarafın üzerinde ahlaki veya duygusal bir borçluluk hissi (suçluluk çapası) kurun.",
+      "Büyük Kazanım Talebi: Karşı taraf bu kaybınız nedeniyle gevşediğinde veya borçlu hissettiğinde asıl hedefiniz olan büyük talebi masaya sürün."
+    ],
+    scenario: "İş ortağınızla yollarınızı ayırmak ve şirketin ana markasını tek başınıza almak istiyorsunuz. Şirketin alt kollarından olan ve zarar eden bir şubeyi ortağınıza 'Senin bu konudaki dehanı biliyorum, bu şube senin olsun, hak geçmesin' diyerek tamamen feda edin. Bu fedakarlığınız karşısında minnettar kalan ortağınız, ana markanın tüm haklarını size devretmeye razı olacaktır."
+  },
+  {
+    id: "gray-rock",
+    title: "Gri Kaya Metodu (Duygusal Sönümleme)",
+    category: "defense",
+    categoryLabel: "Zihinsel Savunma",
+    description: "Toksik manipülatörlerin ilgisini ve enerjisini kesmek için tamamen sıkıcı, tepkisiz ve sıradan bir taş gibi davranma.",
+    whatItIs: "Gri Kaya Metodu, özellikle narsisistik, dramadan beslenen ve manipülatif profillere karşı kullanılan en etkili zihinsel savunma duvarıdır. Bu tip insanlar sizin duygusal reaksiyonlarınızdan (öfke, üzüntü, savunma) beslenirler. Gri Kaya Metodu, onlarla iletişim kurarken yeryüzündeki sıradan bir gri kaya kadar sıkıcı, tepkisiz, tek kelimelik ve duygusuz yanıtlar vererek onların sizden alacağı duygusal besini kesmektir. Beslenemeyen manipülatör zamanla sizden sıkılır ve başka hedeflere yönelir.",
+    whatItIsNot: "Karşı tarafa kaba davranmak, onunla kavga etmek veya pasif-agresif şekilde duvar örmek değildir. Amaç onu cezalandırmak değil, onun gözünde tamamen 'ilgisiz ve renksiz' görünmektir.",
+    howToApply: [
+      "Tek Kelimelik Yanıtlar: Manipülatörün kışkırtıcı sorularına 'Evet', 'Hayır', 'Anladım', 'Fark etmez' gibi nötr ve kısa cevaplar verin.",
+      "Sıfır Kişisel Bilgi Paylaşımı: Hayatınız, duygularınız, planlarınız veya düşünceleriniz hakkında kesinlikle hiçbir detay vermeyin.",
+      "Göz Temasını Nötrleme: Gözlerinizi dikip meydan okumayın veya kaçırıp korktuğunuzu göstermeyin. Boş ve ilgisiz bakın.",
+      "Dramadan Kaçış: Onun anlatmaya çalıştığı dedikodulara veya krizlere 'Öyle mi?', 'Bilmem' diyerek omuz silkip geçin."
+    ],
+    scenario: "Eski sevgiliniz veya iş yerindeki toksik bir arkadaşınız sizi kışkırtmak için 'Duyduğuma göre yeni projede başarısız olmuşsun, yazık' dediğinde ona öfkeyle açıklama yapmak yerine sakince: 'Olabilir. Herkes çalışıyor.' deyin ve telefonunuza nötr bir şekilde bakmaya devam edin."
+  },
+  {
+    id: "anchor-cutting",
+    title: "Bilişsel Çapa Kesimi",
+    category: "defense",
+    categoryLabel: "Zihinsel Savunma",
+    description: "Karşı tarafın geçmişe veya suçluluk duygularına dayanarak attığı tüm zihinsel çapaları radikal bir kabul ile hükümsüz kılma.",
+    whatItIs: "Bilişsel Çapa Kesimi, manipülatörlerin en çok kullandığı 'geçmiş hataları hatırlatarak suçluluk hissettirme' tuzağını çökertme yöntemidir. Karşı taraf, sizin geçmişte yaptığınız bir hatayı veya verdiğiniz bir sözü masaya getirerek üzerinizde ahlaki bir baskı (suçluluk çapası) kurmaya çalışır. Çapa Kesimi, o geçmiş olayı inkar etmek veya savunmak yerine, onu tamamen ve radikal bir şekilde kabul edip 'Evet, o geçmişte kaldı, şu anki kararımı etkilemiyor' duruşuyla çapayı kökünden kesmektir.",
+    whatItIsNot: "Hatalarınızı umursamazca savunup narsisistik bir küstahlık yapmak değildir. Geçmişi kabul edip, onun bugünkü rasyonel kararlarınızı manipüle etmesine izin vermeme duruşudur.",
+    howToApply: [
+      "Radikal Kabul: Karşı taraf geçmiş hatanızı yüzünüze vurduğunda kendinizi aklamaya çalışmayın. Sakince 'Evet, öyle bir hata yaptım' deyin.",
+      "Zaman Ayrımı Çekme: Geçmişteki siz ile şimdiki siz arasındaki rasyonel sınırları çizin.",
+      "Çapayı Etkisizleştirme: 'O olay benim geçmiş deneyimimdi, şu anki durumu ve masadaki koşulları değiştirmez' diyerek odağı bugüne getirin.",
+      "Savunma İptali: Karşı tarafın sizi suçlu hissettirme çabası karşısında zihnen tamamen özgürleşin."
+    ],
+    scenario: "İş ortağınız 'İki yıl önce yaptığın o yanlış yatırım yüzünden şirketi batırıyordun, şimdi bana bu konuda itiraz edemezsin' dediğinde savunmeye geçmek yerine sakince: 'Evet, iki yıl önce o hatalı yatırımı yaptım ve dersimi aldım. Ancak bugünkü projenin koşulları tamamen farklı, o yüzden bu itirazımı rasyonel olarak değerlendirmek zorundayız' deyin."
+  },
+  {
+    id: "semantic-shield",
+    title: "Semantik Kalkan (Tanım Bariyeri)",
+    category: "defense",
+    categoryLabel: "Zihinsel Savunma",
+    description: "Manipülatif kelimelerin ve imaların duygusal tanımlarını reddedip, onları sadece nesnel sözlük anlamlarıyla sınırlama.",
+    whatItIs: "Semantik Kalkan, sözel saldırıların duygusal yükünü filtrelemek için geliştirilmiş zihinsel bir kalkandır. Manipülatörler, sizi suçlu veya eksik hissettirmek için ucu açık, duygusal yükü ağır kelimeler (örn. 'vefasız', 'bencil', 'uyumsuz') kullanırlar. Semantik Kalkan, bu kelimelerin altındaki gizli imaları reddedip, kelimeyi en kuru, teknik ve sözlük tanımına indirgeyerek karşı tarafa iade etmektir. Böylece kelimenin zihninizde yaratacağı duygusal tahribat sıfırlanır.",
+    whatItIsNot: "Kelimelerle laf salatası yapmak veya dil bilgisi tartışması başlatmak değildir. Kelimelerin arkasındaki manipülatif enerjiyi nötrleme tekniğidir.",
+    howToApply: [
+      "Duygusal Filtreleme: Karşı taraftan gelen sıfatı (örn: bencil) kişisel bir hakaret olarak değil, sadece bir ses dalgası olarak duyun.",
+      "Kavramsal Çözümleme: O kelimenin nesnel tanımını zihninizde yapın.",
+      "Sözlük Anlamına İndirgeme: Karşı tarafa kelimenin en basit tanımı üzerinden yanıt verin (Örn: 'Kendi önceliklerime değer vermemi bencil olarak tanımlıyorsan, evet öyleyim').",
+      "Duygusal Tepkisizlik: Onun kelimeyle yüklediği suçluluk hissini tamamen geri çevirin."
+    ],
+    scenario: "Bir arkadaşınız size 'Çok vefasızsın, beni hiç aramıyorsun' dediğinde suçluluk hissetmek yerine sakince: 'Eğer vefasızlık kelimesini yoğun iş tempom nedeniyle seni haftada bir yerine ayda bir aramam olarak tanımlıyorsan, bu senin tanımındır. Benim için bu sadece bir zaman yönetimi meselesi.' deyin."
+  },
+  {
+    id: "projection-arithmetic",
+    title: "Yansıtma Aritmetiği",
+    category: "defense",
+    categoryLabel: "Zihinsel Savunma",
+    description: "Size yöneltilen haksız suçlamaları analiz edip, suçlamanın arkasındaki asıl narsisistik projeksiyonu deşifre ederek soğurma.",
+    whatItIs: "Yansıtma Aritmetiği, karşınızdaki kişinin size fırlattığı psikolojik çöpleri (kony suçlulukları, güvensizlikleri, kıskançlıkları) analiz ederek zırhınızdan geri sektirme tekniğidir. Karşı taraf size bir suçlama yönelttiğinde, bunu rasyonel bir denklem olarak ele alırsınız: 'Söylenen Söz = Karşı Tarafın İçsel Zafiyeti'. Bu denklem sayesinde suçlamanın sizinle hiçbir ilgisi olmadığını anlar, onu tamamen soğurur ve manipülatörün iç dünyasını bir mikroskop altında izliyor gibi analiz edersiniz.",
+    whatItIsNot: "Karşı tarafa 'Sen yansıtma yapıyorsun' diye bağırıp onunla kavga etmek değildir. Kendi zihninizde o suçlamanın duygusal zehrini sıfırlama metodudur.",
+    howToApply: [
+      "Kişisel Ayrışma: Suçlamayı asla üzerinize almayın. 'Bu söz bana değil, onun iç dünyasına ait' deyin.",
+      "Zafiyet Teşhisi: Suçlamanın altındaki asıl korkuyu bulun (Örn: 'Beni kontrolcü olmakla suçluyor, demek ki kendisi kontrolü kaybetmekten korkuyor').",
+      "Klinik Analiz Yanıtı: Suçlamayı sakinlikle dinledikten sonra, onun bu davranışı altındaki zayıflığı hafifçe yüzüne vurun.",
+      "Rasyonel Koruma: İçsel dengenizi bozmadan masadaki çerçevenizi koruyun."
+    ],
+    scenario: "Projenizde hata yapan yöneticiniz size 'Senin yüzünden bu proje gecikti, işini hiç takip etmiyorsun' dediğinde panik yapıp kendinizi savunmak yerine içsel aritmetiği kurun: 'Hata yaptı ve suçlanmaktan korkuyor'. Sakince: 'Gecikmenin sorumluluğunu benim üzerime yıkarak stresi azaltmaya çalışmanı anlıyorum. Şimdi gelin gecikme raporunu birlikte inceleyelim' deyin."
+  },
+  {
+    id: "silent-shield",
+    title: "Sessiz Kalkan (Sönümleme)",
+    category: "defense",
+    categoryLabel: "Zihinsel Savunma",
+    description: "Kışkırtıcı saldırılara karşı sıfır mikro ifade ve kesintisiz göz teması ile tamamen hareketsiz kalarak karşı tarafın enerjisini sönümleme.",
+    whatItIs: "Sessiz Kalkan, sözel saldırılara karşı kelimelerle değil, mutlak fiziksel ve mimiksel hareketsizlik ile kurulan aşılmaz bir savunma duvarıdır. Karşı taraf sizi kışkırtmak, öfkelendirmek veya savunmaya zorlamak için sesini yükselttiğinde veya iğneleyici konuştuğunda, ona hiçbir sözel yanıt vermez, gözlerinizi kısmadan doğrudan göz bebeklerine bakar ve yüzünüzdeki tüm kasları gevşetirsiniz (Poker Face). Bu reaksiyonsuzluk, saldıran kişinin kendi öfkesinin boşlukta sönümlenmesine ve onun derin bir yetersizlik hissetmesine yol açar.",
+    whatItIsNot: "Korkudan donup kalmak veya küsmek değildir. Tamamen bilinçli, göz temasıyla desteklenen, dominant ve tehditkar bir tepkisizlik duruşudur.",
+    howToApply: [
+      "Mutlak Hareketsizlik: Vücudunuzdaki ani kasılmaları ve stres jestlerini (titreme, el sallama) tamamen durdurun.",
+      "Sıfır Mimik (Poker Face): Yüzünüzdeki kasları yerçekimine bırakın, ne kaşlarınızı çatın ne de gülümseyin.",
+      "Güç Üçgeni Göz Teması: Gözlerinizi karşı tarafın göz bebeklerine kilitleyin ve o konuşurken asla bakışlarınızı kaçırmayın.",
+      "Sessizlik Süresi: Konuşması bittikten sonra da en az 3-4 saniye sessizce yüzüne bakmaya devam edin, ardından soğuk bir tonda konuyu değiştirin."
+    ],
+    scenario: "Toplantıda bir meslektaşınız size bağırarak 'Sen bu işten ne anlarsın, projeyi mahvettin!' dediğinde ona bağırarak cevap vermek yerine Sessiz Kalkan'ı devreye sokun. 4 saniye boyunca sıfır mimikle doğrudan gözlerine bakın. O kişi yarattığı gerilimden kendi rahatsız olup ses tonunu düşürecek ve geri adım atacaktır."
+  },
+  {
+    id: "frame-shifting",
+    title: "Kavramsal Çerçeve Kaydırma",
+    category: "rhetoric",
+    categoryLabel: "Retorik & Sözel",
+    description: "Tartışmanın zeminini oluşturan anahtar kelimeleri kendi seçtiğiniz tanımlarla değiştirerek tartışmayı baştan kazanma.",
+    whatItIs: "Kavramsal Çerçeve Kaydırma (Conceptual Frame Shifting), rakibin tartışmayı kendi kurallarıyla yönetmek için seçtiği kavramları geçersiz kılıp, konuyu kendi güçlü olduğunuz entellektüel zemine çekme retoriğidir. Rakibiniz sizi kendi kelimeleriyle yargılamaya çalışırsa çerçeveyi kaybedersiniz. Bu doktrin, onun kullandığı kavramları yapı sökümüne uğratarak tartışmanın ana tanımını ve yönünü sizin lehinize yeniden kurgular.",
+    whatItIsNot: "Konuyu tamamen değiştirmek veya sorulardan kaçıp alakasız şeyler konuşmak değildir. Tartışılan konuyu daha derin veya farklı bir kavramsal çerçevede yeniden tanımlamaktır.",
+    howToApply: [
+      "Anahtar Kavramı Tespit Etme: Rakibin argümanını kurduğu temel kelimeyi bulun (örn. 'fedakarlık', 'kurallara uyum').",
+      "Kavramsal İtiraz: O kelimenin onun yüklediği anlamda değil, başka bir anlamda kullanılması gerektiğini belirtin.",
+      "Yeni Çerçevenin İnşası: Tartışmayı o yeni kavram üzerinden yürütmeye başlayın.",
+      "Rakibi Çerçeveye Çekme: Onu sizin belirlediğiniz yeni tanımı savunmaya veya tartışmaya zorlayın."
+    ],
+    scenario: "Yöneticiniz sizi 'Şirket kurallarına uymuyorsun, mesaiye kalmıyorsun' diye suçladığında 'Uymuyorum çünkü...' diye savunma yapmayın. Çerçeveyi kaydırın: 'Sorun kurallara uyum değil, sorun verimlilik. Ben mesai saatlerinde işimi tamamlayarak şirkete zaman tasarrufu sağlıyorum. Şirketin önceliği masada oturulan saat mi, yoksa üretilen çıktı mı?' sorusuyla onu yeni çerçevede tartışmaya çekin."
+  },
+  {
+    id: "counter-interrogation",
+    title: "Sorudan Soruya Kaçış",
+    category: "rhetoric",
+    categoryLabel: "Retorik & Sözel",
+    description: "Cevap verilmesi durumunda zayıflık yaratacak sorulara, sorunun altındaki ön kabulleri sorgulayan yeni sorularla yanıt verme retoriği.",
+    whatItIs: "Sorudan Soruya Kaçış (Counter-Interrogation), sizi köşeye sıkıştırmak veya zafiyetinizi ifşa etmek amacıyla sorulan manipülatif sorulara karşı uygulanan sözel bir savunma ve taarruz taktiğidir. Cevap vermek, soruyu soran kişinin yargıçlık otoritesini kabul etmektir. Bu taktikle, sorunun altındaki gizli varsayımı veya art niyeti hedef alan yeni bir soru sorarak topu anında karşı tarafa atar ve onu savunma pozisyonuna sokarsınız.",
+    whatItIsNot: "Basitçe 'sen de kimsin?' demek ya da soruyu duymazdan gelmek değildir. Sorunun mantıksal zafiyetini ifşa eden akıllıca yapılandırılmış bir karşı sorudur.",
+    howToApply: [
+      "Ön Kabulü Teşhis Etme: Sorunun altındaki gizli yargıyı bulun (Örn: 'Bu projeyi neden batırdın?' -> ön kabul: projenin batmış olduğu).",
+      "Doğrudan Yanıt Vermeyi Reddetme: Ön kabulü doğrulayacak hiçbir kelime kullanmayın.",
+      "Ön Kabulü Sorgulayan Karşı Soru: 'Projenin başarısız olduğuna hangi veriye dayanarak karar verdin?' sorusuyla odağı kaydırın.",
+      "Sorgulayıcı Rolünü Ele Geçirme: Karşı taraf kendi sorusunu açıklamak zorunda kalırken siz denetleyen pozisyona geçin."
+    ],
+    scenario: "Rakibiniz size 'Bu yeni stratejinin başarısız olacağını bile bile neden ısrar ediyorsun?' diye sorduğunda 'Başarısız olmayacak çünkü...' diye açıklamaya girişmeyin. Gözünün içine bakıp: 'Bu stratejinin başarısız olacağı ön yargısına tam olarak hangi metrikleri inceleyerek ulaştın, bunu bizimle paylaşır mısın?' sorusunu yöneltin."
+  },
+  {
+    id: "false-choice",
+    title: "Sahte Seçenek Retoriği (İkilem Tuzağı)",
+    category: "rhetoric",
+    categoryLabel: "Retorik & Sözel",
+    description: "İki uç seçeneği tek olasılıklar gibi sunarak muhatabın rasyonel alternatifleri görmesini engelleme sanatı.",
+    whatItIs: "Sahte Seçenek Retoriği (False Dilemma), muhatabı zihinsel bir kıskaca almak için ona sadece iki seçenek sunup üçüncü ve daha makul olan alternatifleri gizleme taktiğidir. İnsan zihni baskı altındayken sunulan sınırlı seçeneklerden birini seçmeye meyillidir. Bu retorik silahla, karşı tarafı 'Ya benim şartlarımı kabul edersin ya da bu projeyi kaybederiz' gibi sahte bir ikileme sokarak kendi istediğiniz seçeneği tek mantıklı çıkış yolu gibi gösterirsiniz.",
+    whatItIsNot: "Gerçekten sadece iki seçeneğin olduğu durumları ifade etmek değildir. Amaç alternatif seçenekleri kasıtlı olarak gizleyerek zihinsel kontrol kurmaktır.",
+    howToApply: [
+      "Sahte İkilemin Yapılandırılması: Hedefinize iki uç ve dramatik seçenek sunun (biri çok kötü, diğeri sizin istediğiniz seçenek).",
+      "Alternatiflerin Karartılması: Diğer tüm olası çözümleri veya ara yolları yok sayın veya imkansız olarak nitelendiren.",
+      "Baskı Altında Karar Talebi: Karşı tarafı bu iki seçenek arasında hızlıca seçim yapmaya zorlayın.",
+      "Uzlaşma İllüzyonu: Sizin istediğiniz seçeneği seçtiğinde ona 'akıllıca bir karar verdiğini' hissettirin."
+    ],
+    scenario: "Müşterinize 'Ya bu paketi satın alır ve şirketi büyütürsünüz, ya da eski sistemle kalıp rakiplerinize elenirsiniz' diyerek onu sahte bir ikileme sokun. Müşteri elenme korkusuyla paketinizi satın almaya yönelecektir."
+  },
+  {
+    id: "irony-absorber",
+    title: "İroni Amortisörü",
+    category: "rhetoric",
+    categoryLabel: "Retorik & Sözel",
+    description: "İğneleyici ve alaycı saldırıları ciddiyetle ve kelimesi kelimesine gerçekmiş gibi kabul ederek ironinin gücünü sıfırlama.",
+    whatItIs: "İroni Amortisörü, pasif-agresif insanların sıklıkla kullandığı alaycı ve iğneleyici şakaları (shit-test'leri) çökertmek için geliştirilmiş zeki bir retorik kalkandır. Bu tip insanlar size doğrudan saldıramadıkları için ironi zırhının arkasına saklanırlar. İroni Amortisörü, onların iğneleyici laflarını tamamen ciddiye alıp, sözleri kelimesi kelimesine gerçekmiş gibi kabul ederek yanıt vermektir. İronisi havada kalan manipülatörün silahı elinden alınır ve kendisi sosyal olarak tuhaf bir duruma düşer.",
+    whatItIsNot: "Karşı tarafın alayına alayla karşılık vermek veya sinirlenmek değildir. Tamamen düz, ciddi ve klinik bir tonla ironiyi yok sayma eylemidir.",
+    howToApply: [
+      "İğneleyici Şakayı Algılama: Karşı tarafın laf sokma niyetini fark edin ama duygusal olarak reaksiyon vermeyin.",
+      "İroniyi Filtreleme: Söylenen lafı tamamen düz ve gerçek bir cümleymiş gibi ele alın.",
+      "Ciddiyetle Yanıt Verme: Şakayı bozacak düzeyde resmi, ciddi ve açıklayıcı bir yanıt verin.",
+      "Sosyal Felç Yaratma: Karşı tarafın şakasını açıklamak zorunda kalacağı veya susacağı o tuhaf sessizlik anını izleyin."
+    ],
+    scenario: "Bir iş arkadaşınız toplantıda herkesin içinde alaycı bir tonla: 'Vay, harika projenle dünyayı kurtaracaksın galiba!' dediğinde sinirlenmek yerine son derece ciddi bir yüz ifadesiyle: 'Dünyayı kurtarmak gibi bir iddiam yok ancak bu projenin şirkete %20 verimlilik artışı sağlayacağını öngörüyoruz. Raporu incelemek istersen mail atabilirim.' deyin."
+  },
+  {
+    id: "delayed-validation",
+    title: "Yavaşlatılmış Doğrulama",
+    category: "rhetoric",
+    categoryLabel: "Retorik & Sözel",
+    description: "Karşı tarafın argümanlarını hemen reddetmek yerine, önce kısmen onaylayıp ardından kendi tezinizle çürüterek savunma direncini kırma.",
+    whatItIs: "Yavaşlatılmış Doğrulama (Delayed Validation), karşınızdaki kişinin psikolojik savunma duvarlarını aşmak için kullanılan bir sözel Truva atıdır. Birinin fikrine doğrudan karşı çıkarsanız, onun beyninde savunma mekanizmaları tetiklenir ve sizi dinlemeyi bırakır. Bu taktikle, önce onun argümanındaki haklı olabilecek küçük bir detayı onaylayarak gardını düşürürsünüz ('Haklısın, bu nokta önemli'). Karşı taraf anlaşıldığını düşünüp rahatladığı an, kendi asıl tezinizi getirerek onun argümanını içeriden çürütürsünüz.",
+    whatItIsNot: "Karşı tarafın fikrini tamamen kabul etmek veya masada boyun eğmek değildir. Sadece sözel bir giriş stratejisidir.",
+    howToApply: [
+      "Kısmi Onaylama: Rakibin cümlesindeki doğru veya mantıklı görünen bir unsuru seçip 'Bu yaklaşımın çok mantıklı bir temele dayanıyor' diyerek onaylayın.",
+      "Gardın Düşmesini İzleme: Onun zihnen gevşemesini ve onaylanma şemasının tatmin olmasını bekleyin.",
+      "Yön Değiştirme (Ancak Köprüsü): 'Ancak bu koşullar altında...' diyerek kendi argümanınızı masaya sürün.",
+      "İçeriden Çökertme: Onun onayladığı mantık silsilesi üzerinden kendi tezinizi kabul ettirin."
+    ],
+    scenario: "Müşterinizin 'Bu fiyat bizim bütçemizi çok aşıyor, çalışamayız' itirazına karşı 'Ama çok kaliteli iş yapıyoruz' diye tartışmayın. Önce: 'Haklısınız, bütçe sınırlarınızı korumak istemenizi çok iyi anlıyorum. Ancak bu yatırımın 3 ay içinde size getireceği yeni müşteri dönüşüm oranını hesapladığımızda, aslında bu fiyatın bütçenizi aşmadığını, aksine amorti ettiğini göreceksiniz' deyin."
+  },
+  {
+    id: "micro-withdrawal",
+    title: "Mikro-Geri Çekilme Analizi",
+    category: "body",
+    categoryLabel: "Beden Dili",
+    description: "Karşı tarafın stresli bir bilgi veya soru karşısında geriye doğru milimetrik hareket etmesini veya omuzlarını kasmasını yakalama kılavuzu.",
+    whatItIs: "Mikro-Geri Çekilme (Micro-Withdrawal), beynin tehdit veya rahatsızlık hissettiğinde vücuda verdiği istemsiz 'kaçma' komutunun fiziksel sızıntısıdır. Bir insana yalanını ortaya çıkaracak veya onu zor duruma sokacak bir soru sorduğunuzda, prefrontal korteksi ne kadar sakin görünmeye çalışırsa çalışsın, bedeni milimetrik düzeyde geriye doğru meyleder, omuzları hafifçe kulaklarına doğru yükselir (boynu koruma refleksi) veya oturduğu sandalyede arkaya doğru milimetrik bir mesafe koyar. Bu mikro kaçış hareketini yakalamak, onun zayıf noktasını ve sakladığı gerçeği anında teşhis etmenizi sağlar.",
+    whatItIsNot: "Kişinin sandalyede arkesine yaslanıp rahatlaması (gelişigüzel gevşeme) değildir. Mikro-geri çekilme anidir, soruyla eş zamanlıdır ve kaslarda gerginlikle birlikte gerçekleşir.",
+    howToApply: [
+      "Baz Hattı Analizi: Konuşmanın başında karşı tarafın masaya olan mesafesini ve vücut açısını kaydedin.",
+      "Tetikleyici Soru: Şüphelendiğiniz konudaki kritik soruyu sorun.",
+      "Mesafe Değişimi Gözlemi: Sorudan hemen sonraki 1 saniye içinde gövdesinin üst kısmının geriye gidip gitmediğini, başının hafifçe geri çekilip çekilmediğini izleyin.",
+      "Baskıyı Artırma: Mikro-geri çekilmeyi yakaladığınız an, o konunun üzerine giderek detaylı sorular sormaya devam edin."
+    ],
+    scenario: "Ortağınıza 'Şirket kasasından yapılan son harcamanın detaylarını inceledin mi?' diye sordunuz. Sözlü olarak 'Yes, inceledim, sorun yok' derken, gövdesinin masadan 5 cm kadar geriye kaydığını ve omuzlarının hafifçe kasıldığını fark ettiniz. Yalan söylediğini veya konudan rahatsız olduğunu anlayıp evrakları hemen masaya getirmesini isteyin.",
+    image: "/micro_withdrawal.png"
+  },
+  {
+    id: "dominant-barrier",
+    title: "Dominant Bariyer Duruşu",
+    category: "body",
+    categoryLabel: "Beden Dili",
+    description: "Kolların ve bacakların büzülmesi yerine, alanı kapatan ama tehditkar olmayan dominant engeller oluşturarak sınır çizme.",
+    whatItIs: "Dominant Bariyer Duruşu, sosyal etkileşimlerde kendi sınırlarınızı korurken aynı zamanda yüksek statü ve özgüven sinyali iletmek için kullanılan gelişmiş bir beden dili duruşudur. Geleneksel beden dilinde kolları kavuşturmak savunmacı (defansif) ve çekingen bir hareket olarak yorumlanır. Ancak kolları göğsün üst kısmında genişçe kilitleyip, omuzları geriye çekerek ve dirsekleri dışa doğru açarak yapılan Dominant Bariyer, karşı tarafa 'Bu alan bana ait, buraya sızamazsın' sınır mesajını dominant bir şekilde dikte eder.",
+    whatItIsNot: "Korkudan veya üşümekten dolayı kolları birbirine kenetleyip büzülmek, omuzları düşürmek değildir. Göğsü açık tutan, dik duruşlu ve geniş yer kaplayan bir duruştur.",
+    howToApply: [
+      "Geniş Açı Kurulumu: Kollarınızı göğsünüzün üst hizasında, dirseklerinizi sandalyenizin genişliğine paralel olacak şekilde dışa doğru açarak kavuşturun.",
+      "Dik Çene Açısı: Başınızı öne eğmeyin; çenenizi yatayla 10-15 derece yukarıda tutarak boyun kaslarınızı gösterin.",
+      "Bacak Pozisyonu: Ayaklarınızı omuz genişliğinde açarak yere sağlam basın veya otururken bacak bacak üstüne atarken dizinizi dışa doğru genişçe konumlandırın.",
+      "Göz İletişimi: Duruşu sergilerken karşınızdakinin gözlerine düz ve kesintisiz bakın."
+    ],
+    scenario: "Müzakere masasında karşı taraf sizin üzerinizde ses tonuyla baskı kurmaya çalışıyor. Masaya doğru eğilip kendinizi savunmak yerine, arkanıza yaslanın, Dominant Bariyer Duruşunu alın ve gözlerinizi kısmadan onu dinlemeye devam edin. Bu sözsüz duruş onun baskısını saniyeler içinde etkisiz kılacaktır.",
+    image: "/dominant_barrier.png"
+  },
+  {
+    id: "blink-blocking",
+    title: "Göz Kırpma Bloku (Baskılama)",
+    category: "body",
+    categoryLabel: "Beden Dili",
+    description: "Yoğun baskı ve müzakere anlarında göz kırpma refleksini bilinçli olarak durdurarak sarsılmaz bir kararlılık ve soğukkanlılık yansıtma.",
+    whatItIs: "Göz Kırpma Bloku, amigdaladan gelen stres ve panik sinyallerini dış dünyadan tamamen gizlemek için kullanılan elit bir mikro ifade kontrol yöntemidir. İnsan beyni stres, yalan veya baskı altındayken otonom olarak göz kırpma sıklığını dakikada 40-50'ye kadar çıkarır. Bu durum karşı tarafa anında 'panik ve zafiyet' mesajı iletir. Göz Kırpma Bloku, kritik soru veya teklif anlarında göz kırpma refleksini bilinçli olarak baskılayıp (dakikada 5-6 kez veya daha az), karşı tarafa sarsılmaz bir çelik irade ve zihinsel sükunet yansıtmanızı sağlar.",
+    whatItIsNot: "Karşı tarafa psikopatça ve göz bebeklerini büyüterek sürekli dik dik bakmak (staring) değildir. Bakışların doğal, sakin ama tamamen hareketsiz ve kırpılmadan kalması durumudur.",
+    howToApply: [
+      "Göz Kaslarını Gevşetme: Göz çevrenizdeki kasları (orbicularis oculi) kasmadan gevşek bırakın.",
+      "Odak Noktası Sabitleme: Bakışlarınızı rakibin göz bebeklerinden birine veya alnındaki glabella noktasına kilitleyin.",
+      "Bilinçli Nefes Kontrolü: Derin diyafram nefesi alarak gözlerin kurumasını ve kırpma refleksinin tetiklenmesini engelleyin.",
+      "Kritik Saniye Yönetimi: Özellikle kendi teklifinizi sunduktan sonra veya size suçlayıcı bir soru sorulduğunda 15-20 saniye boyunca hiç göz kırpmadan muhatabınızın gözlerine bakın."
+    ],
+    scenario: "Masada son ve en yüksek teklifinizi sundunuz: 'Bu fiyat bizim son sınırımız, kabul ediyorsanız imzaları atalım.' Bu cümleyi kurduktan sonra arkanıza yaslanın, Göz Kırpma Bloku uygulayarak hiç gözünüzü kırpmadan müşterinin gözlerine bakın. Müşteri bu sarsılmaz duruş karşısında pazarlık alanının bittiğini anlayıp kabul edecektir.",
+    image: "/blink_blocking.png"
+  },
+  {
+    id: "pacifying-gestures",
+    title: "Kravat-Yaka Manipülasyonu (Yatıştırma)",
+    category: "body",
+    categoryLabel: "Beden Dili",
+    description: "Stres ve kaygı anlarında boyun, yaka veya takılara gitme eğilimini hem kendi bedeninizde yönetme hem de karşı tarafta yakalama.",
+    whatItIs: "Yatıştırıcı Jestler (Pacifying Gestures), otonom sinir sisteminin stres hormonlarını (kortizol/adrenalin) azaltmak ve kalp atışını yavaşlatmak için vücuda yaptırdığı istemsiz dokunsal hareketlerdir. En sık görülen yatıştırıcı jest, boyun bölgesine dokunmaktır. Erkekler stres altındayken kravatlarını veya yakalarını gevşetmeye çalışır (suprasternal notch bölgesini rahatlatma), kadınlar ise kolyeleriyle oynar veya boyunlarını hafifçe ovalarlar. Bu hareketler karşı tarafa 'Şu an yoğun bir stres altındayım ve kendimi sakinleştirmeye çalışıyorum' zafiyet mesajını fısıldar.",
+    whatItIsNot: "Kravatın veya kolyenin sadece fiziksel olarak rahatsız etmesi sebebiyle yapılan basit ve anlık düzeltmeler değildir. Yatıştırıcı jestler, stresli bir kelime veya soru ile doğrudan zaman uyumludur.",
+    howToApply: [
+      "Kendi Bedenini Kilitleme: Stresli anlarda ellerinizin boyun, yaka, yüz veya saç bölgenize gitmesini bilinçli olarak engelleyin; ellerinizi masada sabit tutun.",
+      "Karşı Tarafı Gözleme: Rakibe zorlu bir soru sorduğunuzda elinin doğrudan boynuna, kravatına veya kol düğmelerine gidip gitmediğini izleyin.",
+      "Yatıştırma Hızını Ölçme: Hareketin sıklığı ve süresi, onun zihnindeki krizin büyüklüğünü gösterir.",
+      "Taktiksel Baskı: Karşı tarafın yatıştırıcı jeste başvurduğunu gördüğünüz an, onun o zafiyet noktası üzerine gitmeye devam edin."
+    ],
+    scenario: "Müzakere sırasında rakibinize projedeki yasal eksiklikleri sormaya başladınız. O 'Yasal olarak hiçbir açığımız yok' derken elinin istemsizce kravatını gevşetmeye gittiğini ve boynunu ovaladığını yakaladınız. Yalan söylediğini ve yasal konuda büyük bir panik yaşadığını anlayıp yasal evrakların detaylarını hemen masaya talep edin.",
+    image: "/pacifying_gestures.png"
+  },
+  {
+    id: "open-palm-hierarchy",
+    title: "Açık Avuç Hiyerarşisi",
+    category: "body",
+    categoryLabel: "Beden Dili",
+    description: "El ayalarının yukarı veya aşağı bakma açısını kullanarak, sözel telkinlerin otoriter mi yoksa uzlaşmacı mı olduğunu dikte etme sanatı.",
+    whatItIs: "Açık Avuç Hiyerarşisi, jestlerinizin alt metnindeki güç ve itaat kodlarını yöneten kritik bir beden dili doktrinidir. El ayasının yukarı bakması (Palm-Up), evrimsel olarak 'silahsızım, sana muhtacım, uzlaşmacıyım' mesajı iletir ve karşı tarafta samimiyet ama aynı zamanda daha düşük statü algısı yaratır. El ayasının aşağı bakması (Palm-Down) ise 'baskılıyorum, otorite benim, dur sınırını bil' mesajını bilinçaltına dikte eder. Bu iki açıyı konuşmanın akışına göre stratejik olarak kullanmak, sözel telkinlerininizin gücünü fiziksel olarak mühürler.",
+    whatItIsNot: "Elleri rastgele sallamak veya robotik el hareketleri yapmak değildir. Söylediğiniz cümlenin rasyonel ağırlığına göre avuç içinin açısını milimetrik olarak yönetmektir.",
+    howToApply: [
+      "Otorite Dikte Etme (Palm-Down): Karşı tarafa bir kural, talimat veya sınır koyarken avuç içiniz yere bakacak şekilde elinizi hafifçe aşağı doğru bastırarak jest yapın.",
+      "Güven ve Uzlaşma (Palm-Up): Karşı taraftan bilgi almak, onu ikna etmek veya iş birliği yapmak istediğinizde avuç içinizi yukarı bakacak şekilde açın.",
+      "Hibrit Geçiş: Konuşmaya palm-up ile başlayıp (güven tesis etme), karar anında palm-down (otorite) moduna geçerek hiyerarşik kontrolü elinizde tutun.",
+      "Karşı Jest Analizi: Karşı tarafın konuşurken avuç içlerinin açısını izleyerek onun masadaki statü algısını analiz edin."
+    ],
+    scenario: "Çalışanınıza yeni bir görev devrediyorsunuz. Güven vermek için konuşmanın başında avuç içleriniz yukarı bakacak şekilde: 'Bu projeyi senin başarabileceğini biliyorum' deyin (Palm-Up). Cümlenin sonunda elinizi ters çevirip avucunuz yere bakacak şekilde: 'Ve bu cuma gününe kadar masamda olmasını bekliyorum' diyerek otoritenizi mühürleyin (Palm-Down).",
+    image: "/open_palm.png"
+  },
+  {
+    id: "cortisol-loop",
+    title: "Kortizol Döngüsü Yönetimi",
+    category: "psychology",
+    categoryLabel: "Klinik Psikoloji",
+    description: "Rakipte kontrollü belirsizlik yaratarak onun zihnini sürekli yüksek stres (kortizol) seviyesinde tutma ve karar yetisini aşındırma.",
+    whatItIs: "Kortizol Döngüsü Yönetimi, insan biyolojisindeki stres hormonu olan kortizolün karar alma mekanizmaları üzerindeki yıkıcı etkisini kullanan klinik bir manipülasyon stratejisidir. Beyin uzun süre belirsizliğe maruz kaldığında amigdala sürekli kortizol salgılatır. Yüksek kortizol seviyesi, mantıklı düşünen prefrontal korteksi felç eder; insanı kaygılı, uykusuz ve hata yapmaya açık hale verir. Bu doktrin, rakibinize veya hedefinize kademeli belirsizlik dalgaları vererek onu sürekli bu stres döngüsünde tutmayı ve sonunda onun rasyonel savunmasını çökertmeyi amaçlar.",
+    whatItIsNot: "İnsanları bağırarak korkutmak veya kaba tehditlerle panik yaratmak değildir. Tamamen sessiz, gizemli ve ucu açık durumlar yaratarak kendi zihninde felaket senaryoları kurmasını sağlama sanatıdır.",
+    howToApply: [
+      "Ucu Açık İfadeler: Görüşmelerin sonunda 'Seninle konuşmamız gereken çok kritik bir konu var ama bunu haftaya konuşalım' gibi ucu açık gerilim hatları bırakın.",
+      "İletişim Ritmini Bozma: Mesajlara veya aramalara bazen anında, bazen 24 saat sonra dönerek onun zihnindeki iletişim ritmini ve güvenliğini sabote edin.",
+      "Gizemli Sessizlikler: Toplantı ortasında hiçbir şey demeden 10-15 saniye yüzüne bakın, ardından not defterinize bir şeyler yazıp konuyu değiştirin.",
+      "Karar Yorgunluğu Yaratma: Stres altındayken onu hızlı kararlar vermeye zorlayarak hata katsayısını artırın."
+    ],
+    scenario: "İş ortağınızın sözleşme yenileme aşamasında aceleyle imza atmasını istiyorsunuz. Ona: 'Sözleşmede çok radikal değişiklikler yapmamız gerekecek, avukatım üzerinde çalışıyor, salı günü masaya yatırırız' deyip pazar ve pazartesi günleri telefonlarını açmayın. Zihnen kortizol döngüsüne giren ortağınız, salı günü masaya oturduğunda belirsizlikten kurtulmak için önüne koyduğunuz her sözleşmeyi sorgulamadan imzalayacaktır."
+  },
+  {
+    id: "schema-conflict",
+    title: "Şema Çatışması Manipülasyonu",
+    category: "psychology",
+    categoryLabel: "Klinik Psikoloji",
+    description: "Karşı tarafın çocukluk şemalarını (örn. terk edilme vs. yetersizlik) birbiriyle çelişkiye sokarak zihinsel felce uğratma.",
+    whatItIs: "Şema Çatışması Manipülasyonu, klinik psikolojideki temel inançlar ve şemalar (Schema Therapy) teorisine dayanan en derin zihinsel manipülasyon silahıdır. Her insanın çocukluk yaşantılarından getirdiği temel zafiyet şemaları vardır (örn. terk edilme korkusu, yetersizlik hissi, kusurluluk inancı). Bu strateji, hedefin zihnindeki iki farklı şemayı (örn. 'sevilme ve onaylanma arzusu' ile 'başarılı ve güçlü görünme ihtiyacı') aynı anda tetikleyerek onu içsel bir çıkmaza (bilişsel çelişki) sokmaktır. İki şema arasında sıkışan hedef rasyonel düşünme yetisini tamamen kaybeder.",
+    whatItIsNot: "İnsanlara rastgele hakaret etmek veya kaba analizler yapmak değildir. Karşı tarafın çocukluktan getirdiği şematik kodları çözüp onları bir satranç ustası gibi birbirine kırdırma eylemidir.",
+    howToApply: [
+      "Şema Haritalama: Hedefin konuşmalarından ve zafiyet anlarından onun temel iki şemasını saptayın (örn: kusurluluk ve terk edilme).",
+      "Çift Yönlü Tetikleme: Ona öyle bir durum sunun ki, bir şemasını kurtarmaya çalışırken diğer şeması tetiklensin.",
+      "Duygusal Kıskaç Kurulumu: 'Bunu yaparsan başarılı olursun ama herkes seni terk eder' veya 'Burada kalırsan sevilirsin ama yetersiz bir ezik olarak kalırsın' alt metnini bilinçaltına çapalayın.",
+      "Zihinsel Dağılma Analizi: Şema çatışması yaşayan hedefin savunma mekanizmalarının çökmesini izleyip masadaki çerçevenizi kabul ettirin."
+    ],
+    scenario: "Narsisistik yetersizlik şemasına sahip partnerinizin sizden ayrılmasını engellemek istiyorsunuz. Ona: 'Senin gibi büyük kariyer hedefleri olan birinin bu ufak ilişki dramalarıyla vakit kaybetmesi çok üzücü. Bence bu ilişkiyi yürütmek senin gibi biri için çok fazla yük' deyin. Partneriniz hem 'yetersiz' görünmemek hem de sizi 'kaybetmemek' şemaları arasında sıkışıp kalacak ve size itaat etmeye devam edecektir."
+  },
+  {
+    id: "subliminal-anchor",
+    title: "Bilinçaltı Telkin Çapası",
+    category: "psychology",
+    categoryLabel: "Klinik Psikoloji",
+    description: "Sosyal diyaloglarda kritik kelimeleri, tonlamaları ve duygusal sembolleri tekrarlayarak hedefin bilinçaltına fikir ekme sanatı.",
+    whatItIs: "Bilinçaltı Telkin Çapası (Subliminal Suggestion), karşınızdaki kişinin rasyonel bilincinin (kritik filtresinin) radarına takılmadan, onun karar alma mekanizmasını yöneten bilinçaltı katmanına fikir yerleştirme sanatıdır. Konuşma akışı içinde, asıl hedefinize hizmet eden anahtar kelimeleri veya duygusal durumları (örn: 'güven', 'risk', 'kayıp') normal cümlelerin arasına gizleyerek, ses tonunuzu hafifçe kalınlaştırarak veya mikro temaslar (dokunsal çapa) kullanarak çapalarsınız. Zamanla bu kelimeler hedefin bilinçaltında birikerek, onun sizin istediğiniz kararı 'kendi fikriymiş gibi' vermesini sağlar.",
+    whatItIsNot: "Yapay hipnoz gösterileri yapmak ya da saçma sapan fısıltılarla konuşmak değildir. Tamamen doğal sosyal diyalog akışı içine kelimeleri matematiksel bir sıklıkla serpiştirme eylemidir.",
+    howToApply: [
+      "Hedef Fikir Belirleme: Onun zihninde uyandırmak istediğiniz duyguyu veya fikri seçin (Örn: 'anlaşma imzalamak güvenlidir').",
+      "Çapa Kelime Seçimi: Konuşma boyunca sık sık ama doğal bir şekilde kullanacağınız çapaları belirleyin (örn: 'huzur', 'gelecek', 'emniyet').",
+      "Tonal Vurgu ve Fiziksel Çapalama: Çapa kelimeleri söylerken ses tonunuzu hafifçe düşürün ve gözlerinin içine doğrudan bakın.",
+      "Fikir Enjeksiyonu: Müzakere sonuna gelindiğinde, bu bilinçaltı çapalarını birleştirerek nihai kararı onaylatın."
+    ],
+    scenario: "Müşterinize bir danışmanlık paketi satmak istiyorsunuz. Sohbet boyunca iş hayatındaki 'güvenli limanlardan', 'geleceğe yatırım yapmanın huzurundan' ve 'doğru ortaklarla çalışmanın emniyetinden' bahsedip bu kelimeleri söylerken hafifçe gülümseyin. Toplantı sonunda paket teklifinizi sunduğunuzda, müşteri zihnindeki bu 'huzur ve emniyet' çapalarıyla sözleşmeyi imzalamaya çok daha istekli olacaktır."
+  },
+  {
+    id: "narcissistic-embargo",
+    title: "Narsisistik Beslenme Ambargosu",
+    category: "psychology",
+    categoryLabel: "Klinik Psikoloji",
+    description: "Ego merkezli ve narsisistik profillerin en çok ihtiyaç duyduğu onay, övgü ve ilgiyi aniden keserek onları kontrol altına alma.",
+    whatItIs: "Narsisistik Beslenme Ambargosu, egosu yüksek ve narsisistik kişilik yapısına sahip bireylere karşı uygulanan mutlak bir kontrol ve statü eşitleme doktrinidir. Bu profiller hayati bir şekilde dışarıdan gelen hayranlık, övgü, onay ve ilgiyle beslenirler. Onlara bu besini vermediğinizde veya verdikten sonra aniden kestiğinizde (ambargo), narsisistik bir yoksunluk ve yoğun bir değersizlik kaygısı yaşarlar. Bu kaygıyı dindirmek ve sizden tekrar onay alabilmek için sizin kurallarınıza boyun eğmeye ve sizin çerçevenize girmeye başlarlar.",
+    whatItIsNot: "Karşı tarafa hakaret etmek, onunla kavga etmek veya onu düşmanca dışlamak değildir. Sadece onun egosunu besleyen tüm ilgi ve takdiri klinik bir soğuklukla tamamen kesmektir.",
+    howToApply: [
+      "Yapay Besleme (Başlangıç): Görüşmelerin başında onun başarılarını ve egosunu hafifçe överek kendinize bağlayın.",
+      "Aniden Geri Çekilme (Ambargo): Kritik bir karar veya masada güç savaşı başladığında övgüyü ve ilgiyi tamamen kesin.",
+      "Klinik Mesafe ve İlgisizlik: Onun kendini kanıtlama çabalarını boş bakışlarla ve kısa, nötr cümlelerle geçiştirin.",
+      "İtaat Karşılığı Ödül: Sizin şartlarınızı kabul ettiği an, ona küçük bir övgü vererek davranışı bilinçaltında pekiştirin."
+    ],
+    scenario: "Sürekli kendini öven ve işlerinizi sabote eden bir proje ortağınız var. Onun başarı hikayelerini dinlerken saatinize bakın, esneyin ve sakince: 'Güzel, şimdi projenin geciken teslim tarihini konuşalım' deyin. Egoları bloke olan ortağınız, sizden onay alabilmek için bir sonraki toplantıya işleri tamamlamış olarak gelecektir."
+  },
+  {
+    id: "emotional-resonance",
+    title: "Duygusal Rezonans Kuramı",
+    category: "psychology",
+    categoryLabel: "Klinik Psikoloji",
+    description: "Karşı tarafın bastırılmış çocukluk travmalarının duygusal frekansına uyum sağlayarak onunla sarsılmaz bir bağ ve bağımlılık kurma sanatı.",
+    whatItIs: "Duygusal Rezonans, karşınızdaki kişinin maskelerinin arkasındaki en derin duygusal boşluğu tespit edip, onunla aynı duygusal frekansta titreşerek ruhsal bir bütünleşme illüzyonu yaratmaktır. Her insan çocukluğundaki o doldurulamamış boşluğun peşinden koşar. Bu boşluğu fark edip ona bu duygusal yankıyı (rezonansı) verdiğinizde, hedef size karşı sarsılmaz bir güven duyar ve hayatındaki en önemli zihinsel referans noktası haline gelirsiniz. Bu bağ, onun üzerinizdeki bağımlılığını maksimuma çıkarır.",
+    whatItIsNot: "Ucuz ve yüzeysel bir empati gösterisi yapmak değildir. Karşı tarafın en derin psikolojik yaralarını klinik bir hassasiyetle analiz edip o yaraya merhem olan yegane kişi rolünü oynamaktır.",
+    howToApply: [
+      "Derin Dinleme ve Analiz: Konuşmalarında hangi konulardan kaçındığını, neye öfkelendiğini ve geçmişte nasıl yaralar aldığını sessizce haritalandırın.",
+      "Duygusal Rezonans Oluşturma: Onun hissettiği o derin acıyı veya yalnızlığı anladığınızı gösteren derin psikolojik metaforlar kullanın.",
+      "Güvenli Sığınak Rolü: Onun dünyada sadece sizin yanınızda maskelerini indirip 'kendi olabileceği' algısını yaratın.",
+      "Stratejik Bağımlılık Yönetimi: Bu sarsılmaz bağı kullanarak müzakerelerde veya ilişkide mutlak liderliği elinizde tutun."
+    ],
+    scenario: "Çocukluğunda otoriter ve sevgisiz bir baba figürü tarafından sürekli yetersiz bulunarak büyütülmüş bir iş insanıyla çalışıyorsunuz. Onun projelerindeki ufak hataları cezalandırmak yerine, asil bir babacan tavırla: 'Bu hatan senin genel kaliteni gölgelemez, ben senin arkandayım' deyin. Bu duygusal rezonans onu size ömür boyu sadık bir iş ortağı yapacaktır."
   }
 ];
 
