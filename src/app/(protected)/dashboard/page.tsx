@@ -386,7 +386,7 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="flex flex-col w-full h-[calc(100vh-210px)] md:h-[calc(100vh-220px)] max-w-4xl mx-auto px-4 pb-2 animate-fade-in">
+    <div className="flex flex-col w-full h-[calc(100vh-178px)] max-w-4xl mx-auto px-4 pb-2 animate-fade-in">
       
       {/* Centered Sticky Header Bar - Only visible when chat is active */}
       {chatHistory.length > 0 && (
@@ -424,39 +424,36 @@ export default function DashboardPage() {
       {/* Main View Area */}
       <div className="flex-1 min-h-0 flex flex-col justify-between relative mt-4">
         
-        {chatHistory.length === 0 ? (
-          /* Sleek, Minimal Welcome / Onboarding State */
-          <div className="flex-1 w-full flex flex-col items-center justify-start pt-6 md:pt-12 p-4 max-w-2xl mx-auto space-y-6 animate-fade-in select-none overflow-y-auto scrollbar-none">
+        {/* Scrollable Chat Feed */}
+        <div className="flex-1 overflow-y-auto space-y-6 py-4 pr-2 scrollbar-custom flex flex-col">
+          
+          {/* Welcome Header at the top of the chat feed */}
+          <div className="flex flex-col items-center text-center space-y-4 max-w-2xl mx-auto px-4 pt-2 select-none w-full flex-shrink-0">
             {/* Logo */}
-            <div className="relative flex items-center justify-center w-16 h-16 mb-2">
+            <div className="relative flex items-center justify-center w-16 h-16 mb-1">
               <div className="absolute inset-0 rounded-full border border-gold/20 animate-[spin_8s_linear_infinite]" />
               <div className="absolute inset-2 rounded-full border border-t-gold border-r-transparent border-b-gold/30 border-l-transparent animate-[spin_5s_linear_infinite_reverse]" />
               <Brain className="w-7 h-7 text-gold animate-pulse-gold absolute" strokeWidth={1.5} />
             </div>
 
             {/* Welcome Text */}
-            <div className="text-center space-y-3">
+            <div className="text-center space-y-2.5">
               <h3 className="font-serif text-lg tracking-[0.2em] text-gold uppercase">MENTIS ANALİZ MODÜLÜ</h3>
               <p className="font-sans text-xs text-ash/70 max-w-sm mx-auto leading-relaxed">
                 Rasyonel akıl ve soğukkanlı strateji. Çıkmaza girdiğin durumu aşağıya yazarak eylem reçeteni oluştur.
               </p>
             </div>
+          </div>
 
-            {/* Error Message */}
-            {error && (
-              <div className="w-full px-4 py-2.5 border border-red-900/45 bg-red-900/10 text-red-400 text-xs font-accent italic text-center rounded-sm animate-fade-in">
-                {error}
-              </div>
-            )}
-
-            {/* Suggestion Chips */}
-            <div className="w-full space-y-3 pt-4">
+          {/* Suggestions if no history, otherwise Chat Bubbles */}
+          {chatHistory.length === 0 ? (
+            <div className="w-full max-w-2xl mx-auto space-y-3 px-4 pt-2 select-none flex-shrink-0">
               <div className="flex items-center gap-2">
                 <div className="h-[1px] flex-1 bg-obsidian/45" />
                 <span className="text-[9px] uppercase tracking-widest text-ash/40 font-accent font-bold">Örnek Durumlar</span>
                 <div className="h-[1px] flex-1 bg-obsidian/45" />
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {[
                   "Yöneticim hak ettiğim terfiyi sürekli erteliyor ve geçiştiriyor.",
                   "Ortağım kararları benden gizli alıyor, gücümü kazanmak istiyorum.",
@@ -474,120 +471,104 @@ export default function DashboardPage() {
                 ))}
               </div>
             </div>
-          </div>
-        ) : (
-          /* Active Chat View */
-          <div className="flex-1 overflow-y-auto space-y-6 py-4 pr-2 scrollbar-custom">
-            
-            {chatHistory.map((msg, index) => {
-              const isUser = msg.role === "user";
-              
-              if (isUser) {
-                return (
-                  <div key={index} className="flex w-full justify-end animate-fade-in">
-                    <div className="max-w-[85%] rounded-sm p-4 bg-obsidian border border-gold/10 text-smoke text-xs md:text-sm leading-relaxed shadow-lg">
-                      <p className="text-[9px] uppercase tracking-widest mb-1.5 font-accent text-ash/60 font-bold">
-                        SİZ
-                      </p>
-                      <div className="whitespace-pre-wrap font-sans font-medium">{msg.content}</div>
+          ) : (
+            <div className="space-y-6 w-full flex-1 px-1">
+              {chatHistory.map((msg, index) => {
+                const isUser = msg.role === "user";
+                
+                if (isUser) {
+                  return (
+                    <div key={index} className="flex w-full justify-end animate-fade-in">
+                      <div className="max-w-[85%] rounded-sm p-4 bg-obsidian border border-gold/10 text-smoke text-xs md:text-sm leading-relaxed shadow-lg">
+                        <p className="text-[9px] uppercase tracking-widest mb-1.5 font-accent text-ash/60 font-bold">
+                          SİZ
+                        </p>
+                        <div className="whitespace-pre-wrap font-sans font-medium">{msg.content}</div>
+                      </div>
                     </div>
-                  </div>
-                );
-              }
+                  );
+                }
 
-              // Model Message
-              if (index === 1 && response) {
-                // Initial 3-Part analysis from Mentis
-                return (
-                  <div key={index} className="space-y-6 animate-fade-in w-full">
-                    <div className="text-center my-6 border-b border-obsidian/30 pb-3 max-w-md mx-auto">
-                      <h4 className="font-serif text-lg text-smoke uppercase tracking-widest mb-1">Mentis Reçetesi</h4>
-                      <p className="font-accent italic text-[10px] text-ash">Soğukkanlı. Rasyonel. Kesin.</p>
-                    </div>
-
-                    <div className="grid gap-6 max-w-4xl mx-auto">
-                      {/* Card 1: 01 */}
-                      <div className="relative p-5 md:p-6 rounded-sm bg-abyss border border-obsidian shadow-md">
-                        <div className="absolute top-0 left-4 md:left-6 -translate-y-1/2 bg-void px-2 font-serif text-gold text-xs sm:text-sm tracking-wider flex items-center gap-2">
-                          <span className="text-[10px] opacity-50">01</span>
-                        </div>
-                        <div className="mt-3 font-sans text-smoke leading-relaxed tracking-wide text-xs md:text-sm whitespace-pre-wrap animate-[fade-in_0.5s_ease-out]">
-                          {response.analysis}
+                // Model Message (Initial 3-Part analysis from Mentis)
+                if (index === 1 && response) {
+                  return (
+                    <div key={index} className="flex w-full justify-start animate-fade-in">
+                      <div className="max-w-[85%] rounded-sm p-5 bg-abyss border border-gold/20 text-smoke text-xs md:text-sm leading-relaxed shadow-lg space-y-4 w-full">
+                        <p className="text-[9px] uppercase tracking-widest font-accent text-gold font-bold">
+                          MENTIS REÇETESİ
+                        </p>
+                        
+                        <div className="space-y-4 divide-y divide-obsidian/60">
+                          {/* 01 Analysis */}
+                          <div className="pt-1">
+                            <span className="text-[10px] font-serif text-gold/80 tracking-wider block mb-1">01 | ANALİZ</span>
+                            <div className="whitespace-pre-wrap font-sans text-smoke">{response.analysis}</div>
+                          </div>
+                          
+                          {/* 02 Target Weakness */}
+                          {response.targetWeakness && (
+                            <div className="pt-3">
+                              <span className="text-[10px] font-serif text-gold/80 tracking-wider block mb-1">02 | KARŞI TARAFIN MOTİVASYONU</span>
+                              <div className="whitespace-pre-wrap font-sans text-smoke">{response.targetWeakness}</div>
+                            </div>
+                          )}
+                          
+                          {/* 03 Strategic Move */}
+                          {response.execution && (
+                            <div className="pt-3">
+                              <span className="text-[10px] font-serif text-gold/80 tracking-wider block mb-1">03 | STRATEJİK HAMLE</span>
+                              <div className="whitespace-pre-wrap font-sans text-smoke">{response.execution}</div>
+                            </div>
+                          )}
                         </div>
                       </div>
+                    </div>
+                  );
+                }
 
-                      {/* Card 2: Karşı Tarafın Motivasyonu */}
-                      {response.targetWeakness && (
-                        <div className="relative p-5 md:p-6 rounded-sm bg-abyss border border-gold/30 shadow-[0_0_20px_rgba(201,168,76,0.03)]">
-                          <div className="absolute top-0 left-4 md:left-6 -translate-y-1/2 bg-void px-2 font-serif text-gold text-xs sm:text-sm tracking-wider flex items-center gap-2">
-                            <span className="text-[10px] opacity-50">02</span>
-                            KARŞI TARAFIN MOTİVASYONU
-                          </div>
-                          <div className="mt-3 font-sans text-smoke leading-relaxed tracking-wide text-xs md:text-sm whitespace-pre-wrap animate-[fade-in_0.5s_ease-out]">
-                            {response.targetWeakness}
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Card 3: Stratejik Hamle */}
-                      {response.execution && (
-                        <div className="relative p-5 md:p-6 rounded-sm bg-abyss border border-obsidian shadow-md">
-                          <div className="absolute top-0 left-4 md:left-6 -translate-y-1/2 bg-void px-2 font-serif text-gold text-xs sm:text-sm tracking-wider flex items-center gap-2">
-                            <span className="text-[10px] opacity-50">03</span>
-                            STRATEJİK HAMLE
-                          </div>
-                          <div className="mt-3 font-sans text-smoke leading-relaxed tracking-wide text-xs md:text-sm whitespace-pre-wrap animate-[fade-in_0.5s_ease-out]">
-                            {response.execution}
-                          </div>
-                        </div>
-                      )}
+                // Subsequent follow-up model replies
+                return (
+                  <div key={index} className="flex w-full justify-start animate-fade-in">
+                    <div className="max-w-[85%] rounded-sm p-4 bg-abyss border border-obsidian text-smoke text-xs md:text-sm leading-relaxed shadow-lg">
+                      <p className="text-[9px] uppercase tracking-widest mb-1.5 font-accent text-gold font-bold">
+                        {(CHARACTERS.find(c => c.id === character)?.name || "MENTIS").toUpperCase()}
+                      </p>
+                      <div className="whitespace-pre-wrap font-sans leading-relaxed">{msg.content}</div>
                     </div>
                   </div>
                 );
-              }
+              })}
+            </div>
+          )}
 
-              // Subsequent follow-up model replies
-              return (
-                <div key={index} className="flex w-full justify-start animate-fade-in">
-                  <div className="max-w-[85%] rounded-sm p-4 bg-abyss border border-obsidian text-smoke text-xs md:text-sm leading-relaxed shadow-lg">
-                    <p className="text-[9px] uppercase tracking-widest mb-1.5 font-accent text-gold font-bold">
-                      {(CHARACTERS.find(c => c.id === character)?.name || "MENTIS").toUpperCase()}
-                    </p>
-                    <div className="whitespace-pre-wrap font-sans leading-relaxed">{msg.content}</div>
-                  </div>
+          {/* In-chat Loading / Thinking state */}
+          {(status === "analyzing" || followUpLoading) && (
+            <div className="flex w-full justify-start animate-pulse mt-4 px-1">
+              <div className="rounded-sm p-5 bg-abyss/85 border border-obsidian text-smoke max-w-[85%] flex items-start gap-4 shadow-lg w-full">
+                <div className="relative flex items-center justify-center w-8 h-8 flex-shrink-0">
+                  <div className="absolute inset-0 rounded-full border border-gold/25 animate-[spin_3s_linear_infinite]" />
+                  <Brain className="w-4 h-4 text-gold animate-pulse-gold absolute" />
                 </div>
-              );
-            })}
-
-            {/* In-chat Loading / Thinking state */}
-            {(status === "analyzing" || followUpLoading) && (
-              <div className="flex w-full justify-start animate-pulse">
-                <div className="rounded-sm p-5 bg-abyss/85 border border-obsidian text-smoke max-w-[85%] flex items-start gap-4 shadow-lg">
-                  <div className="relative flex items-center justify-center w-8 h-8 flex-shrink-0">
-                    <div className="absolute inset-0 rounded-full border border-gold/25 animate-[spin_3s_linear_infinite]" />
-                    <Brain className="w-4 h-4 text-gold animate-pulse-gold absolute" />
-                  </div>
-                  <div className="space-y-1">
-                    <p className="text-[9px] uppercase tracking-widest font-accent text-gold font-bold">
-                      {(CHARACTERS.find(c => c.id === character)?.name || "MENTIS").toUpperCase()}
-                    </p>
-                    <p className="text-xs italic font-accent text-ash animate-pulse">
-                      {LOADING_PHASES[loadingPhaseIndex]}
-                    </p>
-                  </div>
+                <div className="space-y-1">
+                  <p className="text-[9px] uppercase tracking-widest font-accent text-gold font-bold">
+                    {(CHARACTERS.find(c => c.id === character)?.name || "MENTIS").toUpperCase()}
+                  </p>
+                  <p className="text-xs italic font-accent text-ash animate-pulse">
+                    {LOADING_PHASES[loadingPhaseIndex]}
+                  </p>
                 </div>
               </div>
-            )}
+            </div>
+          )}
 
-            {followUpError && (
-              <div className="p-3 bg-red-950/20 border border-red-900/50 text-red-400 text-xs text-center rounded-sm font-accent italic animate-fade-in">
-                {followUpError}
-              </div>
-            )}
+          {followUpError && (
+            <div className="p-3 bg-red-950/20 border border-red-900/50 text-red-400 text-xs text-center rounded-sm font-accent italic animate-fade-in mt-4 px-1">
+              {followUpError}
+            </div>
+          )}
 
-            <div ref={chatEndRef} />
-          </div>
-        )}
+          <div ref={chatEndRef} />
+        </div>
 
         {/* Input Footer Container */}
         <div className="bg-void border-t border-obsidian/40 pt-4 flex-shrink-0">
