@@ -583,7 +583,7 @@ Duygu durumundaki aşırı dalgalanmalar, kimlik karmaşası (Jedi Şövalyeliğ
       stressIndex: 5,
       credibilityIndex: 15,
       thumbnail: "/mentis_book_open.jpg",
-      videoUrl: "",
+      videoUrl: "/hannibal_lecter.mp4",
       detailedAnalysis: `KLİNİK TEŞHİS: Saf Psikopati (Antisosyal Kişilik Bozukluğu) ve Entelektüel / Bilişsel Megalomanik Narsisizm.
 
 Dr. Hannibal Lecter, klinik psikopatoloji alanında 'saf' ve 'yüksek işlevli' psikopatinin en uç örneğidir. Amigdalası biyolojik olarak neredeyse sıfır reaktiviteye sahiptir; nitekim nabzı, en ekstrem şiddet eylemlerini gerçekleştirirken dahi normal sınırların (dakikada 85 atım) üzerine çıkmamıştır. Bu durum, onda korku, panik veya suçluluk gibi duyguların nörolojik düzeyde üretilemediğini gösterir. Son derece gelişmiş zihinsel mimarisi (zihin sarayı) sayesinde duygusal verileri tamamen filtreler.
@@ -602,7 +602,7 @@ Beden dili hipnotik düzeyde sabittir. Göz kırpma refleksi neredeyse yok denec
       stressIndex: 40,
       credibilityIndex: 70,
       thumbnail: "/mentis_secret_files_vol1.jpg",
-      videoUrl: "",
+      videoUrl: "/patrick_jane.mp4",
       detailedAnalysis: `KLİNİK TEŞHİS: Yüksek Sezgisel Makyavelizm ve Travmatik Yas Sonrası Aşırı Telafi Edilmiş (Overcompensated) Suçluluk Şemaları.
 
 Patrick Jane, insan zihninin zaaflarını ve sözsüz iletişim kodlarını illüzyonist ve mentalist tekniklerle okuyan, yüksek düzeyde sezgisel bir manipülatördür. Temel motivasyonu, ailesinin kaybından ötürü hissettiği yıkıcı suçluluk şemasını intikam dürtüsüyle aşırı kompanse etmektir. Karşısındaki insanlarda 'baz hattı' (baseline) okumayı o kadar otomatikleştirmiştir ki, en ufak bir göz hareketinden veya ses çatallanmasından yalanı teşhis eder.
@@ -621,7 +621,7 @@ Davranışsal olarak, sürekli sergilediği sıcak, sempatik, hatta çocuksu mas
       stressIndex: 50,
       credibilityIndex: 20,
       thumbnail: "/mentis_book_cover.png",
-      videoUrl: "",
+      videoUrl: "/joe_goldberg.mp4",
       detailedAnalysis: `KLİNİK TEŞHİS: Erotomanik Sanrılar, Obsesif-Kompulsif Narsisistik Kişilik Bozukluğu ve İstifçi/Takipçi Şemaları.
 
 Joe Goldberg, narsisistik ve obsesif-kompulsif dinamiklerle beslenen erotomanik bir takipçi (stalker) profilidir. En belirgin savunma mekanizması rasyonalizasyondur (rationalization); işlediği tüm cinayetleri, takip eylemlerini ve sınır ihlallerini 'karşı tarafı korumak ve sevmek' kılıfına uydurur. Kendi zihninde yarattığı idealize edilmiş aşk masalı, onun gerçeklik algısını tamamen karartır.
@@ -640,7 +640,7 @@ Beden dili dışarıdan bakıldığında son derece uysal, içe dönük ve zarar
       stressIndex: 20,
       credibilityIndex: 85,
       thumbnail: "/mentis_book_open.jpg",
-      videoUrl: "",
+      videoUrl: "/thomas_shelby.mp4",
       detailedAnalysis: `KLİNİK TEŞHİS: Ağır Post-Travmatik Stres Bozukluğu (PTSD), Duygusal Küntleşme (Emotional Numbing) ve Makyavelist Güç Arzusu.
 
 Thomas Shelby, I. Dünya Savaşı'nın siperlerinde yaşadığı ağır travmaların sonucunda duygusal olarak tamamen küntleşmiş, stoik ve son derece tehlikeli bir Makyavelist liderdir. Ölümle burun buruna yaşamak, onun amigdalasını korku uyarımına karşı tamamen duyarsızlaştırmıştır. Thomas için hayat, duygulardan arındırılmış soğuk bir satranç tahtası ve sıfır toplamlı bir oyundur (zero-sum game).
@@ -659,7 +659,7 @@ Beden dili mutlak bir hareketsizlik ve kontrol üzerine kuruludur. En büyük kr
       stressIndex: 10,
       credibilityIndex: 40,
       thumbnail: "/mentis_secret_files_vol1.jpg",
-      videoUrl: "",
+      videoUrl: "/dexter_morgan.mp4",
       detailedAnalysis: `KLİNİK TEŞHİS: Yüksek İşlevli Antisosyal Kişilik Bozukluğu (Sosyopati) ve Harry'nin Koduna Dayalı Obsesif Ritüelistik Savunma Yapıları.
 
 Dexter Morgan, babası Harry tarafından 'koda' göre hareket etmesi için eğitilmiş, dürtülerini toplumsal olarak yararlı bir kanala kanalize eden kontrollü bir sosyopattır. İçindeki 'Karanlık Yolcu' (Dark Passenger), onun empati ve ahlaki sorumluluk hissetmeyen antisosyal yönüdür. Ancak Dexter, topluma uyum sağlamak ve deşifre olmamak için muazzam bir 'Sosyal Maske' geliştirmiştir.
@@ -678,7 +678,7 @@ Normal insan taklidi yaparken beden dili bilinçli olarak 'fazla' sosyal ve cana
       stressIndex: 30,
       credibilityIndex: 90,
       thumbnail: "/mentis_book_cover.png",
-      videoUrl: "",
+      videoUrl: "/michael_scofield.mp4",
       detailedAnalysis: `KLİNİK TEŞHİS: Düşük Latent İnhibisyon (LLI) ve Aşırı Empatiye Bağlı Kendini Feda Etme (Self-Sacrifice) Şeması.
 
 Michael Scofield, klinik düzeyde Düşük Latent İnhibisyon (Low Latent Inhibition) teşhisine sahiptir. Bu durum, beyninin çevredeki tüm detayları, sesleri ve görsel uyarıcıları filtrelemeden işlemesine yol açar; normal insanlarda deliliğe sebep olabilecek bu durum Michael'ın üstün zekasıyla birleşerek onu dahi bir stratejist yapmıştır. Michael, empati yeteneği aşırı gelişmiş bir karakterdir ve sevdiklerini korumak için kendini feda etme şemasına sahiptir.
@@ -716,7 +716,7 @@ Light, başlangıçta kusursuz bir örnek öğrenci maskesi taşır. Beden dili 
       stressIndex: 25,
       credibilityIndex: 80,
       thumbnail: "/mentis_secret_files_vol1.jpg",
-      videoUrl: "",
+      videoUrl: "/harvey_specter.mp4",
       detailedAnalysis: `KLİNİK TEŞHİS: Makyavelist Narsisizm ve Erken Çocukluk Güvensizliklerine Bağlı Gelişen Duygusal Savunma Zırhı.
 
 Harvey Specter, 'Kazanmak her şeydir' doktriniyle yaşayan, yüksek statülü, narsisistik ve Makyavelist bir dava avukatıdır. Çocukluğunda annesinin sadakatsizliğine şahit olması, onda derin bir güven eksikliği ve terk edilme şeması yaratmıştır. Harvey, bu zafiyeti tamamen yenilmez görünerek ve hiç kimseye duygusal olarak bağlanmayarak (duygusal zırh) aşırı kompanse (overcompensate) eder.
@@ -823,7 +823,7 @@ Rust, klasik narsisistik manipülasyonlara (Love Bombing, Gaslighting vb.) karş
       stressIndex: 40,
       credibilityIndex: 15,
       thumbnail: "/mentis_book_cover.png",
-      videoUrl: "",
+      videoUrl: "/jordan_belfort.mp4",
       detailedAnalysis: `KLİNİK TEŞHİS: Antisosyal Kişilik Bozukluğu (Sosyopati), Megalomanik Narsisizm ve Ağır Madde/Dopamin Bağımlılığı.
 
 Jordan Belfort, doymak bilmeyen bir para, statü ve dopamin açlığıyla hareket eden yüksek işlevli bir sosyopattır. Klinik anlamda, empati yoksunluğu, yasal sınırları tamamen yok sayma ve insanları sadece finansal kazanç sağlayan nesneler olarak görme (enstrümantal manipülasyon) sosyopatik yapısını oluşturur. Olağanüstü karizmasını ve sözel retoriğini kitleleri manipüle etmek için bir silah olarak kullanır.
