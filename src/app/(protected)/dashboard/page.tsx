@@ -20,6 +20,14 @@ interface ChatMessage {
   content: string;
 }
 
+const LOADING_PHASES = [
+  "Zafiyetler analiz ediliyor...",
+  "Güç dengeleri haritalanıyor...",
+  "Psikolojik profiller çıkarılıyor...",
+  "Karşı hamle kurgulanıyor...",
+  "Strateji reçetesi hazırlanıyor...",
+];
+
 const CHARACTERS = [
   {
     id: "mentis",
@@ -55,6 +63,18 @@ export default function DashboardPage() {
   const [isSaved, setIsSaved] = useState(false);
   const [saveLoading, setSaveLoading] = useState(false);
 
+  const [loadingPhaseIndex, setLoadingPhaseIndex] = useState(0);
+
+  useEffect(() => {
+    if (status === "analyzing" || followUpLoading) {
+      setLoadingPhaseIndex(0);
+      const interval = setInterval(() => {
+        setLoadingPhaseIndex((prev) => (prev < LOADING_PHASES.length - 1 ? prev + 1 : prev));
+      }, 2000);
+      return () => clearInterval(interval);
+    }
+  }, [status, followUpLoading]);
+
   const fetchCredits = async () => {
     const supabase = createClient();
     try {
@@ -82,10 +102,10 @@ export default function DashboardPage() {
 
   // Scroll to bottom of chat when history updates
   useEffect(() => {
-    if (chatHistory.length > 2) {
+    if (chatHistory.length > 0) {
       chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }
-  }, [chatHistory, followUpLoading]);
+  }, [chatHistory, followUpLoading, status]);
 
 
 
@@ -133,6 +153,7 @@ export default function DashboardPage() {
     setError(null);
     setRequiresPayment(false);
     setIsSaved(false);
+    setChatHistory([{ role: "user", content: problem }]);
     
     try {
       const res = await fetch("/api/mentis", {
@@ -170,6 +191,7 @@ export default function DashboardPage() {
       const message = err instanceof Error ? err.message : "Bağlantı koptu.";
       setError(message);
       setStatus("idle");
+      setChatHistory([]);
     }
   };
 
@@ -349,171 +371,178 @@ export default function DashboardPage() {
     }
   };
   return (
-    <div className={`flex flex-col items-center w-full mx-auto ${status === "complete" ? "h-[calc(100vh-200px)] min-h-[500px] max-w-4xl px-4" : "max-w-5xl space-y-12 pb-24"}`}>
+    <div className="flex flex-col w-full h-[calc(100vh-100px)] max-w-4xl mx-auto px-4 pb-4 animate-fade-in">
       
-      {status !== "complete" && (
-        <div className="text-center space-y-4 mb-4 pt-8">
-          <h2 className="font-serif text-3xl md:text-4xl text-smoke tracking-wider">Zihin Karargahı</h2>
-          <p className="font-accent text-ash italic md:text-lg">Duygularını dışarıda bırak. Burada sadece saf rasyonel strateji var.</p>
-          
-          {credits !== null && (
-            <div className="flex items-center justify-center gap-2 text-sm font-accent">
-              <Coins className="w-4 h-4 text-gold" />
-              <span className="text-ash">
-                Kalan Kredi: <span className={`font-bold ${credits > 0 ? "text-gold" : "text-red-500"}`}>
-                  {plan === "elite" ? "∞" : credits}
-                </span>
-              </span>
-              <span className="text-obsidian mx-2">|</span>
-              <span className="text-ash">
-                Plan: <span className="text-smoke uppercase text-xs tracking-wider">{plan}</span>
-              </span>
-            </div>
-          )}
+      {/* Sticky Header Bar */}
+      <div className="flex flex-col md:flex-row items-center justify-between gap-4 py-4 border-b border-obsidian/45 flex-shrink-0">
+        <div className="flex items-center gap-3">
+          <Brain className="w-6 h-6 text-gold animate-pulse-gold" />
+          <div className="text-left">
+            <h2 className="font-serif text-xl md:text-2xl text-smoke tracking-wider uppercase">Zihin Karargahı</h2>
+            {credits !== null && (
+              <div className="flex items-center gap-2 text-xs font-accent text-ash">
+                <Coins className="w-3.5 h-3.5 text-gold" />
+                <span>Kalan Kredi: <span className="text-gold font-bold">{plan === "elite" ? "∞" : credits}</span></span>
+                <span className="text-obsidian">|</span>
+                <span className="text-smoke uppercase text-[10px] tracking-wider">{plan}</span>
+              </div>
+            )}
+          </div>
         </div>
-      )}
-      {status === "idle" && (
-        <div className="w-full animate-fade-in flex flex-col items-center">
-          {error && (
-            <div className="mb-6 px-6 py-3 border border-red-900/50 bg-red-900/10 text-red-500/90 text-sm font-accent italic text-center max-w-lg">
-              {error}
-            </div>
-          )}
-          {requiresPayment && (
-            <div className="mb-6 text-center space-y-3">
-              <p className="text-ash font-accent italic text-sm">Bedava kredilerin tükendi. Oyun burada bitmiyor.</p>
-              <Link
-                href="/dashboard/billing"
-                className="inline-block bg-gold text-void px-8 py-3 text-sm font-bold uppercase tracking-widest hover:bg-gold-dim transition-colors"
-              >
-                Kredi Yükle
-              </Link>
-            </div>
-          )}
-          {!requiresPayment && (
-            <div className="w-full flex flex-col items-center space-y-6">
-              {/* Mentis active info block */}
-              <div className="w-full max-w-3xl p-4 bg-abyss/30 border border-obsidian/40 rounded-sm text-center sm:text-left relative overflow-hidden">
-                <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-gold/30 to-transparent" />
-                <p className="text-[11px] md:text-xs text-ash font-accent leading-relaxed">
-                  <span className="text-gold font-bold uppercase tracking-wider">Mentis Karargah Ağı: </span>
-                  Soğuk, analitik ve duygu barındırmayan rasyonel zihin devrededir. Fantezi karakterler ve kurgusal maskeler kaldırılmıştır. Masadaki konumunu zayıflatan o son hamleyi anlat ve oyun kurucu olmak için rasyonel planını al.
+
+        {/* Action buttons shown only when chat is active */}
+        {chatHistory.length > 0 && (
+          <div className="flex items-center gap-2.5 w-full md:w-auto justify-end">
+            <button
+              type="button"
+              onClick={() => {
+                const formattedChat = chatHistory.map(msg => {
+                  const speaker = msg.role === "user" 
+                    ? "SİZ" 
+                    : "MENTIS";
+                  return `${speaker}: ${msg.content}`;
+                }).join("\n\n");
+                
+                navigator.clipboard.writeText(formattedChat);
+                alert("Tüm sohbet geçmişi panoya kopyalandı!");
+              }}
+              className="flex items-center gap-1.5 px-3 py-1.5 border border-obsidian bg-obsidian/40 text-ash hover:text-white transition-all rounded-sm font-accent tracking-widest text-[9px] uppercase"
+            >
+              <Copy className="w-3 h-3" />
+              Kopyala
+            </button>
+            <button
+              onClick={handleSaveToJournal}
+              disabled={isSaved || saveLoading || status === "analyzing"}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-sm font-accent tracking-widest text-[9px] uppercase transition-all duration-300 border ${
+                isSaved 
+                  ? "border-green-800 text-green-500 bg-green-950/20" 
+                  : "border-gold text-gold hover:bg-gold/15"
+              }`}
+            >
+              <BookMarked className="w-3 h-3" />
+              {saveLoading ? "..." : isSaved ? "Defterde" : "Deftere Kaydet"}
+            </button>
+            <button 
+              onClick={() => {
+                setStatus("idle");
+                setResponse(null);
+                setChatHistory([]);
+              }}
+              className="flex items-center gap-1.5 px-3 py-1.5 border border-obsidian bg-obsidian/40 text-ash hover:text-white transition-all rounded-sm font-accent tracking-widest text-[9px] uppercase"
+            >
+              <RefreshCw className="w-3 h-3" />
+              Sıfırla
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* Main View Area */}
+      <div className="flex-1 min-h-0 flex flex-col justify-between relative mt-4">
+        
+        {chatHistory.length === 0 ? (
+          /* Idle / Onboarding State */
+          <div className="flex-1 overflow-y-auto space-y-8 py-6 pr-2 scrollbar-custom flex flex-col justify-center">
+            <div className="flex flex-col items-center text-center space-y-8 max-w-2xl mx-auto px-4">
+              <div className="relative flex items-center justify-center w-20 h-20">
+                <div className="absolute inset-0 rounded-full border border-gold/20 animate-[spin_6s_linear_infinite]" />
+                <div className="absolute inset-1.5 rounded-full border border-t-gold border-r-transparent border-b-gold/30 border-l-transparent animate-[spin_4s_linear_infinite_reverse]" />
+                <Brain className="w-8 h-8 text-gold animate-pulse-gold absolute" strokeWidth={1.5} />
+              </div>
+
+              <div className="space-y-3">
+                <h3 className="font-serif text-2xl md:text-3xl text-smoke tracking-wider uppercase">Zihin Karargahı</h3>
+                <p className="font-accent text-ash italic text-sm md:text-base max-w-md mx-auto leading-relaxed">
+                  Duygularını dışarıda bırak. Burada sadece saf rasyonel strateji var.
                 </p>
               </div>
-              
-              <StrategyInput 
-                onSubmit={handleConsult} 
-                placeholder="Masadaki konumunu zayıflatan o son hamleyi anlat..."
-              />
-            </div>
-          )}
-        </div>
-      )}
 
-      {status === "analyzing" && (
-        <div className="w-full">
-          <LoadingMentis />
-        </div>
-      )}
+              {error && (
+                <div className="w-full px-6 py-3 border border-red-900/50 bg-red-900/10 text-red-400 text-xs font-accent italic text-center rounded-sm animate-fade-in">
+                  {error}
+                </div>
+              )}
 
-      {status === "complete" && response && (
-        <div className="w-full max-w-4xl animate-fade-in flex-1 min-h-0 flex flex-col h-full">
-          <div className="w-full border border-obsidian/50 bg-abyss/45 rounded-sm overflow-hidden flex flex-col shadow-2xl relative flex-1 min-h-0 h-full">
-            <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-gold/30 to-transparent" />
-            
-            {/* Header with Info and Actions */}
-            <div className="p-4 border-b border-obsidian/50 bg-abyss flex flex-col md:flex-row items-center justify-between gap-4 flex-shrink-0">
-              <div className="flex items-center gap-3">
-                <MessageSquare className="w-5 h-5 text-gold" />
-                <div className="text-left">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <h4 className="text-sm font-serif text-smoke tracking-wider uppercase">
-                      Stratejik Plan ve Diyalog ({CHARACTERS.find(c => c.id === character)?.name} ile)
-                    </h4>
-                    {credits !== null && (
-                      <span className="flex items-center gap-1 text-[10px] font-accent text-ash bg-void border border-obsidian px-2 py-0.5 rounded-sm">
-                        <Coins className="w-3 h-3 text-gold" />
-                        <span>Kalan: <span className="text-gold font-bold">{plan === "elite" ? "∞" : credits}</span></span>
-                      </span>
-                    )}
+              {requiresPayment && (
+                <div className="text-center space-y-3">
+                  <p className="text-ash font-accent italic text-sm">Bedava kredilerin tükendi. Oyun burada bitmiyor.</p>
+                  <Link
+                    href="/dashboard/billing"
+                    className="inline-block bg-gold text-void px-8 py-3 text-sm font-bold uppercase tracking-widest hover:bg-gold-dim transition-colors"
+                  >
+                    Kredi Yükle
+                  </Link>
+                </div>
+              )}
+
+              {!requiresPayment && (
+                <>
+                  <div className="w-full bg-abyss/30 border border-obsidian/40 p-5 rounded-sm relative overflow-hidden text-left shadow-lg">
+                    <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-gold/30 to-transparent" />
+                    <p className="text-xs md:text-sm text-ash font-accent leading-relaxed">
+                      <span className="text-gold font-bold uppercase tracking-wider block mb-1">Mentis İletişim Protokolü:</span>
+                      Masadaki konumunu zayıflatan o son hamleyi, yaşanan çatışmayı veya çıkmazı detaylıca anlat. Mentis, soğukkanlı ve klinik analizle sana özel 3 adımlı stratejik reçeteni hazırlayacaktır.
+                    </p>
                   </div>
-                  <p className="text-xs text-ash">
-                    Mentis Reçetesi'ni inceleyin ve sorularınızla derinleştirin.
-                  </p>
-                </div>
-              </div>
-              
-              <div className="flex items-center gap-3 w-full md:w-auto justify-end">
-                <button
-                  type="button"
-                  onClick={() => {
-                    const formattedChat = chatHistory.slice(2).map(msg => {
-                      const speaker = msg.role === "user" 
-                        ? "SİZ" 
-                        : (CHARACTERS.find(c => c.id === character)?.name || "MENTIS").toUpperCase();
-                      
-                      const replyText = msg.content;
-                      return `${speaker}: ${replyText}`;
-                    }).join("\n\n");
-                    
-                    navigator.clipboard.writeText(formattedChat);
-                    alert("Tüm sohbet geçmişi panoya kopyalandı!");
-                  }}
-                  className="flex items-center gap-1.5 px-4 py-2 border border-obsidian bg-obsidian/50 text-ash hover:text-white transition-colors rounded-sm font-accent tracking-widest text-[10px] uppercase"
-                >
-                  <Copy className="w-3.5 h-3.5" />
-                  Sohbeti Kopyala
-                </button>
-                <button
-                  onClick={handleSaveToJournal}
-                  disabled={isSaved || saveLoading}
-                  className={`flex items-center gap-1.5 px-4 py-2 rounded-sm font-accent tracking-widest text-[10px] uppercase transition-all duration-300 border ${
-                    isSaved 
-                      ? "border-green-800 text-green-500 bg-green-950/20" 
-                      : "border-gold text-gold hover:bg-gold/10"
-                  }`}
-                >
-                  <BookMarked className="w-3.5 h-3.5" />
-                  {saveLoading ? "..." : isSaved ? "Deftere Kaydedildi" : "Deftere Kaydet"}
-                </button>
-                <button 
-                  onClick={() => {
-                    setStatus("idle");
-                    setResponse(null);
-                    setChatHistory([]);
-                  }}
-                  className="flex items-center gap-1.5 px-4 py-2 border border-obsidian bg-obsidian/50 text-ash hover:text-white transition-colors rounded-sm font-accent tracking-widest text-[10px] uppercase"
-                >
-                  <RefreshCw className="w-3.5 h-3.5" />
-                  Yeni Hamle
-                </button>
-              </div>
-            </div>
 
-            {/* Conversation Feed Area */}
-            <div className="p-6 flex-1 min-h-0 overflow-y-auto space-y-6 scrollbar-custom">
-              
-              {/* 3-Part Mentis Analysis */}
-              <div className="space-y-8 pb-4">
-                <div className="text-center mb-8 border-b border-obsidian/30 pb-4">
-                  <h3 className="font-serif text-xl md:text-2xl text-smoke uppercase tracking-widest mb-1.5">Mentis Reçetesi</h3>
-                  <p className="font-accent italic text-xs md:text-sm text-ash">Soğukkanlı. Rasyonel. Kesin.</p>
-                </div>
-
-                <div className="grid gap-6">
-                  {!response.targetWeakness && !response.execution ? (
-                    <div className="relative p-5 md:p-6 rounded-sm bg-abyss border border-gold/30 shadow-[0_0_20px_rgba(201,168,76,0.03)] animate-[fade-in_1s_ease-out_forwards]">
-                      <div className="absolute top-0 left-4 md:left-6 -translate-y-1/2 bg-void px-2 font-serif text-gold text-xs sm:text-sm tracking-wider flex items-center gap-2">
-                        MENTİS YÖNLENDİRMESİ
-                      </div>
-                      <div className="mt-3 font-sans text-smoke leading-relaxed tracking-wide text-xs md:text-sm whitespace-pre-wrap">
-                        {response.analysis}
-                      </div>
+                  {/* Suggestion pills */}
+                  <div className="w-full space-y-3 text-left">
+                    <p className="text-[10px] uppercase tracking-widest text-ash/60 font-accent font-bold">Örnek Durumlar</p>
+                    <div className="grid grid-cols-1 gap-2.5">
+                      {[
+                        "Yöneticim hak ettiğim terfiyi sürekli erteliyor ve geçiştirici cevaplar veriyor.",
+                        "Ortağım kararları benden gizli almaya başladı, masada gücümü geri kazanmak istiyorum.",
+                        "Müşterim fiyatı yarıya indirmem için baskı yapıyor, aksi halde gitmekle tehdit ediyor."
+                      ].map((suggestion, idx) => (
+                        <button
+                          key={idx}
+                          type="button"
+                          onClick={() => handleConsult(suggestion)}
+                          className="text-left p-3.5 border border-obsidian bg-abyss/10 hover:border-gold/30 hover:bg-abyss/30 text-xs text-ash hover:text-smoke rounded-sm transition-all duration-300 font-accent leading-relaxed cursor-pointer"
+                        >
+                          {suggestion}
+                        </button>
+                      ))}
                     </div>
-                  ) : (
-                    <>
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+        ) : (
+          /* Active Chat View */
+          <div className="flex-1 overflow-y-auto space-y-6 py-4 pr-2 scrollbar-custom">
+            
+            {chatHistory.map((msg, index) => {
+              const isUser = msg.role === "user";
+              
+              if (isUser) {
+                return (
+                  <div key={index} className="flex w-full justify-end animate-fade-in">
+                    <div className="max-w-[85%] rounded-sm p-4 bg-obsidian border border-gold/10 text-smoke text-xs md:text-sm leading-relaxed shadow-lg">
+                      <p className="text-[9px] uppercase tracking-widest mb-1.5 font-accent text-ash/60 font-bold">
+                        SİZ
+                      </p>
+                      <div className="whitespace-pre-wrap font-sans font-medium">{msg.content}</div>
+                    </div>
+                  </div>
+                );
+              }
+
+              // Model Message
+              if (index === 1 && response) {
+                // Initial 3-Part analysis from Mentis
+                return (
+                  <div key={index} className="space-y-6 animate-fade-in w-full">
+                    <div className="text-center my-6 border-b border-obsidian/30 pb-3 max-w-md mx-auto">
+                      <h4 className="font-serif text-lg text-smoke uppercase tracking-widest mb-1">Mentis Reçetesi</h4>
+                      <p className="font-accent italic text-[10px] text-ash">Soğukkanlı. Rasyonel. Kesin.</p>
+                    </div>
+
+                    <div className="grid gap-6 max-w-4xl mx-auto">
                       {/* Card 1: 01 */}
-                      <div className="relative p-5 md:p-6 rounded-sm bg-abyss border border-obsidian animate-[fade-in_1s_ease-out_forwards]">
+                      <div className="relative p-5 md:p-6 rounded-sm bg-abyss border border-obsidian shadow-md">
                         <div className="absolute top-0 left-4 md:left-6 -translate-y-1/2 bg-void px-2 font-serif text-gold text-xs sm:text-sm tracking-wider flex items-center gap-2">
                           <span className="text-[10px] opacity-50">01</span>
                         </div>
@@ -524,7 +553,7 @@ export default function DashboardPage() {
 
                       {/* Card 2: Karşı Tarafın Motivasyonu */}
                       {response.targetWeakness && (
-                        <div className="relative p-5 md:p-6 rounded-sm bg-abyss border border-gold/30 shadow-[0_0_20px_rgba(201,168,76,0.03)] animate-[fade-in_1s_ease-out_forwards] delay-200">
+                        <div className="relative p-5 md:p-6 rounded-sm bg-abyss border border-gold/30 shadow-[0_0_20px_rgba(201,168,76,0.03)]">
                           <div className="absolute top-0 left-4 md:left-6 -translate-y-1/2 bg-void px-2 font-serif text-gold text-xs sm:text-sm tracking-wider flex items-center gap-2">
                             <span className="text-[10px] opacity-50">02</span>
                             KARŞI TARAFIN MOTİVASYONU
@@ -537,7 +566,7 @@ export default function DashboardPage() {
 
                       {/* Card 3: Stratejik Hamle */}
                       {response.execution && (
-                        <div className="relative p-5 md:p-6 rounded-sm bg-abyss border border-obsidian animate-[fade-in_1s_ease-out_forwards] delay-400">
+                        <div className="relative p-5 md:p-6 rounded-sm bg-abyss border border-obsidian shadow-md">
                           <div className="absolute top-0 left-4 md:left-6 -translate-y-1/2 bg-void px-2 font-serif text-gold text-xs sm:text-sm tracking-wider flex items-center gap-2">
                             <span className="text-[10px] opacity-50">03</span>
                             STRATEJİK HAMLE
@@ -547,81 +576,87 @@ export default function DashboardPage() {
                           </div>
                         </div>
                       )}
-                    </>
-                  )}
-                </div>
-              </div>
-
-              {/* Follow-up messages */}
-              {chatHistory.map((msg, index) => {
-                if (index < 2) return null;
-
-                const isUser = msg.role === "user";
-                const replyText = msg.content;
-
-                return (
-                  <div key={index} className={`flex w-full ${isUser ? "justify-end" : "justify-start"} animate-fade-in`}>
-                    <div className={`max-w-[85%] rounded-sm p-4 text-xs md:text-sm leading-relaxed ${
-                      isUser 
-                        ? "bg-obsidian border border-gold/10 text-smoke" 
-                        : "bg-abyss/85 border border-obsidian text-smoke"
-                    }`}>
-                      <p className={`text-[10px] uppercase tracking-widest mb-1.5 font-accent ${
-                        isUser ? "text-ash/60" : "text-gold font-bold"
-                      }`}>
-                        {isUser 
-                          ? "SİZ" 
-                          : (CHARACTERS.find(c => c.id === character)?.name || "MENTIS").toUpperCase()}
-                      </p>
-                      <div className="whitespace-pre-wrap font-sans">{replyText}</div>
                     </div>
                   </div>
                 );
-              })}
+              }
 
-              {followUpLoading && (
-                <div className="flex justify-start animate-pulse">
-                  <div className="bg-abyss/85 border border-obsidian/50 rounded-sm p-4 max-w-[85%] text-smoke text-xs md:text-sm">
-                    <p className="text-[10px] text-gold font-bold uppercase tracking-widest mb-1.5 font-accent">
-                      {CHARACTERS.find(c => c.id === character)?.name || "Mentis"}
+              // Subsequent follow-up model replies
+              return (
+                <div key={index} className="flex w-full justify-start animate-fade-in">
+                  <div className="max-w-[85%] rounded-sm p-4 bg-abyss border border-obsidian text-smoke text-xs md:text-sm leading-relaxed shadow-lg">
+                    <p className="text-[9px] uppercase tracking-widest mb-1.5 font-accent text-gold font-bold">
+                      {(CHARACTERS.find(c => c.id === character)?.name || "MENTIS").toUpperCase()}
                     </p>
-                    <p className="italic font-accent text-ash">
-                      Hamleler hesaplanıyor...
+                    <div className="whitespace-pre-wrap font-sans leading-relaxed">{msg.content}</div>
+                  </div>
+                </div>
+              );
+            })}
+
+            {/* In-chat Loading / Thinking state */}
+            {(status === "analyzing" || followUpLoading) && (
+              <div className="flex w-full justify-start animate-pulse">
+                <div className="rounded-sm p-5 bg-abyss/85 border border-obsidian text-smoke max-w-[85%] flex items-start gap-4 shadow-lg">
+                  <div className="relative flex items-center justify-center w-8 h-8 flex-shrink-0">
+                    <div className="absolute inset-0 rounded-full border border-gold/25 animate-[spin_3s_linear_infinite]" />
+                    <Brain className="w-4 h-4 text-gold animate-pulse-gold absolute" />
+                  </div>
+                  <div className="space-y-1">
+                    <p className="text-[9px] uppercase tracking-widest font-accent text-gold font-bold">
+                      {(CHARACTERS.find(c => c.id === character)?.name || "MENTIS").toUpperCase()}
+                    </p>
+                    <p className="text-xs italic font-accent text-ash animate-pulse">
+                      {LOADING_PHASES[loadingPhaseIndex]}
                     </p>
                   </div>
                 </div>
-              )}
+              </div>
+            )}
 
-              {followUpError && (
-                <div className="p-3 bg-red-950/20 border border-red-900/50 text-red-400 text-xs text-center rounded-sm font-accent italic">
-                  {followUpError}
-                </div>
-              )}
+            {followUpError && (
+              <div className="p-3 bg-red-950/20 border border-red-900/50 text-red-400 text-xs text-center rounded-sm font-accent italic animate-fade-in">
+                {followUpError}
+              </div>
+            )}
 
-              <div ref={chatEndRef} />
-            </div>
+            <div ref={chatEndRef} />
+          </div>
+        )}
 
-            {/* Chat Input Footer */}
-            <form onSubmit={handleSendFollowUp} className="p-4 bg-abyss border-t border-obsidian/50 flex gap-3 flex-shrink-0">
+        {/* Input Footer Container */}
+        <div className="bg-void border-t border-obsidian/40 pt-4 flex-shrink-0">
+          {chatHistory.length === 0 ? (
+            /* Large Input box in Onboarding mode */
+            !requiresPayment && (
+              <StrategyInput 
+                onSubmit={handleConsult} 
+                disabled={status === "analyzing"}
+                placeholder="Masadaki durumu ve seni çıkmaza sokan son hamleyi detaylıca anlat..."
+              />
+            )
+          ) : (
+            /* Sleek chat input pinned to bottom in Active mode */
+            <form onSubmit={handleSendFollowUp} className="flex gap-3 items-center">
               <input
                 type="text"
                 value={followUpMessage}
                 onChange={(e) => setFollowUpMessage(e.target.value)}
-                disabled={followUpLoading}
+                disabled={followUpLoading || status === "analyzing"}
                 placeholder="Eylem planını derinleştirin: 'İlk kelime ne olmalı?' veya 'Yazmazsa ne yapmalıyım?'"
-                className="flex-1 bg-void border border-obsidian text-smoke placeholder:text-ash/40 px-4 py-3 rounded-sm text-xs md:text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gold focus-visible:border-gold/50 transition-all duration-300 disabled:opacity-50"
+                className="flex-1 bg-abyss border border-obsidian text-smoke placeholder:text-ash/40 px-4 py-3.5 rounded-sm text-xs md:text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gold focus-visible:border-gold/50 transition-all duration-300 disabled:opacity-50"
               />
               <button
                 type="submit"
-                disabled={!followUpMessage.trim() || followUpLoading}
-                className="bg-gold text-void p-3 rounded-sm hover:bg-gold-dim transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                disabled={!followUpMessage.trim() || followUpLoading || status === "analyzing"}
+                className="bg-gold text-void p-3.5 rounded-sm hover:bg-gold-dim transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center flex-shrink-0"
               >
                 <Send className="w-4 h-4" />
               </button>
             </form>
-          </div>
+          )}
         </div>
-      )}
+      </div>
     </div>
   );
 }
