@@ -19,6 +19,7 @@ interface Lesson {
   howToApply: string[];
   scenario: string;
   image?: string;
+  images?: string[];
 }
 
 interface MimicDetail {
@@ -573,7 +574,7 @@ const LESSONS: Lesson[] = [
     category: "body",
     categoryLabel: "Beden Dili",
     description: "Göz bebeklerinin büyüme/küçülme hızını, göz kırpma refleksini ve otonom sinir sistemi sızıntılarını tarama.",
-    whatItIs: "Otonom Sinir Sistemi (ANS), bir insan yalan söylerken, stres altındayken veya heyecanlandığında kontrol edemediği fiziksel tepkileri yönetir. Bu tepkilerin en önemlisi göz bebekleridir (pupil dilation). Beyin yalan söylediğinde veya tehlike hissettiğinde adrenalin salgılar ve göz bebekleri anlık olarak genişler (dilation). Aynı şekilde, göz kırpma sıklığı (normalde dakikada 15-20 iken) stres altında 40-50'ye kadar çıkabilir veya aşırı bilişsel odaklanma anında (Poker Face) 5-6'ya kadar düşebilir. Bu otonom kaçakları okumak, karşınızdakinin zihinsel durumunu doğrudan taramanızı sağlar.",
+    whatItIs: "Otonom Sinir Sistemi (ANS), bir insan yalan söylerken, stres altındayken veya heyecanlandığında kontrol edemediği fiziksel tepkileri yönetir. Bu tepkilerin en önemlisi göz bebekleridir (pupil dilation). Beyin yalan söylediğinde veya tehlike hissettiğinde adrenalin salgılar ve göz bebekleri anlık olarak genişler (dilation). Aynı şekilde, göz kırpma sıklığı (normalde dakikada 15-20 iken) stres altında 40-50'ye kadar çıkabilir veya aşırı bilişsel odaklanma anında (Poker Face) 5-6'ya kadar düşebilir. Bu otonom kaçakları okumak, karşınızdakinin zihinsel durumunu doğrudan taramanızı sağlar.\n\nGÖZ ERİŞİM İPUÇLARI (NLP EYE ACCESSING CUES) REHBERİ:\nKarşı tarafın göz hareketlerini izlerken (gözlemcinin bakış açısına göre - ayna simetrisi):\n- Sol Üste Bakış (Up-Left): Kurgusal Görsel Tasarım. Zihin o anda daha önce görmediği bir görüntüyü tasarlıyor (örn: yalan kurgularken).\n- Sağ Üste Bakış (Up-Right): Görsel Hatırlama. Zihin geçmişteki gerçek bir anıyı/görüntüyü geri çağırıyor.\n- Sol Yana Bakış (Lateral-Left): Kurgusal Ses Tasarımı. Olmayan bir sesi veya yalan bir sözel ifadeyi kurguluyor.\n- Sağ Yana Bakış (Lateral-Right): İşitsel Hatırlama. Geçmişte duyulmuş gerçek bir sesi veya sözü hatırlıyor.\n- Sol Alta Bakış (Down-Left): Dokunsal/Duygusal Hisler. Fiziksel hisleri veya derin duyguları deneyimliyor.\n- Sağ Alta Bakış (Down-Right): İçsel Diyalog. Karşı tarafın kendi kendine konuşması, mantıksal hesap yapması ve iç sesiyle tartışması.",
     whatItIsNot: "Kuru bir göz kırpma sayımı veya sadece gözlere odaklanıp genel tabloyo kaçırmak değildir. Otonom kaçaklar, beden dili baz hattı (baseline) okumasıyla doğrulanmalıdır.",
     howToApply: [
       "Baz Hattı Saptama: Görüşmenin başında, havadan sudan konuşurken karşı tarafın normal göz kırpma sıklığını ve göz teması süresini kaydedin.",
@@ -582,7 +583,8 @@ const LESSONS: Lesson[] = [
       "Mikro-Kaçış Analizi: Gözlerin sol-aşağı (kurgu) veya sağ-yukarı (hatırlama) yönüne hızlıca kaçışını otonom bir tepki olarak not edin."
     ],
     scenario: "İş ortağınıza bütçe harcamalarındaki açığı sordunuz. 'Her şey yolunda, evrakları hazırlıyorum' derken göz kırpma hızının saniyede 3-4 katına çıktığını, boğazının istemsizce yutkunduğunu ve göz bebeklerinin büyüdüğünü fark ettiniz. Yalan söylediğini teşhis edip, kanıtları isteyene kadar baskıyı sürdürün.",
-    image: "/pupil_autonomic.png"
+    image: "/pupil_autonomic.png",
+    images: ["/pupil_autonomic.png", "/eye_directions.png"]
   },
   {
     id: "spatial-dominance",
@@ -677,6 +679,7 @@ export default function AcademyPage() {
   const [selectedCategory, setSelectedCategory] = useState<"all" | "strategy" | "defense" | "rhetoric" | "body" | "psychology">("all");
   const [selectedLesson, setSelectedLesson] = useState<Lesson | null>(null);
   const [activeMimicIndex, setActiveMimicIndex] = useState(0);
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [notes, setNotes] = useState<Record<string, string>>({});
   const [zoomedImage, setZoomedImage] = useState<string | null>(null);
   const [selectedVideoId, setSelectedVideoId] = useState("tyler_durden");
@@ -1181,6 +1184,7 @@ Bateman için sosyal statü ve onaylanma hayatta kalma meselesidir. Kendisini ba
               onClick={() => {
                 setSelectedLesson(null);
                 setActiveMimicIndex(0);
+                setActiveImageIndex(0);
               }}
               className="flex items-center gap-2 text-ash hover:text-gold transition-colors text-xs font-accent uppercase tracking-widest"
             >
@@ -1712,60 +1716,112 @@ Bateman için sosyal statü ve onaylanma hayatta kalma meselesidir. Kendisini ba
                 </div>
 
               </div>
-            ) : selectedLesson.image ? (
+            ) : selectedLesson.image || (selectedLesson.images && selectedLesson.images.length > 0) ? (
               /* Visuals & Notes Layout for Standard Lessons with Images */
-              <div className="lg:col-span-5 space-y-6 w-full overflow-x-hidden">
-                
-                {/* Visual Panel - Click to Zoom Lightbox */}
-                <div 
-                  onClick={() => setZoomedImage(selectedLesson.image || null)}
-                  className="bg-void/65 border border-obsidian/60 p-6 rounded-sm flex flex-col items-center justify-center min-h-[300px] relative overflow-hidden group cursor-zoom-in hover:border-gold/30 transition-all duration-300 shadow-md"
-                >
-                  <div className="absolute top-3 left-3 text-[8px] font-accent text-gold/50 tracking-widest uppercase">
-                    GÖRSEL DOKTRİN VE ANALİZ
-                  </div>
-                  
-                  {/* Magnifying Glass Indicator */}
-                  <div className="absolute inset-0 bg-void/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-10">
-                    <div className="flex items-center gap-2 bg-abyss border border-gold/20 px-3 py-1.5 rounded-sm text-xs text-gold font-accent tracking-widest uppercase">
-                      <ZoomIn className="w-3.5 h-3.5" /> Görseli Büyüt
-                    </div>
-                  </div>
+              (() => {
+                const lessonImages = selectedLesson.images || [selectedLesson.image || ""];
+                const currentImg = lessonImages[activeImageIndex] || lessonImages[0];
+                return (
+                  <div className="lg:col-span-5 space-y-6 w-full overflow-x-hidden">
+                    
+                    {/* Visual Panel - Click to Zoom Lightbox & Swipeable Carousel */}
+                    <div 
+                      className="bg-void/65 border border-obsidian/60 p-6 rounded-sm flex flex-col items-center justify-center min-h-[300px] relative overflow-hidden group hover:border-gold/30 transition-all duration-300 shadow-md"
+                    >
+                      <div className="absolute top-3 left-3 text-[8px] font-accent text-gold/50 tracking-widest uppercase z-20">
+                        GÖRSEL DOKTRİN VE ANALİZ {lessonImages.length > 1 ? `(${activeImageIndex + 1}/${lessonImages.length})` : ""}
+                      </div>
+                      
+                      {/* Prev / Next Buttons */}
+                      {lessonImages.length > 1 && (
+                        <>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setActiveImageIndex((prev) => (prev === 0 ? lessonImages.length - 1 : prev - 1));
+                            }}
+                            className="absolute left-3 top-1/2 -translate-y-1/2 bg-void/90 border border-obsidian hover:text-gold hover:border-gold/50 rounded-full p-1.5 text-ash z-25 transition-all cursor-pointer"
+                            title="Önceki Görsel"
+                          >
+                            <ArrowLeft className="w-3.5 h-3.5" />
+                          </button>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setActiveImageIndex((prev) => (prev === lessonImages.length - 1 ? 0 : prev + 1));
+                            }}
+                            className="absolute right-3 top-1/2 -translate-y-1/2 bg-void/90 border border-obsidian hover:text-gold hover:border-gold/50 rounded-full p-1.5 text-ash z-25 transition-all cursor-pointer"
+                            title="Sonraki Görsel"
+                          >
+                            <ArrowLeft className="w-3.5 h-3.5 rotate-180" />
+                          </button>
+                        </>
+                      )}
 
-                  <div className="w-full flex flex-col items-center space-y-4">
-                    <div className="w-full aspect-square max-w-[220px] border border-obsidian relative rounded-sm overflow-hidden bg-void">
-                      <img 
-                        src={selectedLesson.image} 
-                        alt={selectedLesson.title}
-                        className="w-full h-full object-cover grayscale opacity-90 transition-all duration-500"
+                      {/* Magnifying Glass Indicator */}
+                      <div 
+                        onClick={() => setZoomedImage(currentImg)}
+                        className="absolute inset-0 bg-void/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-10 cursor-zoom-in"
+                      >
+                        <div className="flex items-center gap-2 bg-abyss border border-gold/20 px-3 py-1.5 rounded-sm text-xs text-gold font-accent tracking-widest uppercase">
+                          <ZoomIn className="w-3.5 h-3.5" /> Görseli Büyüt
+                        </div>
+                      </div>
+
+                      <div className="w-full flex flex-col items-center space-y-4">
+                        <div className="w-full aspect-square max-w-[220px] border border-obsidian relative rounded-sm overflow-hidden bg-void">
+                          <img 
+                            src={currentImg} 
+                            alt={selectedLesson.title}
+                            className="w-full h-full object-cover grayscale opacity-90 transition-all duration-500"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-void via-transparent to-transparent opacity-60" />
+                        </div>
+                        <span className="text-[10px] text-ash font-accent uppercase tracking-wider text-center">
+                          {selectedLesson.title} Şeması {lessonImages.length > 1 ? `(${activeImageIndex + 1})` : ""}
+                        </span>
+                        
+                        {/* Dots Indicators */}
+                        {lessonImages.length > 1 && (
+                          <div className="flex gap-1.5 z-20 pt-1">
+                            {lessonImages.map((_, idx) => (
+                              <button
+                                key={idx}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setActiveImageIndex(idx);
+                                }}
+                                className={`w-1.5 h-1.5 rounded-full transition-all ${
+                                  activeImageIndex === idx ? "bg-gold scale-125" : "bg-ash/30"
+                                }`}
+                              />
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Strategy Notes Panel */}
+                    <div className="bg-void/45 border border-obsidian p-4 rounded-sm space-y-3 text-left w-full shadow-md">
+                      <div className="flex justify-between items-center">
+                        <span className="text-[10px] text-gold font-accent tracking-widest uppercase">
+                          STRATEJİ NOTLARIM
+                        </span>
+                        <span className="text-[8px] text-ash/40 font-accent uppercase">
+                          Lokal Kayıt
+                        </span>
+                      </div>
+                      <textarea
+                        value={notes[selectedLesson.id] || ""}
+                        onChange={(e) => handleSaveNote(selectedLesson.id, e.target.value)}
+                        placeholder="Bu doktrini kendi hayatınızda ve stratejinizde nasıl uygulayacaksınız? Planınızı buraya yazın..."
+                        className="w-full h-36 bg-void/80 border border-obsidian text-smoke placeholder:text-ash/30 p-3 rounded-sm text-xs focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gold/60 transition-all font-sans resize-none scrollbar-custom"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-void via-transparent to-transparent opacity-60" />
                     </div>
-                    <span className="text-[10px] text-ash font-accent uppercase tracking-wider text-center">
-                      {selectedLesson.title} Şeması
-                    </span>
-                  </div>
-                </div>
 
-                {/* Strategy Notes Panel */}
-                <div className="bg-void/45 border border-obsidian p-4 rounded-sm space-y-3 text-left w-full shadow-md">
-                  <div className="flex justify-between items-center">
-                    <span className="text-[10px] text-gold font-accent tracking-widest uppercase">
-                      STRATEJİ NOTLARIM
-                    </span>
-                    <span className="text-[8px] text-ash/40 font-accent uppercase">
-                      Lokal Kayıt
-                    </span>
                   </div>
-                  <textarea
-                    value={notes[selectedLesson.id] || ""}
-                    onChange={(e) => handleSaveNote(selectedLesson.id, e.target.value)}
-                    placeholder="Bu doktrini kendi hayatınızda ve stratejinizde nasıl uygulayacaksınız? Planınızı buraya yazın..."
-                    className="w-full h-36 bg-void/80 border border-obsidian text-smoke placeholder:text-ash/30 p-3 rounded-sm text-xs focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gold/60 transition-all font-sans resize-none scrollbar-custom"
-                  />
-                </div>
-
-              </div>
+                );
+              })()
             ) : (
               /* Strategy Journal Box Only */
               <div className="lg:col-span-5 space-y-6 w-full overflow-x-hidden">
@@ -1799,6 +1855,7 @@ Bateman için sosyal statü ve onaylanma hayatta kalma meselesidir. Kendisini ba
               onClick={() => {
                 setSelectedLesson(null);
                 setActiveMimicIndex(0);
+                setActiveImageIndex(0);
               }}
               className="bg-gold text-void px-8 py-3 rounded-sm text-xs font-accent tracking-widest uppercase font-bold hover:bg-gold-dim transition-colors shadow-md shadow-gold/5"
             >
@@ -1898,6 +1955,7 @@ Bateman için sosyal statü ve onaylanma hayatta kalma meselesidir. Kendisini ba
                     onClick={() => {
                       setSelectedLesson(lesson);
                       setActiveMimicIndex(0);
+                      setActiveImageIndex(0);
                     }}
                     className="group border border-obsidian/50 bg-abyss/30 hover:border-gold/30 hover:bg-abyss/50 p-6 rounded-sm flex flex-col justify-between space-y-6 transition-all duration-500 cursor-pointer relative overflow-hidden custom-glow-hover"
                   >
