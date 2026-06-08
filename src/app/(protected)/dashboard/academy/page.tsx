@@ -2397,6 +2397,16 @@ Bateman için sosyal statü ve onaylanma hayatta kalma meselesidir. Kendisini ba
         </div>
       )}
 
+      {/* Yasal Uyarı & Sorumluluk Reddi Beyanı */}
+      <div className="w-full max-w-4xl mx-auto mt-12 p-4 border border-obsidian/40 bg-void/50 rounded-sm text-center space-y-1">
+        <span className="text-[9px] font-accent tracking-[0.2em] text-gold uppercase font-bold block">
+          ⚠️ YASAL UYARI & SORUMLULUK REDDİ
+        </span>
+        <p className="text-[10px] text-ash/60 leading-relaxed font-sans max-w-2xl mx-auto">
+          Mentis Akademi bünyesinde yer alan tüm doktrinler, analizler ve yöntemler yalnızca eğitim, stratejik analiz ve bilgilendirme amaçlıdır. Bu platformda sunulan hiçbir içerik tıbbi, psikolojik, psikiyatrik, profesyonel veya hukuki bir tavsiye niteliği taşımamaktadır. Herhangi bir klinik tanı, tedavi veya danışmanlık faaliyeti iddia edilmemekte olup, buradaki bilgilerin uygulanması tamamen kullanıcının kendi sorumluluğundadır.
+        </p>
+      </div>
+
     </div>
 
     {/* LIGHTBOX ZOOM MODAL */}
