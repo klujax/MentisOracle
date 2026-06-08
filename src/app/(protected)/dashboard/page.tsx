@@ -386,18 +386,12 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="flex flex-col w-full h-[calc(100vh-100px)] max-w-4xl mx-auto px-4 pb-4 animate-fade-in">
+    <div className="flex flex-col w-full h-[calc(100vh-210px)] md:h-[calc(100vh-220px)] max-w-4xl mx-auto px-4 pb-2 animate-fade-in">
       
-      {/* Centered Sticky Header Bar */}
-      <div className="flex items-center justify-center py-4 border-b border-obsidian/45 flex-shrink-0 w-full relative">
-        <div className="flex items-center gap-2.5">
-          <Brain className="w-6 h-6 text-gold animate-pulse-gold" />
-          <h2 className="font-serif text-xl md:text-2xl text-smoke tracking-wider uppercase">Zihin Karargahı</h2>
-        </div>
-
-        {/* Action buttons shown only when chat is active */}
-        {chatHistory.length > 0 && (
-          <div className="absolute right-0 top-1/2 -translate-y-1/2 flex items-center gap-2">
+      {/* Centered Sticky Header Bar - Only visible when chat is active */}
+      {chatHistory.length > 0 && (
+        <div className="flex items-center justify-end py-3 border-b border-obsidian/45 flex-shrink-0 w-full relative h-14">
+          <div className="flex items-center gap-2">
             <button
               onClick={handleSaveToJournal}
               disabled={isSaved || saveLoading || status === "analyzing"}
@@ -424,15 +418,15 @@ export default function DashboardPage() {
               <span className="hidden sm:inline">Temizle</span>
             </button>
           </div>
-        )}
-      </div>
+        </div>
+      )}
 
       {/* Main View Area */}
       <div className="flex-1 min-h-0 flex flex-col justify-between relative mt-4">
         
         {chatHistory.length === 0 ? (
           /* Sleek, Minimal Welcome / Onboarding State */
-          <div className="flex-1 flex flex-col items-center justify-center p-4 max-w-2xl mx-auto space-y-8 animate-fade-in select-none">
+          <div className="flex-1 w-full flex flex-col items-center justify-start pt-6 md:pt-12 p-4 max-w-2xl mx-auto space-y-6 animate-fade-in select-none overflow-y-auto scrollbar-none">
             {/* Logo */}
             <div className="relative flex items-center justify-center w-16 h-16 mb-2">
               <div className="absolute inset-0 rounded-full border border-gold/20 animate-[spin_8s_linear_infinite]" />
@@ -626,12 +620,12 @@ export default function DashboardPage() {
                   placeholder={chatHistory.length === 0 
                     ? "Masadaki durumu ve seni çıkmaza sokan son hamleyi detaylıca anlat..." 
                     : "Eylem planını derinleştirin: 'İlk kelime ne olmalı?' veya 'Yazmazsa ne yapmalıyım?'"}
-                  className="flex-1 bg-abyss border border-obsidian text-smoke placeholder:text-ash/40 px-4 py-3 rounded-sm text-xs md:text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gold focus-visible:border-gold/50 transition-all duration-300 disabled:opacity-50 resize-none scrollbar-none"
+                  className="flex-1 bg-abyss border border-obsidian text-smoke placeholder:text-ash/40 px-4 py-3 rounded-sm text-xs md:text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gold focus-visible:border-gold/50 transition-all duration-300 disabled:opacity-50 resize-none scrollbar-none h-[58px]"
                 />
                 <button
                   type="submit"
                   disabled={followUpLoading || status === "analyzing" || followUpMessage.trim().length < (chatHistory.length === 0 ? 10 : 1)}
-                  className="bg-gold text-void p-3.5 rounded-sm hover:bg-gold-dim transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center flex-shrink-0 h-[46px] w-[46px]"
+                  className="bg-gold text-void rounded-sm hover:bg-gold-dim transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center flex-shrink-0 h-[58px] w-[58px]"
                 >
                   <Send className="w-4 h-4" />
                 </button>
