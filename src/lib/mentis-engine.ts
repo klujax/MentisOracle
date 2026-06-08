@@ -50,18 +50,7 @@ Kullanıcının anlattığı durumdaki karşı tarafın zafiyetini kendi karakte
 [STRATEJİK HAMLE]
 Kullanıcıya kontrolü ele alması için kendi karakterine uygun tarzda 3 adımlı rasyonel bir eylem planı ver.`;
 
-const CHAT_ANALYSIS_FORMAT = `
 
-YANIT MİMARİSİ (Her yanıtı tam olarak bu 3 yapıya ve başlığa göre ver. Bölümleri ||| ile ayır):
-
-[DURUM ANALİZİ]
-Sohbet geçmişindeki tarafların dilini, tonunu ve yazışma kalıplarını incele. Karşı tarafın karakter profilini, zafiyetlerini ve taktiklerini rasyonel bir şekilde tek bir paragrafta çıkar.
-|||
-[KARŞI TARAFIN MOTİVASYONU]
-Yazışmadaki güç dengesini (kaldıraç kimin elinde, kim kovalıyor, kim savunmada) analiz et. Karşı tarafın asıl motivasyonunu deşifre et.
-|||
-[STRATEJİK HAMLE]
-Bu kişiyi yönetmek veya simülasyonda test etmek için kullanıcıya 3 adımlı bir iletişim stratejisi sun.`;
 
 export interface MentisResponse {
   analysis: string;
@@ -84,7 +73,7 @@ export async function consultMentis(problem: string, character: string = "mentis
   }
 
   const activeChar = CHARACTER_PROMPTS[character] || CHARACTER_PROMPTS.mentis;
-  const sysPrompt = activeChar.prompt + (mode === "simulation" ? CHAT_ANALYSIS_FORMAT : RESPONSE_FORMAT);
+  const sysPrompt = activeChar.prompt + RESPONSE_FORMAT;
 
   try {
     const model = genAI.getGenerativeModel({
@@ -208,84 +197,5 @@ export async function continueMentis(history: ChatMessage[], nextMessage: string
   }
 }
 
-export async function continueSimulation(
-  history: ChatMessage[], 
-  nextMessage: string, 
-  transcript: string,
-  character: string = "mentis"
-): Promise<{ reply: string; advice: string }> {
-  if (!genAI) {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({
-          reply: "Bak, gerçekten üzerime çok geliyorsun. Sadece biraz zamana ihtiyacım var dedim, neden bu kadar baskı yapıyorsun anlamıyorum.",
-          advice: "Hedef savunma pozisyonuna geçti ve sizi suçlamaya çalışıyor. Reaktif olmayın. Onun suçlamalarına cevap vermek yerine hedefinize odaklanın ve net sınırlarınızı koruyun."
-        });
-      }, 1500);
-    });
-  }
 
-  const activeChar = CHARACTER_PROMPTS[character] || CHARACTER_PROMPTS.mentis;
-  const sysInstruction = `GÖREVİN:
-Sen çift katmanlı bir simülasyon motorusun. Aşağıda, kullanıcının yüklediği bir sohbet transkripti yer alıyor.
-
-[YÜKLENEN SOHBET TRANSKRİPTİ]
-${transcript}
-
-Senin iki görevin var:
-1. SİMÜLE EDİLEN KİŞİ (Karakter Rolü): Transkriptteki "karşı tarafın" (kullanıcının konuştuğu kişinin) kimliğine bürün. Onun konuşma tarzını, tonunu, kelime seçimlerini, kısaltmalarını, noktalama işaretlerini, emoji kullanımını ve manipülatif/duygusal kalıplarını birebir taklit ederek kullanıcının son mesajına yanıt ver.
-2. DANIŞMAN (${activeChar.name}): ${activeChar.prompt} 
-Kullanıcının son mesajını rasyonel olarak analiz et. Kullanıcıya bu simülasyon adımında yaptığı hataları söyle ve karşı tarafın (senin simüle ettiğin kişinin) bir sonraki hamlesine karşı ne yazması gerektiği konusunda kısa, keskin, taktiksel bir tüyo ver.
-
-ÇIKTI KURALLARI VE BİÇİMİ:
-- [REPLY] kısmında simüle edilen karşı tarafın yanıtı yer almalıdır. Bu yanıtın sonuna, parantez içinde Mentis'in o mesaja dair yaptığı mikro klinik/taktiksel analizi ekle. Örnek format: "Simüle edilen karşı tarafın mesaj içeriği... (Mentis Analizi: Hedef suçluluk psikolojisi yaratarak odağı kendisinden çekmeye çalışıyor.)"
-- [ADVICE] kısmında ise ${activeChar.name} (Mentis) olarak kullanıcıya doğrudan stratejik tüyo ver. Mentis olarak konuşurken asla "lütfen", "özür dilerim", "üzgünüm" gibi kelimeler kullanma; net, dominant, yardımcı ve rasyonel ol.
-
-YANIT MİMARİSİ (Yanıtta tam olarak bu iki başlığı kullan ve aralarını ||| ile ayır):
-
-[REPLY]
-(Simüle edilen karşı tarafın yanıtı + parantez içinde Mentis Analizi)
-|||
-[ADVICE]
-(Mentis'in kullanıcıya doğrudan stratejik tavsiyesi. 2-3 cümle.)`;
-
-  try {
-    const model = genAI.getGenerativeModel({
-      model: "gemini-2.5-flash",
-      systemInstruction: sysInstruction,
-      generationConfig: {
-        temperature: 0.3
-      }
-    });
-
-    let chatHistory = history;
-    if (chatHistory.length > 0 && chatHistory[chatHistory.length - 1].role === "user" && chatHistory[chatHistory.length - 1].content === nextMessage) {
-      chatHistory = chatHistory.slice(0, -1);
-    }
-
-    const geminiHistory = chatHistory.map((msg) => ({
-      role: msg.role === "user" ? "user" : "model",
-      parts: [{ text: msg.content }],
-    }));
-
-    const chat = model.startChat({
-      history: geminiHistory,
-    });
-
-    const result = await chat.sendMessage(nextMessage);
-    const text = result.response.text() || "";
-    const parts = text.split("|||").map(p => p.trim());
-    
-    const reply = parts[0]?.replace(/\[REPLY\]/i, "").trim() || "Simülasyon yanıt veremedi.";
-    const advice = parts[1]?.replace(/\[ADVICE\]/i, "").trim() || "Stratejik analiz yapılamadı.";
-
-    return { reply, advice };
-  } catch (error: any) {
-    console.error("Simulation chat failed:", error);
-    return {
-      reply: "Bak, gerçekten üzerime çok geliyorsun. Sadece biraz zamana ihtiyacım var dedim, neden bu kadar baskı yapıyorsun anlamıyorum.",
-      advice: "Hedef savunma pozisyonuna geçti ve sizi suçlamaya çalışıyor. Reaktif olmayın. Onun suçlamalarına cevap vermek yerine hedefinize odaklanın ve net sınırlarınızı koruyun."
-    };
-  }
-}
 

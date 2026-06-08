@@ -53,18 +53,19 @@ export default function HistoryPage() {
       try {
         const localHistory = JSON.parse(localStorage.getItem("mentis_local_history") || "[]");
         if (dbError) {
-          setConsultations(localHistory);
+          setConsultations(localHistory.filter((lh: Consultation) => lh.mode !== "simulation"));
         } else {
           // Merge: show local-only entries (id starting with local_) along with DB entries
           const localOnly = localHistory.filter((lh: Consultation) => 
             lh.id.toString().startsWith("local_") && !dbConsultations.some(dh => dh.id === lh.id)
           );
-          setConsultations([...localOnly, ...dbConsultations]);
+          const merged = [...localOnly, ...dbConsultations];
+          setConsultations(merged.filter((c: Consultation) => c.mode !== "simulation"));
         }
       } catch (localErr) {
         console.error("Failed to load local history:", localErr);
         if (!dbError) {
-          setConsultations(dbConsultations);
+          setConsultations(dbConsultations.filter((c: Consultation) => c.mode !== "simulation"));
         }
       }
 
@@ -236,7 +237,7 @@ export default function HistoryPage() {
                 <div className="border-t border-obsidian p-6 space-y-6 animate-fade-in">
                    <div className="space-y-2">
                     <h4 className="text-xs uppercase tracking-widest text-gold font-bold">
-                      01 — {c.mode === "simulation" ? "KARAKTER PROFİLİ" : "Durum Analizi"}
+                      01
                     </h4>
                     <p className="text-smoke/90 text-sm leading-relaxed whitespace-pre-wrap">
                       {c.analysis}
@@ -244,7 +245,7 @@ export default function HistoryPage() {
                   </div>
                   <div className="space-y-2">
                     <h4 className="text-xs uppercase tracking-widest text-gold font-bold">
-                      02 — {c.mode === "simulation" ? "MASADAKİ DENGE" : "Karşı Tarafın Motivasyonu"}
+                      02 — Karşı Tarafın Motivasyonu
                     </h4>
                     <p className="text-smoke/90 text-sm leading-relaxed whitespace-pre-wrap">
                       {c.target_weakness}
@@ -252,7 +253,7 @@ export default function HistoryPage() {
                   </div>
                   <div className="space-y-2">
                     <h4 className="text-xs uppercase tracking-widest text-gold font-bold">
-                      03 — {c.mode === "simulation" ? "STRATEJİK PLAN" : "Stratejik Hamle"}
+                      03 — Stratejik Hamle
                     </h4>
                     <p className="text-smoke/90 text-sm leading-relaxed whitespace-pre-wrap">
                       {c.execution}

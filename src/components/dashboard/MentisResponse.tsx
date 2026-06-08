@@ -20,7 +20,7 @@ export const MentisResponse = ({ analysis, counterMove, execution }: StrategyPro
       <div className="grid gap-6">
         <StrategyCard 
           step="01" 
-          title="DURUM ANALİZİ" 
+          title="" 
           content={analysis} 
           delayClass="delay-100" 
         />

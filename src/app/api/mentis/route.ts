@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient, createAdminClient } from "@/lib/supabase/server";
-import { consultMentis, continueMentis, continueSimulation } from "@/lib/mentis-engine";
+import { consultMentis, continueMentis } from "@/lib/mentis-engine";
 
 export const maxDuration = 60;
 
@@ -62,13 +62,8 @@ export async function POST(req: Request) {
         creditsDeducted = true;
       }
 
-      if (mode === "simulation") {
-        const simResult = await continueSimulation(history, message, transcript || "", "mentis");
-        return NextResponse.json(simResult);
-      } else {
-        const reply = await continueMentis(history, message, character);
-        return NextResponse.json({ reply });
-      }
+      const reply = await continueMentis(history, message, character);
+      return NextResponse.json({ reply });
     }
 
     if (!problem || problem.length < 10) {
@@ -78,7 +73,7 @@ export async function POST(req: Request) {
       );
     }
 
-    cost = mode === "simulation" ? 15 : 1;
+    cost = 1;
 
     if (hasSupabase && userId) {
       const adminSupabase = createAdminClient();
@@ -92,9 +87,7 @@ export async function POST(req: Request) {
           .eq("user_id", userId)
           .single();
 
-        const errorMsg = mode === "simulation"
-          ? `Kişi analizi başlatmak için en az 15 kredin olmalı. Şu anki kredin: ${credits?.credits || 0}`
-          : "Kredilerin tükendi. Devam etmek için abonelik gerekli.";
+        const errorMsg = "Kredilerin tükendi. Devam etmek için abonelik gerekli.";
         return NextResponse.json(
           { error: errorMsg, requiresPayment: true },
           { status: 403 }
@@ -104,8 +97,8 @@ export async function POST(req: Request) {
     }
 
     // Call the Mentis Engine
-    const resolvedCharacter = mode === "simulation" ? "mentis" : (character || "mentis");
-    const strategy = await consultMentis(problem, resolvedCharacter, mode);
+    const resolvedCharacter = character || "mentis";
+    const strategy = await consultMentis(problem, resolvedCharacter, "standard");
 
     // Save consultation
     if (hasSupabase && userId) {
@@ -119,15 +112,13 @@ export async function POST(req: Request) {
         target_weakness: strategy.targetWeakness,
         execution: strategy.execution,
         character: resolvedCharacter,
-        mode: mode || "standard",
+        mode: "standard",
         target_name: resolvedTargetName,
         chat_history: [
           { role: "user", content: problem },
           { 
             role: "model", 
-            content: mode === "simulation"
-              ? `**[KARAKTER PROFİLİ]**\n${strategy.analysis}\n\n**[MASADAKİ DENGE]**\n${strategy.targetWeakness}\n\n**[STRATEJİK PLAN]**\n${strategy.execution}`
-              : `**[DURUM ANALİZİ]**\n${strategy.analysis}\n\n**[KARŞI TARAFIN MOTİVASYONU]**\n${strategy.targetWeakness}\n\n**[STRATEJİK HAMLE]**\n${strategy.execution}`
+            content: `01\n${strategy.analysis}\n\n**[KARŞI TARAFIN MOTİVASYONU]**\n${strategy.targetWeakness}\n\n**[STRATEJİK HAMLE]**\n${strategy.execution}`
           }
         ]
       }).select("id").single();

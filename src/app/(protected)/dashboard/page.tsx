@@ -4,9 +4,8 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { StrategyInput } from "@/components/dashboard/StrategyInput";
 import { LoadingMentis } from "@/components/ui/LoadingMentis";
-import { MentisResponse } from "@/components/dashboard/MentisResponse";
 import { createClient } from "@/lib/supabase/client";
-import { Coins, BookMarked, Send, RefreshCw, MessageSquare, Brain, Trash2, UserPlus, User, Copy } from "lucide-react";
+import { Coins, BookMarked, RefreshCw, MessageSquare, Brain, Copy, Send } from "lucide-react";
 
 interface StrategyResponse {
   id?: string;
@@ -43,21 +42,7 @@ export default function DashboardPage() {
   const [requiresPayment, setRequiresPayment] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
   const [character, setCharacter] = useState<string>("mentis");
-  const [mode, setMode] = useState<"standard" | "simulation">("standard");
-  const [activeAdvice, setActiveAdvice] = useState<string | null>(null);
-
-  // Custom simulation target contacts state
-  interface SimulationTarget {
-    id: string;
-    name: string;
-    transcript: string;
-  }
-  const [targets, setTargets] = useState<SimulationTarget[]>([]);
-  const [selectedTarget, setSelectedTarget] = useState<SimulationTarget | null>(null);
-  const [isCreatingTarget, setIsCreatingTarget] = useState(false);
-  const [newTargetName, setNewTargetName] = useState("");
-  const [newTargetTranscript, setNewTargetTranscript] = useState("");
-  const [targetLoading, setTargetLoading] = useState(false);
+  const mode = "standard";
 
   // Chat follow-up state
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
@@ -102,123 +87,9 @@ export default function DashboardPage() {
     }
   }, [chatHistory, followUpLoading]);
 
-  // Fetch simulation targets from Supabase
-  const fetchTargets = async () => {
-    if (!userId) return;
-    const supabase = createClient();
-    try {
-      const { data, error } = await supabase
-        .from("simulation_targets")
-        .select("*")
-        .order("created_at", { ascending: false });
-      if (error) throw error;
-      setTargets(data || []);
-    } catch (err) {
-      console.warn("Failed to fetch simulation targets, using localStorage fallback:", err);
-      try {
-        const local = JSON.parse(localStorage.getItem("mentis_local_targets") || "[]");
-        setTargets(local);
-      } catch (localErr) {
-        console.error("Local storage load for targets failed:", localErr);
-      }
-    }
-  };
 
-  useEffect(() => {
-    if (mode === "simulation" && userId) {
-      fetchTargets();
-    }
-  }, [mode, userId]);
 
-  const handleSaveTarget = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!newTargetName.trim() || !newTargetTranscript.trim() || !userId) return;
-    setTargetLoading(true);
 
-    const newTarget = {
-      user_id: userId,
-      name: newTargetName.trim(),
-      transcript: newTargetTranscript.trim()
-    };
-
-    try {
-      const supabase = createClient();
-      const { data, error } = await supabase
-        .from("simulation_targets")
-        .insert(newTarget)
-        .select()
-        .single();
-      
-      if (error) throw error;
-      
-      if (data) {
-        setTargets(prev => [data, ...prev]);
-        setSelectedTarget(data);
-        setIsCreatingTarget(false);
-        setNewTargetName("");
-        setNewTargetTranscript("");
-        handleStartSimulation(data);
-      }
-    } catch (err: any) {
-      console.warn("Failed to save target to DB, using localStorage fallback:", err.message);
-      try {
-        const local = JSON.parse(localStorage.getItem("mentis_local_targets") || "[]");
-        const entry = {
-          id: `local_target_${Date.now()}`,
-          name: newTargetName.trim(),
-          transcript: newTargetTranscript.trim(),
-          created_at: new Date().toISOString()
-        };
-        local.unshift(entry);
-        localStorage.setItem("mentis_local_targets", JSON.stringify(local));
-        setTargets(local);
-        setSelectedTarget(entry);
-        setIsCreatingTarget(false);
-        setNewTargetName("");
-        setNewTargetTranscript("");
-        handleStartSimulation(entry);
-      } catch (localErr) {
-        console.error("Local storage save for target failed:", localErr);
-        alert("Kişi kaydedilirken bir hata oluştu.");
-      }
-    } finally {
-      setTargetLoading(false);
-    }
-  };
-
-  const handleDeleteTarget = async (id: string, e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (!confirm("Bu kişiyi ve tüm yazışma geçmişini silmek istediğinize emin misiniz?")) return;
-
-    const isLocal = id.toString().startsWith("local_target_");
-
-    if (!isLocal) {
-      try {
-        const supabase = createClient();
-        const { error } = await supabase
-          .from("simulation_targets")
-          .delete()
-          .eq("id", id);
-        
-        if (error) throw error;
-        setTargets(prev => prev.filter(t => t.id !== id));
-        if (selectedTarget?.id === id) setSelectedTarget(null);
-      } catch (err) {
-        console.error("Failed to delete target from DB:", err);
-        alert("Kişi silinirken bir hata oluştu.");
-      }
-    } else {
-      try {
-        const local = JSON.parse(localStorage.getItem("mentis_local_targets") || "[]");
-        const updated = local.filter((t: any) => t.id !== id);
-        localStorage.setItem("mentis_local_targets", JSON.stringify(updated));
-        setTargets(updated);
-        if (selectedTarget?.id === id) setSelectedTarget(null);
-      } catch (localErr) {
-        console.error("Failed to delete target from localStorage:", localErr);
-      }
-    }
-  };
 
   const saveToLocalHistory = (strat: any, problem: string, char: string, m: string, targetName?: string) => {
     try {
@@ -233,16 +104,14 @@ export default function DashboardPage() {
         created_at: new Date().toISOString(),
         is_starred: false,
         personal_notes: "",
-        character: m === "simulation" ? "mentis" : char,
+        character: char,
         mode: m,
         target_name: targetName || null,
         chat_history: [
           { role: "user", content: problem },
           { 
             role: "model", 
-            content: m === "simulation"
-              ? `**[KARAKTER PROFİLİ]**\n${strat.analysis}\n\n**[MASADAKİ DENGE]**\n${strat.targetWeakness}\n\n**[STRATEJİK PLAN]**\n${strat.execution}`
-              : `**[DURUM ANALİZİ]**\n${strat.analysis}\n\n**[KARŞI TARAFIN MOTİVASYONU]**\n${strat.targetWeakness}\n\n**[STRATEJİK HAMLE]**\n${strat.execution}`
+            content: `01\n${strat.analysis}\n\n**[KARŞI TARAFIN MOTİVASYONU]**\n${strat.targetWeakness}\n\n**[STRATEJİK HAMLE]**\n${strat.execution}`
           }
         ]
       };
@@ -259,57 +128,6 @@ export default function DashboardPage() {
     }
   };
 
-  const handleStartSimulation = async (target: SimulationTarget) => {
-    setStatus("analyzing");
-    setError(null);
-    setRequiresPayment(false);
-    setIsSaved(false);
-    setActiveAdvice(null);
-    
-    try {
-      const res = await fetch("/api/mentis", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ 
-          problem: target.transcript, 
-          character: "mentis", 
-          mode: "simulation",
-          targetName: target.name
-        }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        if (data.requiresPayment) {
-          setRequiresPayment(true);
-        }
-        throw new Error(data.error || "Simülasyon başlatılamadı.");
-      }
-
-      const localId = saveToLocalHistory(data, target.transcript, "mentis", "simulation", target.name);
-      const updatedData = {
-        ...data,
-        id: data.id || localId,
-        targetName: target.name
-      };
-      setResponse(updatedData);
-      setStatus("complete");
-      
-      setChatHistory([
-        { role: "user", content: target.transcript },
-        { 
-          role: "model", 
-          content: `**[KARAKTER PROFİLİ]**\n${data.analysis}\n\n**[MASADAKİ DENGE]**\n${data.targetWeakness}\n\n**[STRATEJİK PLAN]**\n${data.execution}` 
-        }
-      ]);
-    } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : "Bağlantı koptu.";
-      setError(message);
-      setStatus("idle");
-    }
-  };
-
   const handleConsult = async (problem: string) => {
     setStatus("analyzing");
     setError(null);
@@ -317,7 +135,6 @@ export default function DashboardPage() {
     setIsSaved(false);
     
     try {
-      setActiveAdvice(null);
       const res = await fetch("/api/mentis", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -346,7 +163,7 @@ export default function DashboardPage() {
         { role: "user", content: problem },
         { 
           role: "model", 
-          content: `**[DURUM ANALİZİ]**\n${data.analysis}\n\n**[KARŞI TARAFIN MOTİVASYONU]**\n${data.targetWeakness}\n\n**[STRATEJİK HAMLE]**\n${data.execution}` 
+          content: `01\n${data.analysis}\n\n**[KARŞI TARAFIN MOTİVASYONU]**\n${data.targetWeakness}\n\n**[STRATEJİK HAMLE]**\n${data.execution}` 
         }
       ]);
     } catch (err: unknown) {
@@ -391,15 +208,7 @@ export default function DashboardPage() {
       }
 
       const botReply = data.reply;
-      const botAdvice = mode === "simulation" ? data.advice : null;
-
-      if (botAdvice) {
-        setActiveAdvice(botAdvice);
-      }
-
-      const finalContent = botAdvice 
-        ? `${botReply}\n\n**[MENTİS ÖNERİSİ]**\n${botAdvice}` 
-        : botReply;
+      const finalContent = botReply;
 
       const newHistory: ChatMessage[] = [...updatedHistory, { role: "model", content: finalContent }];
       setChatHistory(newHistory);
@@ -498,7 +307,7 @@ export default function DashboardPage() {
           execution: response.execution,
           is_starred: true,
           chat_history: chatHistory,
-          character: mode === "simulation" ? "mentis" : character,
+          character: character,
           mode: mode,
           target_name: (response as any).targetName || null
         });
@@ -523,7 +332,7 @@ export default function DashboardPage() {
           is_starred: true,
           personal_notes: "",
           chat_history: chatHistory,
-          character: mode === "simulation" ? "mentis" : character,
+          character: character,
           mode: mode,
           target_name: (response as any).targetName || null
         };
@@ -583,192 +392,19 @@ export default function DashboardPage() {
           )}
           {!requiresPayment && (
             <div className="w-full flex flex-col items-center space-y-6">
-              {/* Mode Toggle */}
-              <div className="flex border border-obsidian/80 bg-abyss/45 p-1 rounded-sm max-w-sm w-full">
-                <button
-                  type="button"
-                  onClick={() => setMode("standard")}
-                  className={`flex-1 py-1.5 text-[10px] font-accent tracking-widest uppercase transition-colors rounded-sm ${
-                    mode === "standard" 
-                      ? "bg-gold text-void font-bold shadow-md" 
-                      : "text-ash hover:text-smoke bg-transparent"
-                  }`}
-                >
-                  Durum Analizi
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setMode("simulation")}
-                  className={`flex-1 py-1.5 text-[10px] font-accent tracking-widest uppercase transition-colors rounded-sm ${
-                    mode === "simulation" 
-                      ? "bg-gold text-void font-bold shadow-md" 
-                      : "text-ash hover:text-smoke bg-transparent"
-                  }`}
-                >
-                  Sohbet Simülasyonu
-                </button>
+              {/* Mentis active info block */}
+              <div className="w-full max-w-3xl p-4 bg-abyss/30 border border-obsidian/40 rounded-sm text-center sm:text-left relative overflow-hidden">
+                <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-gold/30 to-transparent" />
+                <p className="text-[11px] md:text-xs text-ash font-accent leading-relaxed">
+                  <span className="text-gold font-bold uppercase tracking-wider">Mentis Karargah Ağı: </span>
+                  Soğuk, analitik ve duygu barındırmayan rasyonel zihin devrededir. Fantezi karakterler ve kurgusal maskeler kaldırılmıştır. Masadaki konumunu zayıflatan o son hamleyi anlat ve oyun kurucu olmak için rasyonel planını al.
+                </p>
               </div>
-
-              {mode === "standard" ? (
-                <div className="w-full flex flex-col items-center space-y-6">
-                  {/* Mentis active info block */}
-                  <div className="w-full max-w-3xl p-4 bg-abyss/30 border border-obsidian/40 rounded-sm text-center sm:text-left relative overflow-hidden">
-                    <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-gold/30 to-transparent" />
-                    <p className="text-[11px] md:text-xs text-ash font-accent leading-relaxed">
-                      <span className="text-gold font-bold uppercase tracking-wider">Mentis Karargah Ağı: </span>
-                      Soğuk, analitik ve duygu barındırmayan rasyonel zihin devrededir. Fantezi karakterler ve kurgusal maskeler kaldırılmıştır. Masadaki konumunu zayıflatan o son hamleyi anlat ve oyun kurucu olmak için rasyonel planını al.
-                    </p>
-                  </div>
-                  
-                  <StrategyInput 
-                    onSubmit={handleConsult} 
-                    placeholder="Masadaki konumunu zayıflatan o son hamleyi anlat..."
-                  />
-                </div>
-              ) : (
-                /* Custom Targets Selector */
-                <div className="w-full max-w-3xl space-y-4">
-                  <div className="flex items-center justify-between">
-                    <p className="text-xs uppercase tracking-widest text-ash/80 font-accent">Simüle Edilecek Kişiler</p>
-                    {!isCreatingTarget && (
-                      <button
-                        type="button"
-                        onClick={() => setIsCreatingTarget(true)}
-                        className="flex items-center gap-1.5 text-[10px] text-gold border border-gold/30 bg-gold/5 px-2.5 py-1 rounded-sm font-accent tracking-widest uppercase hover:bg-gold/15 transition-all"
-                      >
-                        <UserPlus className="w-3.5 h-3.5" /> Yeni Kişi Ekle
-                      </button>
-                    )}
-                  </div>
-
-                  {isCreatingTarget ? (
-                    <form onSubmit={handleSaveTarget} className="p-5 border border-obsidian bg-abyss/45 rounded-sm space-y-4 animate-fade-in relative text-left">
-                      <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-gold/30 to-transparent" />
-                      <h4 className="text-sm font-serif text-smoke tracking-wider uppercase mb-2">Yeni Simülasyon Hedefi Oluştur</h4>
-                      
-                      <div className="space-y-1.5">
-                        <label className="text-[10px] text-ash uppercase tracking-wider font-accent">Kişi Adı veya Takma Ad (Örn: Merve, Ahmet, Patron)</label>
-                        <input
-                          type="text"
-                          required
-                          value={newTargetName}
-                          onChange={(e) => setNewTargetName(e.target.value)}
-                          placeholder="Örn: Merve"
-                          className="w-full bg-void border border-obsidian text-smoke placeholder:text-ash/40 px-4 py-2.5 rounded-sm text-xs md:text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gold transition-all"
-                        />
-                      </div>
-
-                      <div className="space-y-1.5">
-                        <div className="flex justify-between items-center">
-                          <label className="text-[10px] text-ash uppercase tracking-wider font-accent">Örnek Yazışma Geçmişi (Konuşma Tarzı Analizi İçin)</label>
-                          <label className="text-[10px] text-gold cursor-pointer hover:text-gold-dim transition-colors font-accent uppercase tracking-wider flex items-center gap-1">
-                            <Copy className="w-3 h-3" /> Txt Dosyası Yükle (.txt)
-                            <input
-                              type="file"
-                              accept=".txt"
-                              className="hidden"
-                              onChange={(e) => {
-                                const file = e.target.files?.[0];
-                                if (file) {
-                                  const reader = new FileReader();
-                                  reader.onload = (event) => {
-                                    setNewTargetTranscript(event.target?.result as string);
-                                  };
-                                  reader.readAsText(file);
-                                }
-                              }}
-                            />
-                          </label>
-                        </div>
-                        <textarea
-                          required
-                          value={newTargetTranscript}
-                          onChange={(e) => setNewTargetTranscript(e.target.value)}
-                          placeholder="Karşı tarafın konuşma tarzını, noktalama işaretlerini, emoji alışkanlıklarını taklit edebilmesi için ondan gelen birkaç mesajı veya aranızdaki eski bir diyaloğu kopyalayıp buraya yapıştırın ya da WhatsApp konuşmasını .txt dosyası olarak doğrudan yükleyin..."
-                          className="w-full h-32 bg-void border border-obsidian text-smoke placeholder:text-ash/40 p-4 rounded-sm text-xs md:text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gold resize-none transition-all"
-                        />
-                      </div>
-
-                      <div className="flex justify-end gap-3 pt-2">
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setIsCreatingTarget(false);
-                            setNewTargetName("");
-                            setNewTargetTranscript("");
-                          }}
-                          className="px-4 py-2 text-[10px] font-accent uppercase tracking-widest text-ash border border-obsidian hover:text-white transition-colors"
-                        >
-                          İptal
-                        </button>
-                        <button
-                          type="submit"
-                          disabled={targetLoading || !newTargetName.trim() || !newTargetTranscript.trim()}
-                          className="bg-gold text-void px-5 py-2 text-[10px] font-bold font-accent uppercase tracking-widest hover:bg-gold-dim transition-colors disabled:opacity-50"
-                        >
-                          {targetLoading ? "Kaydediliyor..." : "Kaydet ve Simüle Et"}
-                        </button>
-                      </div>
-                    </form>
-                  ) : (
-                    targets.length === 0 ? (
-                      <div className="p-10 border border-dashed border-obsidian bg-abyss/10 text-center rounded-sm space-y-3">
-                        <User className="w-8 h-8 text-obsidian/30 mx-auto" />
-                        <p className="text-xs text-ash font-accent italic">Henüz simüle edilecek bir kişi eklemediniz.</p>
-                        <button
-                          type="button"
-                          onClick={() => setIsCreatingTarget(true)}
-                          className="inline-block text-[10px] text-gold border border-gold/30 bg-gold/5 px-4 py-2 rounded-sm font-accent tracking-widest uppercase hover:bg-gold/15 transition-all"
-                        >
-                          İlk Kişiyi Ekle
-                        </button>
-                      </div>
-                    ) : (
-                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-                        {targets.map((t) => {
-                          const isSelected = selectedTarget?.id === t.id;
-                          return (
-                            <div
-                              key={t.id}
-                              onClick={() => {
-                                setSelectedTarget(t);
-                                handleStartSimulation(t);
-                              }}
-                              className={`p-4 rounded-sm border flex items-center justify-between text-left transition-all duration-300 cursor-pointer ${
-                                isSelected 
-                                  ? 'bg-gradient-to-b from-gold/10 to-yellow-600/10 border-gold shadow-[0_0_15px_rgba(201,168,76,0.05)]' 
-                                  : 'border-obsidian bg-abyss/20 hover:border-obsidian/80 hover:bg-abyss/45'
-                              }`}
-                            >
-                              <div className="flex items-center gap-3 overflow-hidden">
-                                <div className={`p-2 rounded-full ${isSelected ? 'bg-gold/10 text-gold' : 'bg-obsidian/40 text-ash/60'}`}>
-                                  <User className="w-4 h-4 flex-shrink-0" />
-                                </div>
-                                <div className="overflow-hidden">
-                                  <p className={`text-xs font-serif tracking-wider font-semibold truncate ${isSelected ? 'text-smoke' : 'text-ash'}`}>
-                                    {t.name}
-                                  </p>
-                                  <p className="text-[9px] text-ash/40 font-accent mt-0.5 tracking-wider uppercase">
-                                    Simüle Et
-                                  </p>
-                                </div>
-                              </div>
-                              <button
-                                type="button"
-                                onClick={(e) => handleDeleteTarget(t.id, e)}
-                                className="text-ash/40 hover:text-red-500 transition-colors p-1 z-10"
-                                title="Kişiyi Sil"
-                              >
-                                <Trash2 className="w-3.5 h-3.5" />
-                              </button>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    )
-                  )}
-                </div>
-              )}
+              
+              <StrategyInput 
+                onSubmit={handleConsult} 
+                placeholder="Masadaki konumunu zayıflatan o son hamleyi anlat..."
+              />
             </div>
           )}
         </div>
@@ -792,9 +428,7 @@ export default function DashboardPage() {
                 <div className="text-left">
                   <div className="flex flex-wrap items-center gap-2">
                     <h4 className="text-sm font-serif text-smoke tracking-wider uppercase">
-                      {mode === "simulation" 
-                        ? `Sohbet Simülasyonu (${response?.targetName || "Hedef Kişi"} ile)` 
-                        : `Stratejik Plan ve Diyalog (${CHARACTERS.find(c => c.id === character)?.name} ile)`}
+                      Stratejik Plan ve Diyalog ({CHARACTERS.find(c => c.id === character)?.name} ile)
                     </h4>
                     {credits !== null && (
                       <span className="flex items-center gap-1 text-[10px] font-accent text-ash bg-void border border-obsidian px-2 py-0.5 rounded-sm">
@@ -804,9 +438,7 @@ export default function DashboardPage() {
                     )}
                   </div>
                   <p className="text-xs text-ash">
-                    {mode === "simulation" 
-                      ? "Karşı tarafın simülasyonunu test edin. Verdiğiniz cevaplara göre yapay zeka onu taklit edecektir." 
-                      : "Mentis Reçetesi'ni inceleyin ve sorularınızla derinleştirin."}
+                    Mentis Reçetesi'ni inceleyin ve sorularınızla derinleştirin.
                   </p>
                 </div>
               </div>
@@ -818,14 +450,9 @@ export default function DashboardPage() {
                     const formattedChat = chatHistory.slice(2).map(msg => {
                       const speaker = msg.role === "user" 
                         ? "SİZ" 
-                        : mode === "simulation" 
-                          ? (response?.targetName || "KARŞI TARAF").toUpperCase()
-                          : (CHARACTERS.find(c => c.id === character)?.name || "MENTIS").toUpperCase();
+                        : (CHARACTERS.find(c => c.id === character)?.name || "MENTIS").toUpperCase();
                       
-                      let replyText = msg.content;
-                      if (mode === "simulation" && msg.content.includes("**[MENTİS ÖNERİSİ]**")) {
-                        replyText = msg.content.split("**[MENTİS ÖNERİSİ]**")[0]?.trim();
-                      }
+                      const replyText = msg.content;
                       return `${speaker}: ${replyText}`;
                     }).join("\n\n");
                     
@@ -854,7 +481,6 @@ export default function DashboardPage() {
                     setStatus("idle");
                     setResponse(null);
                     setChatHistory([]);
-                    setActiveAdvice(null);
                   }}
                   className="flex items-center gap-1.5 px-4 py-2 border border-obsidian bg-obsidian/50 text-ash hover:text-white transition-colors rounded-sm font-accent tracking-widest text-[10px] uppercase"
                 >
@@ -886,11 +512,10 @@ export default function DashboardPage() {
                     </div>
                   ) : (
                     <>
-                      {/* Card 1: Durum Analizi */}
+                      {/* Card 1: 01 */}
                       <div className="relative p-5 md:p-6 rounded-sm bg-abyss border border-obsidian animate-[fade-in_1s_ease-out_forwards]">
                         <div className="absolute top-0 left-4 md:left-6 -translate-y-1/2 bg-void px-2 font-serif text-gold text-xs sm:text-sm tracking-wider flex items-center gap-2">
                           <span className="text-[10px] opacity-50">01</span>
-                          {mode === "simulation" ? "KARAKTER PROFİLİ" : "DURUM ANALİZİ"}
                         </div>
                         <div className="mt-3 font-sans text-smoke leading-relaxed tracking-wide text-xs md:text-sm whitespace-pre-wrap">
                           {response.analysis}
@@ -902,7 +527,7 @@ export default function DashboardPage() {
                         <div className="relative p-5 md:p-6 rounded-sm bg-abyss border border-gold/30 shadow-[0_0_20px_rgba(201,168,76,0.03)] animate-[fade-in_1s_ease-out_forwards] delay-200">
                           <div className="absolute top-0 left-4 md:left-6 -translate-y-1/2 bg-void px-2 font-serif text-gold text-xs sm:text-sm tracking-wider flex items-center gap-2">
                             <span className="text-[10px] opacity-50">02</span>
-                            {mode === "simulation" ? "MASADAKİ DENGE" : "KARŞI TARAFIN MOTİVASYONU"}
+                            KARŞI TARAFIN MOTİVASYONU
                           </div>
                           <div className="mt-3 font-sans text-smoke leading-relaxed tracking-wide text-xs md:text-sm whitespace-pre-wrap">
                             {response.targetWeakness}
@@ -915,7 +540,7 @@ export default function DashboardPage() {
                         <div className="relative p-5 md:p-6 rounded-sm bg-abyss border border-obsidian animate-[fade-in_1s_ease-out_forwards] delay-400">
                           <div className="absolute top-0 left-4 md:left-6 -translate-y-1/2 bg-void px-2 font-serif text-gold text-xs sm:text-sm tracking-wider flex items-center gap-2">
                             <span className="text-[10px] opacity-50">03</span>
-                            {mode === "simulation" ? "STRATEJİK PLAN" : "STRATEJİK HAMLE"}
+                            STRATEJİK HAMLE
                           </div>
                           <div className="mt-3 font-sans text-smoke leading-relaxed tracking-wide text-xs md:text-sm whitespace-pre-wrap">
                             {response.execution}
@@ -932,17 +557,7 @@ export default function DashboardPage() {
                 if (index < 2) return null;
 
                 const isUser = msg.role === "user";
-                let replyText = msg.content;
-                let adviceText = null;
-
-                if (!isUser && mode === "simulation") {
-                  const adviceSplitKey = "**[MENTİS ÖNERİSİ]**";
-                  if (msg.content.includes(adviceSplitKey)) {
-                    const parts = msg.content.split(adviceSplitKey);
-                    replyText = parts[0]?.trim();
-                    adviceText = parts[1]?.trim();
-                  }
-                }
+                const replyText = msg.content;
 
                 return (
                   <div key={index} className={`flex w-full ${isUser ? "justify-end" : "justify-start"} animate-fade-in`}>
@@ -956,23 +571,9 @@ export default function DashboardPage() {
                       }`}>
                         {isUser 
                           ? "SİZ" 
-                          : mode === "simulation" 
-                            ? (response?.targetName || "KARŞI TARAF").toUpperCase()
-                            : (CHARACTERS.find(c => c.id === character)?.name || "MENTIS").toUpperCase()}
+                          : (CHARACTERS.find(c => c.id === character)?.name || "MENTIS").toUpperCase()}
                       </p>
                       <div className="whitespace-pre-wrap font-sans">{replyText}</div>
-
-                      {!isUser && adviceText && (
-                        <div className="mt-3 pt-3 border-t border-gold/20 text-left flex items-start gap-2 bg-gold/5 -mx-4 -mb-4 p-4 rounded-b-sm">
-                          <Brain className="w-3.5 h-3.5 text-gold flex-shrink-0 mt-0.5 animate-pulse-gold" />
-                          <div className="text-[11px] text-smoke/90 leading-relaxed font-accent">
-                            <span className="text-gold font-bold uppercase tracking-wider block mb-0.5">
-                              Mentis Önerisi
-                            </span>
-                            {adviceText}
-                          </div>
-                        </div>
-                      )}
                     </div>
                   </div>
                 );
@@ -982,10 +583,10 @@ export default function DashboardPage() {
                 <div className="flex justify-start animate-pulse">
                   <div className="bg-abyss/85 border border-obsidian/50 rounded-sm p-4 max-w-[85%] text-smoke text-xs md:text-sm">
                     <p className="text-[10px] text-gold font-bold uppercase tracking-widest mb-1.5 font-accent">
-                      {mode === "simulation" ? "KARŞI TARAF" : (CHARACTERS.find(c => c.id === character)?.name || "Mentis")}
+                      {CHARACTERS.find(c => c.id === character)?.name || "Mentis"}
                     </p>
                     <p className="italic font-accent text-ash">
-                      {mode === "simulation" ? "Yazıyor..." : "Hamleler hesaplanıyor..."}
+                      Hamleler hesaplanıyor...
                     </p>
                   </div>
                 </div>
@@ -999,19 +600,6 @@ export default function DashboardPage() {
 
               <div ref={chatEndRef} />
             </div>
-
-            {/* Advisor Advice Banner for Simulation Mode */}
-            {mode === "simulation" && activeAdvice && (
-              <div className="mx-4 my-2 p-3 bg-gold/5 border border-gold/20 rounded-sm text-left animate-fade-in flex items-start gap-3">
-                <Brain className="w-4.5 h-4.5 text-gold flex-shrink-0 mt-0.5 animate-pulse-gold" />
-                <div className="text-xs text-smoke/90 leading-relaxed font-accent">
-                  <span className="text-gold font-bold uppercase tracking-wider block mb-1">
-                    {CHARACTERS.find(c => c.id === character)?.name} Stratejik Tavsiyesi
-                  </span>
-                  {activeAdvice}
-                </div>
-              </div>
-            )}
 
             {/* Chat Input Footer */}
             <form onSubmit={handleSendFollowUp} className="p-4 bg-abyss border-t border-obsidian/50 flex gap-3 flex-shrink-0">

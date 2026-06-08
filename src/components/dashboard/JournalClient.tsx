@@ -88,13 +88,14 @@ export default function JournalClient() {
       // Load local strategies
       const localStrats = JSON.parse(localStorage.getItem("mentis_local_journal") || "[]");
       if (fetchStratsError) {
-        setStrategies(localStrats);
+        setStrategies(localStrats.filter((ls: SavedStrategy) => ls.mode !== "simulation"));
       } else {
         // Merge DB strategies with local-only strategies (e.g. starting with local_ or not present in DB)
         const localOnly = localStrats.filter((ls: SavedStrategy) => 
           ls.id.toString().startsWith("local_") && !dbStrats.some(ds => ds.id === ls.id)
         );
-        setStrategies([...localOnly, ...dbStrats]);
+        const merged = [...localOnly, ...dbStrats];
+        setStrategies(merged.filter((ls: SavedStrategy) => ls.mode !== "simulation"));
       }
 
       // 2. Fetch custom notes
@@ -134,7 +135,7 @@ export default function JournalClient() {
       // Fallback both to localStorage if auth/fetching completely failed
       try {
         const localStrats = JSON.parse(localStorage.getItem("mentis_local_journal") || "[]");
-        setStrategies(localStrats);
+        setStrategies(localStrats.filter((ls: SavedStrategy) => ls.mode !== "simulation"));
 
         const localNotes = JSON.parse(localStorage.getItem("mentis_local_notes") || "[]");
         setCustomNotes(localNotes);
@@ -510,14 +511,14 @@ export default function JournalClient() {
                           <>
                             <div>
                               <h4 className="text-xs font-serif text-gold uppercase tracking-widest mb-2">
-                                01 — {selectedStrategy.mode === "simulation" ? "KARAKTER PROFİLİ" : "Durum Analizi"}
+                                01
                               </h4>
                               <p className="text-sm text-smoke/90 leading-relaxed whitespace-pre-wrap">{selectedStrategy.analysis}</p>
                             </div>
                             {selectedStrategy.target_weakness && (
                               <div>
                                 <h4 className="text-xs font-serif text-gold uppercase tracking-widest mb-2">
-                                  02 — {selectedStrategy.mode === "simulation" ? "MASADAKİ DENGE" : "Karşı Tarafın Motivasyonu"}
+                                  02 — Karşı Tarafın Motivasyonu
                                 </h4>
                                 <p className="text-sm text-smoke/90 leading-relaxed whitespace-pre-wrap">{selectedStrategy.target_weakness}</p>
                               </div>
@@ -525,7 +526,7 @@ export default function JournalClient() {
                             {selectedStrategy.execution && (
                               <div>
                                 <h4 className="text-xs font-serif text-gold uppercase tracking-widest mb-2">
-                                  03 — {selectedStrategy.mode === "simulation" ? "STRATEJİK PLAN" : "Stratejik Hamle"}
+                                  03 — Stratejik Hamle
                                 </h4>
                                 <p className="text-sm text-smoke/90 leading-relaxed whitespace-pre-wrap">{selectedStrategy.execution}</p>
                               </div>
