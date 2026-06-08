@@ -565,8 +565,73 @@ const LESSONS: Lesson[] = [
       "Nefes Kontrolü: Cümlelerinizi nefes nefese kurmayın. Göğüs nefesi yerine diyafram nefesi kullanarak sesinizin tınısını kalınlaştırın."
     ],
     scenario: "Önemli bir sunumda veya tartışmada, heyecanla hızlı hızlı anlatmak yerine, her slayt geçişinde veya önemli iddiadan sonra 2 saniye durup doğrudan dinleyicilerin gözlerinin içine bakın, ardından tok ve yavaş bir sesle: 'Bu strateji, bizim için tek seçenek.' diyerek sözel dominansınızı kurun."
+  },
+  {
+    id: "pupil-autonomic",
+    title: "Göz Bebekleri & Otonom Kaçaklar",
+    category: "body",
+    categoryLabel: "Beden Dili",
+    description: "Göz bebeklerinin büyüme/küçülme hızını, göz kırpma refleksini ve otonom sinir sistemi sızıntılarını tarama.",
+    whatItIs: "Otonom Sinir Sistemi (ANS), bir insan yalan söylerken, stres altındayken veya heyecanlandığında kontrol edemediği fiziksel tepkileri yönetir. Bu tepkilerin en önemlisi göz bebekleridir (pupil dilation). Beyin yalan söylediğinde veya tehlike hissettiğinde adrenalin salgılar ve göz bebekleri anlık olarak genişler (dilation). Aynı şekilde, göz kırpma sıklığı (normalde dakikada 15-20 iken) stres altında 40-50'ye kadar çıkabilir veya aşırı bilişsel odaklanma anında (Poker Face) 5-6'ya kadar düşebilir. Bu otonom kaçakları okumak, karşınızdakinin zihinsel durumunu doğrudan taramanızı sağlar.",
+    whatItIsNot: "Kuru bir göz kırpma sayımı veya sadece gözlere odaklanıp genel tabloyu kaçırmak değildir. Otonom kaçaklar, beden dili baz hattı (baseline) okumasıyla doğrulanmalıdır.",
+    howToApply: [
+      "Baz Hattı Saptama: Görüşmenin başında, havadan sudan konuşurken karşı tarafın normal göz kırpma sıklığını ve göz teması süresini kaydedin.",
+      "Kritik Soru Anı: Asıl soruyu sorduğunuzda, göz kapaklarının titremesini (eyelid flutter), yutkunma sıklığının artmasını ve şah damarındaki (carotid artery) nabız atışının hızlanmasını izleyin.",
+      "Pupil Genişlemesi Gözlemi: Işık seviyesi değişmediği halde, sorunuza yanıt verirken göz bebeklerinin aniden büyümesi zihinsel yükün (yalan veya heyecan) arttığının kanıtıdır.",
+      "Mikro-Kaçış Analizi: Gözlerin sol-aşağı (kurgu) veya sağ-yukarı (hatırlama) yönüne hızlıca kaçışını otonom bir tepki olarak not edin."
+    ],
+    scenario: "İş ortağınıza bütçe harcamalarındaki açığı sordunuz. 'Her şey yolunda, evrakları hazırlıyorum' derken göz kırpma hızının saniyede 3-4 katına çıktığını, boğazının istemsizce yutkunduğunu ve göz bebeklerinin büyüdüğünü fark ettiniz. Yalan söylediğini teşhis edip, kanıtları isteyene kadar baskıyı sürdürün."
+  },
+  {
+    id: "spatial-dominance",
+    title: "Mekansal Dominans & Bölge İstilası",
+    category: "body",
+    categoryLabel: "Beden Dili",
+    description: "Sosyal ortamlarda kapladığınız fiziksel alanı büyüterek veya karşı tarafın alanına mikro müdahalelerle hiyerarşik üstünlük dikte etme.",
+    whatItIs: "Hayvanlar aleminde olduğu gibi, insan hiyerarşisinde de dominans fiziksel alanla doğrudan ilişkilidir. Mekansal Dominans (Spatial Dominance), vücudunuzu sıkıştırmadan, kollarınızı ve bacaklarınızı genişleterek oturduğunuz odayı veya masayı psikolojik olarak 'sahiplenme' eylemidir. Karşı tarafın alanına (kişisel bölgesine) elinizi koyarak, eşyalarınızı onun masasına yayarak veya mikro düzeyde ona yaklaşarak yapacağınız 'Bölge İstilası' (Territorial Invasion), rakibin bilinçaltına onun alt kademede olduğunu dikte eder ve onda stres hormonu salgılatır.",
+    whatItIsNot: "Kaba, hırçın davranmak veya fiziksel olarak birini rahatsız edecek düzeyde tacizkar olmak değildir. Tamamen şık, doğal ve kendinden emin görünen bir alan yönetimidir.",
+    howToApply: [
+      "Alan Genişletme: Toplantı masasında dirseklerinizi sandalyenizin dışına koyun, evraklarınızı veya telefonunuzu masada geniş bir alana yayın.",
+      "Açık Duruş Protokolü: Kollarınızı göğsünüzde birleştirip defansif moda geçmeyin (kapanma). Göğüs kafesiniz açık, omuzlarınız dik olsun.",
+      "Taktiksel Eşya Çapalama: Kendi bardağınızı veya kaleminizi, karşı tarafın kişisel alan sınırının (yaklaşık 45 cm) hemen üzerine yerleştirerek onun bölgesine sözsüz bir sınır çizgisi çekin.",
+      "Yavaş Mekansal Hareketler: Sandalyenize yaslanırken veya doğrulurken ani hareketlerden kaçının. Hareketleriniz yavaş, kararlı ve asil olsun."
+    ],
+    scenario: "Bir pazarlık toplantısında rakip firmanın temsilcisi sizi köşeye sıkıştırmaya çalışıyor. Kollarınızı bağlayıp büzülmek yerine, arkanıza yaslanıp kollarınızı sandalyenin kollarına rahatça yerleştirin. Konuşurken kendi kaleminizi masanın tam ortasına, onun tarafına yakın olacak şekilde yerleştirerek mekansal olarak masayı yönettiğinizi sözsüz şekilde gösterin."
+  },
+  {
+    id: "micro-expression",
+    title: "Mikro-İfade Deşifresi & Yüz Kas Taraması",
+    category: "body",
+    categoryLabel: "Beden Dili",
+    description: "Saniyenin 25'te biri süren mikro ifadeleri (gizlenen korku, tiksinti, öfke) yüz kasları üzerinden teşhis etme kılavuzu.",
+    whatItIs: "İnsanlar hissettikleri gerçek duyguları (korku, öfke, küçümseme, şüphe, tiksinti) sosyal maskeler ardına saklamaya çalışırlar. Ancak bilinçaltı, saniyenin 25'te biri kadar süren ve kontrol edilemeyen anlık yüz kasılmalarıyla (mikro ifadeler) gerçeği dışarıya sızdırır. Mikro-İfade Deşifresi, özellikle ağız kenarlarının asimetrik kasılmasını (küçümseme), üst göz kapaklarının anlık gerilmesini (korku) veya kaşların birbirine yaklaşmasını (öfke) yakalayarak, rakibin maskesinin arkasını görmenizi sağlar.",
+    whatItIsNot: "Yüzdeki sıradan mimikleri uzun uzun izlemek değildir. Mikro ifadeler anlıktır ve saniyenin onda biri kadar bir sürede belirip kaybolur; yakalamak yüksek odaklanma gerektirir.",
+    howToApply: [
+      "Mikro-Küçümseme Yakalama: Karşı taraf sizin teklifinizi dinlerken dudak kenarlarından sadece birinin hafifçe yukarı çekilmesi (asimetrik smirk), size ve teklifinize saygı duymadığının veya sizi hafife aldığının anlık sızıntısıdır.",
+      "Mikro-Korku Taraması: Söylediğiniz kritik bir kelime sonrası, üst göz kapaklarının anlık olarak yukarı kalkıp göz akının görünmesi, onda bir panik veya suçluluk tetiklendiğinin kanıtıdır.",
+      "Mikro-Öfke Teşhisi: Dudakların preslenerek incelmesi ve burun deliklerinin hafifçe açılması, karşı tarafın kontrolünü kaybetmeye başladığının sözsüz sinyalidir.",
+      "Klinik Yanıt: Mikro ifadeyi yakaladığınız an konuyu derinleştirin: 'Bu maddedeki detaylar seni biraz düşündürdü sanırım, ne dersin?' diyerek onu açılmaya zorlayın."
+    ],
+    scenario: "Şirketten ayrılmayı planlayan ortağınıza yeni bir ortaklık planı sundunuz. Ağzıyla 'Çok güzel bir plan, beğendim' derken, ağız köşesinin milisaniyelik bir hızla tek taraflı yukarı kalktığını (küçümseme) yakaladınız. Aslında planı ciddiye almadığını ve arkadan iş çevirmeye devam ettiğini anlayıp, planı revize etmek yerine savunma protokolüne geçin."
+  },
+  {
+    id: "tactile-anchoring",
+    title: "Dokunsal Çapa & Fiziksel Temas Stratejisi",
+    category: "body",
+    categoryLabel: "Beden Dili",
+    description: "Müzakerelerde veya ikna anlarında el sıkışma derecesini, omuza dokunma mesafesini ve beden ısısı değişimlerini bir manipülasyon kaldıracı olarak kullanma.",
+    whatItIs: "Fiziksel temas, insan beyninde oksitosin salgılanmasını tetikleyen ve bilinçdışı bir güven bağı oluşturan en ilkel iletişim yöntemidir. Dokunsal Çapa (Tactile Anchoring), el sıkışırken elinizin üstte kalmasıyla kurulan güç üstünlüğünü, konuşma esnasında karşı tarafın omzuna veya dirseğine yapacağınız mikro temaslarla (0.5 saniyelik hafif dokunuş) kendi çerçevenizi onaylatmayı yönetir. Bu temaslar, karşınızdakinin savunma duvarlarını (gaslighting kalkanlarını) saniyeler içinde eriterek telkine açık hale gelmesini sağlar.",
+    whatItIsNot: "Karşı tarafı rahatsız edecek sıklıkta veya kaba şekilde sürekli el şakaları yapmak, dokunmak değildir. Son derece profesyonel, nadir, zamanlaması kusursuz ve statü gösteren temaslardır.",
+    howToApply: [
+      "Dominant El Sıkışma: El sıkışırken avuç içinizin hafifçe yere bakacak şekilde üstte kalmasını sağlayarak hiyerarşik üstünlüğü ilk saniyede kurun.",
+      "Dirsek/Omuz Dokunuşu: Müzakere masasında anlaşmaya varılacak kritik kelimeyi söylerken, onun dirseğinin hemen üstüne hafifçe dokunup çekin. Bu, sözünüzün ağırlığını zihnine fiziksel olarak mühürler.",
+      "Beden Isısı ve Nem Kontrolü: Tokalaşırken elinin soğuk ve nemli olması, karşı tarafın o an yoğun bir stres (adrenalin/kaç-savaş modu) altında olduğunu gösterir.",
+      "Güven Çapası (Oxytocin Release): Olumlu bir diyalog anında temas kullanarak, o temas anı ile olumlu duyguyu zihninde eşleştirin (çapalayın)."
+    ],
+    scenario: "Bir anlaşmayı bağlamak üzeresiniz ama müşteri kararsız duruyor. Tok sesle 'Bu ortaklık ikimiz için de büyük bir zafer olacak' derken, müşterinin sağ dirseğine hafifçe ve samimi bir saygıyla 0.5 saniye dokunup çekin. Bu dokunsal çapa, müşterinin karar vermesini kolaylaştırarak imzayı atmasını sağlayacaktır."
   }
 ];
+
 
 export default function AcademyPage() {
   const [searchTerm, setSearchTerm] = useState("");
