@@ -845,7 +845,7 @@ BİLİŞSEL KANDIRMA:
       stressIndex: 30,
       credibilityIndex: 10,
       thumbnail: "/mentis_secret_files_vol1.jpg",
-      videoUrl: "",
+      videoUrl: "/patrick_bateman.mp4",
       detailedAnalysis: `KLİNİK TEŞHİS: Saf Psikopati (Antisosyal Kişilik Bozukluğu) ve Ağır Obsesif Narsisistik Yapılanma.
 
 Patrick Bateman, yuppie kültürünün zirvesinde yaşayan, ancak iç dünyasında derin bir varoluşsal boşluk ve kimliksizlik yaşayan klinik bir psikopattır. Kendi ifadesiyle 'insani duygulara benzer hisler taklit eden bir maske' taşır. En ufak bir statü rekabeti (örn: daha iyi bir kartvizit, restoranda rezervasyon yaptıramama), onda derin narsisistik yaralanmalara ve ardından gelen kontrolsüz sadistçe şiddet patlamalarına yol açar.
