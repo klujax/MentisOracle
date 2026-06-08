@@ -94,14 +94,15 @@ const LESSONS: Lesson[] = [
     title: "Sessizlik İlkesi",
     category: "strategy",
     categoryLabel: "Saldırı & Strateji",
-    description: "Sessizliğin karşı tarafta yarattığı psikolojik boşluğu yönetme ve reaktifliği kırma sanatı.",
-    whatItIs: "Sessizlik, pasif bir eylemsizlik veya köşeye çekilme durumu değildir; karşı tarafı kendi zihinsel yankıları ve kaygılarıyla baş başa bırakıp baskı altında tutan aktif bir psikolojik ambargodur. Karşı tarafın tepki bekleme zafiyetinden beslenir. İnsan zihni belirsizliğe tahammül edemez; sessiz kaldığınızda, karşı taraf sizin ne düşündüğünüzü, ne planladığınızı ve ne hissettiğinizi anlamak için kendi zihninde senaryolar üretmeye başlar ve bu da onu hata yapmaya, taviz vermeye veya zayıf pozisyonunu ifşa etmeye zorlar.\n\nSESSİZLİK SÜRELERİ VE PSİKOLOJİK ETKİLERİ:\n- 1-3 Saat (Sınır Çekme): Sıradan bir konuşmada mesajlara geç dönmek, 'ulaşılabilir' olmadığınızı ve hayatınızın merkezinde kendi önceliklerinizin olduğunu gösterir.\n- 12-24 Saat (Güç Dengesi): Karşı tarafın saygısızlığı veya kural ihlali durumunda uygulanan bu süre, onun suçluluk duygusunu ve kaygısını tetikler.\n- 3-5 Gün (Kriz Yönetimi): Ciddi krizlerde uygulanan sessizlik, masadaki tüm güç dengelerini sıfırlar. Karşı tarafın sizi kaybetme korkusuyla yüzleşmesini sağlar.\n- Süresiz Sessizlik (Köprüleri Yakma): Sınır ihlallerinin kronikleştiği durumlarda, rasyonel çerçeveyi tamamen geri çekerek karşı tarafın üzerinizdeki tüm nüfuzunu sıfırlarsınız.",
+    description: "Sessizliğin karşı tarafta yarattığı psikolojik boşluğu yönetme ve reaktifliği kırma sanatı. Zihinsel kontrol mekanizmaları.",
+    whatItIs: "Sessizlik, pasif bir eylemsizlik veya köşeye çekilme durumu değildir; karşı tarafı kendi zihinsel yankıları ve kaygılarıyla baş başa bırakıp baskı altında tutan aktif bir psikolojik ambargodur. Karşı tarafın tepki bekleme zafiyetinden beslenir. İnsan zihni belirsizliğe tahammül edemez; sessiz kaldığınızda, karşı taraf sizin ne düşündüğünüzü, ne planladığınızı ve ne hissettiğinizi anlamak için kendi zihninde senaryolar üretmeye başlar ve bu da onu hata yapmaya, taviz vermeye veya zayıf pozisyonunu ifşa etmeye zorlar.\n\nSESSİZLİK SÜRELERİ VE PSİKOLOJİK ETKİLERİ:\n- 1-3 Saat (Sınır Çekme): Sıradan bir konuşmada mesajlara geç dönmek, 'ulaşılabilir' olmadığınızı ve hayatınızın merkezinde kendi önceliklerinizin olduğunu gösterir.\n- 12-24 Saat (Güç Dengesi): Karşı tarafın saygısızlığı veya kural ihlali durumunda uygulanan bu süre, onun suçluluk duygusunu ve kaygısını tetikler.\n- 3-5 Gün (Kriz Yönetimi): Ciddi krizlerde uygulanan sessizlik, masadaki tüm güç dengelerini sıfırlar. Karşı tarafın sizi kaybetme korkusuyla yüzleşmesini sağlar.\n- Süresiz Sessizlik (Köprüleri Yakma): Sınır ihlallerinin kronikleştiği durumlarda, rasyonel çerçeveyi tamamen geri çekerek karşı tarafın üzerinizdeki tüm nüfuzunu sıfırlarsınız.\n\nTAKTIKSEL TEPKISIZLIK VE DUYGUSAL SOĞURMA:\nKarşı taraftan gelen agresif veya manipülatif atakları anında yanıtlamak yerine, zihinsel bir 'soğurma' havuzu oluşturun. Bu havuzda, gelen sözlü saldırının duygusal yükünü filtreleyip sadece rasyonel veriyi analiz edin. Cevap vermediğiniz her saniye, karşı tarafın kendi saldırısının yankısı altında ezilmesini sağlar.\n\nMÜZAKERE MASASINDA SESSİZLİK:\nPazarlık veya anlaşma anlarında karşı tarafın sunduğu yetersiz teklife itiraz etmek yerine, gözlerinizi kısmadan 5-7 saniye boyunca sessizce yüzüne bakın. İnsanlar sosyal olarak sessizliği 'kabul edilmeme' veya 'hata' olarak yorumladıklarından, bu sessizlik baskısı altında kendi tekliflerini sizin lehinize iyileştirmeye çalışacaklardır.",
     whatItIsNot: "Sessizlik ilkesi çocuksu bir küsme, trip atma ya da pasif-agresif bir 'silent treatment' değildir. Amaç karşı tarafı cezalandırmak veya ondan çocukça ilgi dilenmek değil; duygusal reaktivitenizi sıfırlayarak karşınızdakinin onay arama şemasını tetiklemek ve masadaki rasyonel çerçeveyi korumaktır. Sessiz kalırken içten içe öfke biriktirmek veya karşı taraf yazar yazmaz hemen yumuşamak bu ilkeyi tamamen sabote eder.",
     howToApply: [
       "İletişim Kesintisi (Anında Reaksiyon): Karşı taraf sınır ihlali yaptığında veya saygısızca yaklaştığında kelimelerle kavga etmeyi derhal bırakın ve sessizliğe geçin.",
       "Gecikmeli Geri Dönüş Protokolü: Karşı taraf sizinle tekrar temas kurmaya çalıştığında reaksiyon süresini uzatın. Hiçbir telaş veya heyecan göstermeden soğukkanlılığınızı koruyun.",
       "Minimalist Nötr Yanıt: Sessizlikten sonra konuşmaya döndüğünüzde uzun açıklamalar yapmayın. Sadece tek kelimelik veya rasyonel, duygusal yük taşımayan net yanıtlar verin.",
-      "Kayıt Dışı Kalma: Sosyal medya durumları, profil resimleri veya 'çevrimiçi' hareketleriyle karşı tarafa zayıflık sinyalleri (örn. üzüntülü müzikler, göndermeli durumlar) vermekten kaçının."
+      "Kayıt Dışı Kalma: Sosyal medya durumları, profil resimleri veya 'çevrimiçi' hareketleriyle karşı tarafa zayıflık sinyalleri (örn. üzüntülü müzikler, göndermeli durumlar) vermekten kaçının.",
+      "Ritmik Geciktirme Katsayıları: Mesajlaşırken onun cevap yazma süresini baz alın ve bu süreyi sistematik olarak 1.5x ile çarpıp geciktirerek statü dengesini lehinize çevirin."
     ],
     scenario: "Eşiniz veya iş ortağınız size suçlayıcı ve değersizleştirici bir mesaj attı. Ona kendinizi açıklayan sayfalarca yanıt yazmak yerine 24 saat boyunca hiçbir dönüş yapmayın. Meraklanıp aradığında veya tekrar yazdığında ses tonunuzu yükseltmeden, tamamen düz ve klinik bir tonla: 'Meşguldüm, konuşacak rasyonel bir durum olduğunu düşünmedim.' diyerek çerçevenizi koruyun."
   },
@@ -110,14 +111,15 @@ const LESSONS: Lesson[] = [
     title: "Çerçeve Kontrolü",
     category: "strategy",
     categoryLabel: "Saldırı & Strateji",
-    description: "Sosyal etkileşimlerdeki kuralları belirleme ve karşı tarafın shit-test'lerini bozma.",
-    whatItIs: "Çerçeve (Frame), iki insan arasındaki konuşmanın alt metnindeki gerçeklik algısıdır. Güçlü olanın çerçevesi diğerini yutar. Çerçeve kontrolü, karşınızdakinin size biçtiği 'suçlu', 'savunmacı' veya 'yetersiz' rolünü oynamayı reddederek, konuşmanın gerçeklik sınırlarını kendi kurallarınızla çizmenizdir. Müzakerelerde, iş hayatında ve ilişkilerde kimin çerçevenin içinde kaldığı, o ilişkinin patronunu belirler.\n\nÇERÇEVE SAVAŞI KURALLARI:\n- Yargıç vs. Sanık: Karşı taraf sizi sorguya çektiğinde veya hesap sorduğunda doğrudan 'sanık' koltuğuna oturup savunma yaparsanız çerçeveyi kaybedersiniz. Suçu kabul etmeden veya reddetmeden odağı onun sorgulama yetkisine kaydırın.\n- Shit-Test (Sınır Testleri): Karşı tarafın sizin özgüveninizi, sabrınızı veya sınırlarınızı ölçmek için yaptığı tüm iğneleyici hamleleri (Shit-Test) soğukkanlılıkla savuşturmak zorundasınız. Asla açıklama yapmayın.",
+    description: "Sosyal etkileşimlerdeki kuralları belirleme, shit-test'leri bozma ve zihinsel sınır dominansı.",
+    whatItIs: "Çerçeve (Frame), iki insan arasındaki konuşmanın alt metnindeki gerçeklik algısıdır. Güçlü olanın çerçevesi diğerini yutar. Çerçeve kontrolü, karşınızdakinin size biçtiği 'suçlu', 'savunmacı' veya 'yetersiz' rolünü oynamayı reddederek, konuşmanın gerçeklik sınırlarını kendi kurallarınızla çizmenizdir. Müzakerelerde, iş hayatında ve ilişkilerde kimin çerçevenin içinde kaldığı, o ilişkinin patronunu belirler.\n\nÇERÇEVE SAVAŞI KURALLARI:\n- Yargıç vs. Sanık: Karşı taraf sizi sorguya çektiğinde veya hesap sorduğunda doğrudan 'sanık' koltuğuna oturup savunma yaparsanız çerçeveyi kaybedersiniz. Suçu kabul etmeden veya reddetmeden odağı onun sorgulama yetkisine kaydırın.\n- Shit-Test (Sınır Testleri): Karşı tarafın sizin özgüveninizi, sabrınızı veya sınırlarınızı ölçmek için yaptığı tüm iğneleyici hamleleri (Shit-Test) soğukkanlılıkla savuşturmak zorundasınız. Asla açıklama yapmayın.\n\nÇERÇEVE KIRMA VE YENİ GERÇEKLİK İNŞASI:\nKarşı taraf size kendi ahlaki veya rasyonel kurallarını dayattığında, onun sunduğu gerçekliği doğrudan reddetmek yerine onun dayanak noktasını anlamsızlaştırın. Konuşmayı onun getirdiği konudan çekip kendi seçtiğiniz bir kavramsal temele oturtarak gerçekliği yeniden kurgulayın.",
     whatItIsNot: "Çerçeve kontrolü sürekli inatlaşmak, kavgacı olmak, her söze itiraz etmek veya bağırmak değildir. Sesini yükseltmek zayıflık çerçevesidir. En güçlü çerçeve kontrolü, karşınızdakinin size dayattığı yargılayıcı argümanları tamamen yok sayıp, kendi belirlediğiniz gündemi devam ettirmektir.",
     howToApply: [
       "Açıklamayı Reddetme: Size yöneltilen asılsız veya manipülatif suçlamalara 'Öyle değil çünkü...' diyerek savunma yapmayın. Savunma yapmak, onun yargıç rolünü kabul etmektir.",
       "Testi Teşhis Etme ve Etkisiz Kılma: Karşı tarafın sizi denemek veya küçük düşürmek için attığı lafları ciddiye almayın. Bunları mizahla, abartarak veya tamamen ilgisiz kalarak etkisiz kılın.",
-      "Gündemi Dikte Etme: Konuşmanın yönünü onun getirdiği konudan çekip, kendi belirlediğiniz sınırlara ve hedeflere yönlendiren.",
-      "Rolleri Değiştirme: Size soru sorulduğunda doğrudan cevap vermek yerine, sorunun altındaki niyeti sorgulayarak karşı tarafı savunma yapmaya zorlayın."
+      "Gündemi Dikte Etme: Konuşmanın yönünü onun getirdiği konudan çekip, kendi belirlediğiniz sınırlara ve hedeflere yönlendirin.",
+      "Rolleri Değiştirme: Size soru sorulduğunda doğrudan cevap vermek yerine, sorunun altındaki niyeti sorgulayarak karşı tarafı savunma yapmaya zorlayın.",
+      "Shit-Test Yanıt Kalıpları: İğneleyici laflara karşı: a) Mizahi Büyütme (örn: 'Evet, hatta en kötüsüyüm'), b) Yok Sayarak Konuşmaya Devam Etme, c) Klinik Teşhis (örn: 'Şu an beni provoke etmeye çalışmandaki amaç ne?')."
     ],
     scenario: "Yöneticinizin 'Bu projede çok yavaşsın' testine karşı 'Ama çok çalışıyorum, mesaiye kalıyorum' diye kendinizi acındırmak yerine, gözünün içine bakıp: 'Kalite zaman alır. Hangi detayları optimize etmemizi istersiniz?' diyerek profesyonel çerçevenizi ve statünüzü koruyun."
   },
@@ -126,8 +128,8 @@ const LESSONS: Lesson[] = [
     title: "Rasyonel Mesafe",
     category: "defense",
     categoryLabel: "Zihinsel Savunma",
-    description: "Duygusal bağımlılık tuzaklarını kırmak ve sınırları net bir şekilde çizmek.",
-    whatItIs: "Duygusal reaktiviteyi tamamen sıfırlayarak, karşınızdaki insanı hayatınızın odağından çıkarmak ve onu sadece rasyonel bir 'veri noktası' olarak analiz etmektir. Kendi sınırlarınızı koruyarak zihinsel bağımsızlığınızı elde etmenizi sağlar. İnsanların sizin üzerinizdeki en büyük gücü, sizin onlara duyduğunuz duygusal bağımlılıktır. Rasyonel mesafe, bu bağımlılığı klinik bir soğukkanlılıkla kesip atmaktır.\n\nMESAFE ALANLARI:\n- Bilgi Sızıntısını Kesme: Hayatınızdaki gelişmeleri, planlarınızı ve duygularınızı karşı tarafla paylaşmayı durdurun. Gizem zırhını giyin.\n- Zaman Dilimi Yönetimi: İletişime harcadığınız süreyi günün belirli ve çok kısıtlı saatleriyle sınırlandırın.",
+    description: "Duygusal bağımlılık tuzaklarını kırmak, sınırları net bir şekilde çizmek ve zihinsel koruma.",
+    whatItIs: "Duygusal reaktiviteyi tamamen sıfırlayarak, karşınızdaki insanı hayatınızın odağından çıkarmak ve onu sadece rasyonel bir 'veri noktası' olarak analiz etmektir. Kendi sınırlarınızı koruyarak zihinsel bağımsızlığınızı elde etmenizi sağlar. İnsanların sizin üzerinizdeki en büyük gücü, sizin onlara duyduğunuz duygusal bağımlılıktır. Rasyonel mesafe, bu bağımlılığı klinik bir soğukkanlılıkla kesip atmaktır.\n\nMESAFE ALANLARI:\n- Bilgi Sızıntısını Kesme: Hayatınızdaki gelişmeleri, planlarınızı ve duygularınızı karşı tarafla paylaşmayı durdurun. Gizem zırhını giyin.\n- Zaman Dilimi Yönetimi: İletişime harcadığınız süreyi günün belirli ve çok kısıtlı saatleriyle sınırlandırın.\n\nDUYGUSAL BAĞIMSIZLIK EŞİĞİ:\nKarşı tarafın sizi manipüle etmesine zemin hazırlayan tüm 'onaylanma', 'sevilme' ve 'takdir edilme' şemalarınızı devre dışı bırakın. Kendi değerinizi dışarıdan gelen geri beslemelere değil, kendi disiplininize ve hedeflerinize sabitleyin.",
     whatItIsNot: "Rasyonel mesafe insanlardan tamamen kaçmak, yalnızlaşmak, çocukça küsmek ya da kaba davranmak değildir. İletişim halindeyken bile zihinsel gardınızı korumak ve karşı tarafın manipülasyonlarının iç dünyanıza sızmasını engellemektir.",
     howToApply: [
       "Beklenti Sıfırlama: Karşı tarafın değişmesini, sizi sevmesini veya onaylamasını beklemeyi kesin olarak bırakın. Durumu olduğu gibi kabul edin.",
@@ -435,6 +437,134 @@ const LESSONS: Lesson[] = [
       "Samimi Teşekkür: İyilikten sonra abartısız ama samimi bir teşekkürle bilişsel çelişkiyi zihnine çapalayın."
     ],
     scenario: "Sizi rakip olarak gören ve her fırsatta sabote eden bir iş arkadaşınızın yanına gidip: 'Bu konuda senin çok deneyimli olduğunu biliyorum, şu raporu incelemek için bana 5 dakikalık bir tavsiye verebilir misin?' diye sorun. Bu ufak iyilik, onun size karşı olan düşmanlığını bilişsel düzeyde kıracaktır."
+  },
+  {
+    id: "pygmalion-effect",
+    title: "Pygmalion Etkisi & Beklenti Yönetimi",
+    category: "strategy",
+    categoryLabel: "Saldırı & Strateji",
+    description: "Karşı tarafın davranışlarını, ona biçtiğiniz zihinsel rol ve beklentilerle bilinçaltı düzeyinde şekillendirme sanatı.",
+    whatItIs: "Pygmalion Etkisi (Kendini Gerçekleştiren Kehanet), bir kişiye yönelik yüksek veya düşük beklentilerinizin, o kişinin performansını ve davranışlarını doğrudan etkilemesi durumudur. Klinik stratejide Pygmalion etkisi; karşınızdakine doğrudan komut vermek yerine, onun bilinçaltına 'zaten dürüst', 'zaten disiplinli' veya 'zaten sadık' olduğu rolünü çapalayarak, onun bu role uygun davranmasını sağlama manipülasyonudur. İnsanlar, kendilerine yakıştırılan saygın kimlikleri kaybetmemek için ahlaki olarak kendilerini kısıtlarlar.",
+    whatItIsNot: "İnsanları naifçe övmek veya yapay dalkavukluk yapmak değildir. Amaç, karşı tarafın egosuna hitap eden bir kimlik inşa edip, onu bu kimliğin ahlaki hapishanesine kilitlemektir.",
+    howToApply: [
+      "Kimlik Çapalama: Hedefinize, onda görmek istediğiniz davranışı içeren bir kimlik atayın (Örn: 'Senin gibi detaylara önem veren profesyonellerle çalışmak harika').",
+      "Güven Çapası: Kritik bir görev vermeden önce ona duyduğunuz mutlak güvensizliği gizleyip 'Sorumluluk bilincine güvendiğim için bu işi sana devrediyorum' deyin.",
+      "Kimlik Bozulması Tehdidi: Hata yapmaya yeltendiğinde, ona biçtiğiniz kimliği kaybetme korkusunu tetikleyin.",
+      "Olumlu Geribildirim Sarmalı: İstediğiniz yöndeki en ufak hareketini, biçtiğiniz rolü pekiştirecek şekilde övün."
+    ],
+    scenario: "Sürekli hata yapan ve teslim tarihlerini kaçıran bir çalışanınıza kızıp bağırmak yerine sakince: 'Senin gibi titiz ve zaman yönetimi yüksek bir uzmanın bu ufak detayı gözden kaçırması şaşırtıcı. Bir sonrakinde asıl kaliteni göstereceğini biliyorum.' deyin. Çalışanınız o 'titiz uzman' kimliğini kaybetmemek için bir sonraki işe aşırı özen gösterecektir."
+  },
+  {
+    id: "reactance-shield",
+    title: "Tepkisellik Zırhı & Ters Psikoloji",
+    category: "defense",
+    categoryLabel: "Zihinsel Savunma",
+    description: "Karşı tarafın bağımsızlık ve kontrol dürtüsünü tetikleyerek onu sizin istediğiniz yönde hareket etmeye zorlama.",
+    whatItIs: "Psikolojik Tepkisellik (Reactance), bir insanın özgürlüğünün veya seçeneklerinin kısıtlandığını hissettiğinde verdiği güçlü reaksiyondur. Karşı tarafın kontrol etme veya 'hayır' deme arzusunu bildiğiniz durumlarda, ona asıl istediğiniz seçeneği yasaklayarak ya da ulaşılmaz göstererek, onun tepki olarak tam da sizin istediğiniz eyleme yönelmesini sağlayabilirsiniz. İnsanlar yasak elmaya her zaman daha çok arzular.",
+    whatItIsNot: "Çocukça 'bunu yapma' deyip yapmasını ummak değildir. Karşı tarafın zeka seviyesine uygun, rasyonel kılıflara bürünmüş ve onun bağımsızlık illüzyonunu koruyan karmaşık bir çerçeve yönetimidir.",
+    howToApply: [
+      "İçsel Direnç Analizi: Karşı tarafın otoriteye veya yönlendirmelere karşı ne kadar tepkisel olduğunu ölçün.",
+      "Ulaşılamazlık İllüzyonu: Asıl istediğiniz seçeneği onun için 'zor', 'uygun değil' veya 'senin için fazla riskli' olarak sunun.",
+      "Alternatif Dayatma: Onu istemediğiniz seçeneğe doğru hafifçe itin ki, tepkisel olarak sizin asıl istediğiniz yöne kaçsın.",
+      "Özgürlük Onayı: Karar anında 'Tabii ki seçim senin' diyerek onun karar bağımsızlığı illüzyonunu pekiştirin."
+    ],
+    scenario: "İş ortağınızın yeni ve yenilikçi bir yatırım planını onaylamasını istiyorsunuz ama o sürekli her şeye muhalefet ediyor. Ona planı övmek yerine: 'Bu plan bizim için harika ama senin risk toleransını ve geleneksel yöntemlerini aşabilir, sanırım bunu pas geçmeliyiz' deyin. Ortağınız yetersiz ve korkak görünmemek için plana balıklama atlayacaktır."
+  },
+  {
+    id: "trojan-horse",
+    title: "Truva Atı & Seçici Dürüstlük",
+    category: "rhetoric",
+    categoryLabel: "Retorik & Sözel",
+    description: "Karşı tarafın şüpheciliğini kırmak için küçük konularda aşırı dürüst davranıp, asıl büyük yönlendirmeyi gizleme.",
+    whatItIs: "Seçici Dürüstlük (Selective Honesty), karşınızdaki insanın savunma duvarlarını indirmek için kullanılan stratejik bir Truva atıdır. İnsanlar kendilerine karşı dürüstçe yapılan bir itiraf veya hata kabulü karşısında duygusal olarak yumuşarlar ve karşılarındaki kişinin tamamen 'şeffaf ve zararsız' olduğunu varsayarlar. Bu taktikle, sizin için önemsiz olan bir konuda büyük bir dürüstlük veya zafiyet gösterisi yaparak karşı tarafın güvenini kazanır, ardından asıl büyük planınızı onun radarına yakalanmadan yürütürsünüz.",
+    whatItIsNot: "Tüm sırlarınızı ifşa etmek veya kendinizi gerçekten tehlikeye atacak zafiyetler vermek değildir. Gösterilen dürüstlük tamamen kontrollü ve telafi edilebilir olmalıdır.",
+    howToApply: [
+      "Yapay Zafiyet Seçimi: Sizin için hiçbir stratejik kaybı olmayan, küçük bir hata veya kişisel kusur belirleyin.",
+      "Samimi İtiraf Gösterisi: Müzakerenin başında bu hatayı kendiliğinden ve samimi bir tonla masaya getirin (Örn: 'Bu konuda geçmişte bir hata yaptım ve bunu sizinle paylaşmak istedim').",
+      "Güven Köprüsü İnşası: Karşı tarafın bu itiraf karşısında gevşemesini ve size 'dürüst' etiketi yapıştırmasını bekleyin.",
+      "Truva Atının Girişi: Güven tesis edildikten sonra, asıl önemli ve lehinize olan maddeleri pürüzsüzce geçirin."
+    ],
+    scenario: "Müşteriyle fiyat pazarlığı yaparken, projenin geçmişte ufak bir teslimat gecikmesi yaşadığını ve bu hatanın tamamen sizin yönetiminizden kaynaklandığını samimiyetle itiraf edin. Müşteri sizin bu 'dürüstlüğünüzden' o kadar etkilenecektir ki, sözleşmedeki fiyat ve ödeme koşullarını hiç sorgulamadan kabul edecektir."
+  },
+  {
+    id: "scarcity-hook",
+    title: "Kıtlık Kancası & Suni Aciliyet",
+    category: "strategy",
+    categoryLabel: "Saldırı & Strateji",
+    description: "Zamanı, ilgiyi veya kaynakları kısıtlayarak karşı tarafı panik halinde mantıksız kararlar vermeye sürükleme.",
+    whatItIs: "Kıtlık İlkesi (Scarcity Principle), insanların ulaşılamaz veya sınırlı olan kaynaklara (zaman, bilgi, fırsat) otomatik olarak daha yüksek değer biçmesi psikolojisidir. Suni aciliyet yarattığınızda karşı tarafın mantıklı düşünen bilişsel beyni (prefrontal korteks) devre dışı kalır ve kaybetme korkusuyla (FOMO) hareket eden ilkel beyni kontrolü ele alır. Bu durum onu aceleyle karar vermeye ve sizin şartlarınızı kabul etmeye zorlar.",
+    whatItIsNot: "Basit ve inandırıcı olmayan 'son 5 dakika' yalanları söylemek değildir. Aciliyet rasyonel, dışsal faktörlere bağlı ve son derece inandırıcı bir hikayeyle sunulmalıdır.",
+    howToApply: [
+      "Kaynak Sınırlandırması: Fırsatın sadece çok kısıtlı bir süre veya sınırlı bir kontenjan için geçerli olduğunu belirtin.",
+      "Dışsal Gerekçe İnşası: Sınırlandırmayı kendinizin değil, üçüncü tarafların veya piyasa koşullarının dayattığını söyleyin.",
+      "Çekilme Blöfü: Karşı taraf kararsız kaldığında teklifi masadan çekmekle tehdit edin (Örn: 'Yarın başka bir portföyle görüşeceğim, bu fırsat kapanacaktır').",
+      "Sessiz Zaman Sayacı: Süre sınırını koyduktan sonra sessiz kalın ve panik dalgasının onun zihnini ele geçirmesini izleyin."
+    ],
+    scenario: "Gayrimenkul satışı veya iş anlaşmasında, alıcıya kararsız kaldığı an: 'Bu teklif sadece bugün saat 18:00'e kadar geçerli. Yarın başka bir yatırımcı grubuyla masaya oturuyoruz ve prensipte anlaştık. Kararınızı o saate kadar iletmeniz gerekiyor.' deyin. Kaybetme korkusu yaşayan alıcı, pazarlık yapmayı bırakıp hemen imzayı atacaktır."
+  },
+  {
+    id: "counter-gaslighting",
+    title: "Karşı-Gaslighting Protokolü",
+    category: "defense",
+    categoryLabel: "Zihinsel Savunma",
+    description: "Algı manipülasyonu yapan kişiyi kendi gerçeğiyle ve rasyonel çelişkisiyle vurup zihinsel savunmasını felç etme.",
+    whatItIs: "Gaslighting manipülasyonuna uğradığınızda (örn: 'sen yanlış hatırlıyorsun', 'aşırı tepki veriyorsun'), manipülatörle gerçeğin ne olduğu konusunda tartışmaya girmek onun tuzağına düşmektir. Karşı-Gaslighting, onun iddialarını klinik bir soğukkanlılıkla yok sayıp, odağı manipülatörün bunu yapmaktaki amacına, hafıza tutarsızlığına ve kendi çelişkilerine kaydırmaktır. Onun oyununun kurallarını reddedip onu kendi zihinsel zafiyetiyle baş başa bırakırsınız.",
+    whatItIsNot: "Karşı tarafa 'Sen yalan söylüyorsun, manipülatörsün' diye bağırmak değildir. Bu reaktiflik zayıflıktır. Karşı-gaslighting tamamen sakin, klinik bir gözlemci edasıyla manipülatörü analiz etmektir.",
+    howToApply: [
+      "Duygusal Blokaj: Onun 'sorunlu sensin' ithamlarını içselleştirmeyi reddedin.",
+      "Gerçeklik Sabitleme: Kendi hafızanızı ve kanıtlarınızı net tutun ama bunları ona ispatlamaya çalışmayın.",
+      "Teşhis Pygmalion: İthamına karşı: 'Ben ne yaşadığımı biliyorum. Şu an beni suçlu hissettirerek asıl konudan kaçmaya çalışmandaki motivasyon nedir?' sorusuyla odağı ona çevirin.",
+      "Etkileşimi Sonlandırma: Savunmaya veya saldırıya geçtiğinde konuşmayı orada kesin: 'Bu konuyu rasyonel bir zeminde konuşamayacağımızı görüyorum. Konuşma bitmiştir.'"
+    ],
+    scenario: "Ortağınızın yaptığı bir hatayı dile getirdiğinizde size: 'Sen çok alıngansın, her şeyi büyütüyorsun' dediğinde kendinizi aklamaya çalışmak yerine gözlerinin içine bakın: 'Konuyu benim alınganlığıma getirerek kendi yaptığın kural ihlalini gölgelemeye çalışıyorsun. Alınganlığımı değil, bu hatayı nasıl telafi edeceğini konuşalım.' diyerek onu köşeye sıkıştırın."
+  },
+  {
+    id: "emotional-leverage",
+    title: "Duygusal Kaldıraç & Suçluluk Çapası",
+    category: "psychology",
+    categoryLabel: "Klinik Psikoloji",
+    description: "Karşı tarafın empati, vicdan ve toplumsal onay reflekslerini tetikleyerek onu savunmasız bırakma ve uzlaşmaya zorlama.",
+    whatItIs: "İnsanlar kendilerini 'kötü', 'bencil' veya 'vefasız' hissetmekten kaçınırlar. Duygusal Kaldıraç, karşı tarafın geçmişte size yaptığı bir haksızlığı, eksikliği veya sizin ona yaptığınız büyük bir fedakarlığı zihninde canlı tutarak onda yapısal bir suçluluk duygusu (Guilt Trip) yaratmaktır. Bu suçluluk duygusu, sonraki tüm müzakerelerde sizin lehinize çalışacak gizli bir borçluluk hissi (suçluluk çapası) oluşturur.",
+    whatItIsNot: "Sürekli ağlamak, sızlanmak veya mağdur edebiyatı yapmak değildir. Suçluluk duygusu sessizce, ima edilerek ve asil bir duruşla çapa olarak zihne yerleştirilmelidir.",
+    howToApply: [
+      "Fedakarlık Arşivi: Karşı taraf için yaptığınız fedakarlıkları veya onun size yaptığı haksızlıkları asla unutmayın ve bunları koz olarak biriktirin.",
+      "Asil Mağduriyet: Haksızlığa uğradığınızda kavga etmeyin. Tam tersine olgun, sakin ve incinmiş ama dik duran bir tavır sergileyin.",
+      "İma Yöntemi: Kritik müzakere anında geçmişteki o olayı çok ufak bir olguyla hatırlatarak zihnindeki borçluluk hissini tetikleyin.",
+      "Borç Tahsili: Karşı taraf bu suçluluk baskısı altındayken asıl taleplerinizi masaya getirip onaylatın."
+    ],
+    scenario: "İş ortağınız geçmişte sizin yoğun mesaileriniz sayesinde büyük bir krizden kurtuldu. Yeni kar dağıtım masasında ortağınız size zorluk çıkardığında ona kızmak yerine sakince: 'O zor günlerde şirketi kurtarmak için ailemden ve sağlığımdan verdiğim ödünleri ikimiz de biliyoruz. Şimdi bu masada hakkaniyetli bir paylaşım beklemem en doğal hakkım.' deyin. Ortağınız vefasız görünmemek için taleplerinizi kabul edecektir."
+  },
+  {
+    id: "mental-quarantine",
+    title: "Zihinsel Karantina & Bilgi Diyeti",
+    category: "defense",
+    categoryLabel: "Zihinsel Savunma",
+    description: "Toksik ortamlarda ve manipülatif ilişkilerde zihinsel bütünlüğü korumak için dış uyarıcıları ve duygusal beslemeleri sıfırlama.",
+    whatItIs: "Zihinsel Karantina, manipülatörlerin veya toksik sosyal çevrelerin zihninize sızmasını engellemek için uygulanan acil durum izolasyon protokolüdür. İnsan beyni maruz kaldığı bilgilerin ve duyguların ortalamasını alır. Eğer sürekli manipülatif girdilere maruz kalırsanız, rasyonel muhakemeniz aşınır. Bilgi diyeti ve karantina uygulayarak, dışarıdan gelen tüm duygusal ve sosyal uyarıcıları keser, zihninizi tamamen kendi hedeflerinize ve rasyonel gerçekliğinize odaklarsınız.",
+    whatItIsNot: "Depresyona girip odalara kapanmak değildir. Aksine, dış dünya ile etkileşimi minimumda (sadece fonksiyonel düzeyde) tutup, içsel gücünüzü ve odaklanmanızı zirveye çıkarma eylemidir.",
+    howToApply: [
+      "Girdi Filtresi: Size değersizlik, kaygı veya yetersizlik hissettiren tüm insanlarla iletişimi (dijital ve fiziksel) en alt seviyeye indirin.",
+      "Duygusal Nötrleşme: Onlarla konuşmak zorunda kaldığınızda sadece teknik veriler paylaşın, kişisel hayatınızdan veya hislerinizden asla bahsetmeyin.",
+      "Zaman Sınırı: Toksik ortamlarda bulunma sürenizi milisaniyelerle sınırlandırın.",
+      "Zihinsel Detoks: Boş kalan zamanınızı kitap okumak, bedensel gelişim ve stratejik planlama gibi zihni güçlendiren eylemlerle doldurun."
+    ],
+    scenario: "İş yerinde sürekli dedikodu yapan ve enerjinizi sömüren iş arkadaşlarınızın öğle yemeği davetlerini kibarca ama kesin bir dille reddedin. Masanızda kulaklığınızı takıp sadece işinize odaklanın ve size laf attıklarında kısa, nötr ve teknik yanıtlar vererek zihinsel karantinanızı koruyun."
+  },
+  {
+    id: "rhythmic-dominance",
+    title: "Ritmik Dominans & Kelimeler Arası Sessizlik",
+    category: "rhetoric",
+    categoryLabel: "Retorik & Sözel",
+    description: "Cümlelerin içindeki duraklama sürelerini kontrol ederek kelimelerin ağırlığını artırma ve karşı tarafın araya girmesini engelleme.",
+    whatItIs: "Sözel etkileşimlerde güç, kimin daha hızlı veya daha çok konuştuğuyla değil, kimin kelimelerin ritmini kontrol ettiğiyle belirlenir. Ritmik Dominans; yavaş, tane tane ve kelimelerin arasına bilinçli boşluklar (micro-pauses) yerleştirerek konuşma sanatıdı. Hızlı konuşmak onaylanma ihtiyacı ve kaygı sinyalidir. Yavaş ve duraklayarak konuşmak ise masadaki zamanı ve alanı kendi kontrolünüze aldığınızın, karşı taraftan korkmadığınızın sözsüz ilanıdır.",
+    whatItIsNot: "Uykulu, enerjisiz veya karşınızdakini sıkacak kadar hımbıl konuşmak değildir. Konuşma net, kararlı, ses tonu tok ama tempo olarak kasıtlı şekilde yavaş ve ağırdır.",
+    howToApply: [
+      "Hız Regülasyonu: Konuşma temponuzu normal hızınızın en az yarısına indirin.",
+      "Mikro-Duraklamalar: Her önemli cümleden önce ve sonra 1.5 - 2 saniye bekleyin. Bu, cümlenin muhatabın zihnindeki ağırlığını artırır.",
+      "Bölünmezlik Çerçevesi: Konuşurken karşı taraf sözünüzü kesmeye çalışırsa sesinizi yükseltmeyin; temponuzu hiç bozmadan konuşmaya yavaşça devam edin. Sözünüzü kesen taraf reaktif ve kaba görünecektir.",
+      "Nefes Kontrolü: Cümlelerinizi nefes nefese kurmayın. Göğüs nefesi yerine diyafram nefesi kullanarak sesinizin tınısını kalınlaştırın."
+    ],
+    scenario: "Önemli bir sunumda veya tartışmada, heyecanla hızlı hızlı anlatmak yerine, her slayt geçişinde veya önemli iddiadan sonra 2 saniye durup doğrudan dinleyicilerin gözlerinin içine bakın, ardından tok ve yavaş bir sesle: 'Bu strateji, bizim için tek seçenek.' diyerek sözel dominansınızı kurun."
   }
 ];
 
