@@ -7,7 +7,7 @@ import { createClient } from "@/lib/supabase/client";
 const PACKAGES = [
   {
     id: "pkg_100",
-    title: "Başlangıç Protokolü",
+    title: "Başlangıç Paketi",
     credits: 100,
     price: 200,
     image: "/mentis_100_credits.png",
@@ -16,7 +16,7 @@ const PACKAGES = [
   },
   {
     id: "pkg_500",
-    title: "Uzman Stratejist",
+    title: "Uzman Paketi",
     credits: 500,
     price: 800,
     image: "/mentis_500_credits.png",
@@ -31,7 +31,7 @@ const PACKAGES = [
   },
   {
     id: "pkg_1000",
-    title: "Elit Dominans",
+    title: "Elit Paket",
     credits: 1000,
     price: 1400,
     image: "/mentis_1000_credits.png",
@@ -360,12 +360,12 @@ export default function BillingPage() {
         
         {/* Book Cover Mockup */}
         <div 
-          onClick={() => setZoomedImage("/mentis_secret_files_vol1.jpg")}
+          onClick={() => setZoomedImage("/mentis_secret_files_vol1.png")}
           className="w-40 md:w-44 aspect-[3/4] border border-obsidian bg-void relative rounded-sm overflow-hidden flex-shrink-0 shadow-2xl group hover:border-gold/30 transition-all duration-500 cursor-zoom-in"
           title="Büyütmek için tıklayın"
         >
           <img 
-            src="/mentis_secret_files_vol1.jpg" 
+            src="/mentis_secret_files_vol1.png" 
             alt="Mentis Gizli Dosyalar: Cilt 1"
             className="w-full h-full object-cover grayscale opacity-90 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700"
           />
