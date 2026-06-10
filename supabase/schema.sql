@@ -39,6 +39,7 @@ create table if not exists public.user_credits (
   plan text default 'free' not null, -- 'free', 'pro', 'elite'
   has_book boolean default false not null, -- Kitap satın alma durumu
   has_secret_files boolean default false not null, -- Gizli Dosyalar satın alma durumu
+  phone text unique, -- Telefon numarası (10 haneli benzersiz)
   created_at timestamp with time zone default timezone('utc'::text, now()) not null,
   updated_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
@@ -48,12 +49,12 @@ alter table public.user_credits enable row level security;
 create policy "Users can view own credits" on public.user_credits
   for select using (auth.uid() = user_id);
 
--- Yeni kullanıcı kayıt olduğunda otomatik kredi ver
+-- Yeni kullanıcı kayıt olduğunda otomatik kredi ver (Telefonu metadata'dan kopyala)
 create or replace function public.handle_new_user()
 returns trigger as $$
 begin
-  insert into public.user_credits (user_id, credits, total_used, plan)
-  values (new.id, 3, 0, 'free');
+  insert into public.user_credits (user_id, credits, total_used, plan, phone)
+  values (new.id, 3, 0, 'free', (new.raw_user_meta_data->>'phone')::text);
   return new;
 end;
 $$ language plpgsql security definer;
@@ -63,6 +64,17 @@ drop trigger if exists on_auth_user_created on auth.users;
 create trigger on_auth_user_created
   after insert on auth.users
   for each row execute procedure public.handle_new_user();
+
+-- Telefon numarasının benzersiz olup olmadığını kontrol eden fonksiyon
+create or replace function public.check_phone_exists(phone_num text)
+returns boolean as $$
+begin
+  return exists(
+    select 1 from public.user_credits where phone = phone_num
+  );
+end;
+$$ language plpgsql security definer;
+
 
 -- İndeksler
 create index if not exists idx_consultations_user_id on public.consultations(user_id);
