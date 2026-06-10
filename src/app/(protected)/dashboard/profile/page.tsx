@@ -1,6 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
-import { User, CreditCard, Shield, ArrowLeft } from "lucide-react";
+import { User, CreditCard, Shield, ArrowLeft, Phone } from "lucide-react";
 import { LogoutButton } from "@/components/ui/LogoutButton";
 import Link from "next/link";
 
@@ -28,6 +28,16 @@ export default async function ProfilePage() {
   const credits = creditsData?.credits ?? 0;
   const plan = creditsData?.plan ?? "free";
   const planDisplay = plan === "free" ? "Standart" : plan === "pro" ? "Profesyonel" : "Elit";
+
+  const formatPhone = (phoneStr: string | null | undefined): string => {
+    if (!phoneStr) return "Belirtilmemiş";
+    const clean = phoneStr.replace(/\D/g, "");
+    if (clean.length === 10) {
+      return `0 (${clean.substring(0,3)}) ${clean.substring(3,6)} ${clean.substring(6,8)} ${clean.substring(8,10)}`;
+    }
+    return phoneStr;
+  };
+  const phoneDisplay = formatPhone(creditsData?.phone);
 
   return (
     <div className="min-h-[calc(100vh-5rem)] bg-void p-6 md:p-12 animate-fade-in flex flex-col items-center justify-start">
@@ -65,6 +75,16 @@ export default async function ProfilePage() {
 
             <div className="flex items-center gap-4">
               <div className="p-3 bg-obsidian/30 rounded-full text-gold">
+                <Phone className="w-6 h-6" />
+              </div>
+              <div>
+                <p className="text-xs text-ash uppercase tracking-widest mb-1">Kayıtlı Telefon Numarası</p>
+                <p className="text-smoke text-lg">{phoneDisplay}</p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-4">
+              <div className="p-3 bg-obsidian/30 rounded-full text-gold">
                 <Shield className="w-6 h-6" />
               </div>
               <div>
@@ -78,7 +98,7 @@ export default async function ProfilePage() {
                 <CreditCard className="w-6 h-6" />
               </div>
               <div>
-                <p className="text-xs text-ash uppercase tracking-widest mb-1">Kalan Danışmanlık Kredisi</p>
+                <p className="text-xs text-ash uppercase tracking-widest mb-1">Kalan Analiz Kredisi</p>
                 <p className="text-gold text-2xl font-serif">{credits}</p>
               </div>
             </div>

@@ -1081,88 +1081,88 @@ const LESSONS: Lesson[] = [
     title: "Sosyal Hiyerarşi Haritalama",
     category: "social-dynamics",
     categoryLabel: "Sosyal Dinamikler",
-    description: "Bir gruptaki güç hiyerarşisini, karar alıcıyı, kapı bekçisini ve en zayıf halkayı teşhis etme yöntemi.",
-    whatItIs: "Sosyal Hiyerarşi Haritalama, herhangi bir insan topluluğuna girdiğinizde kimin dominant (karar alıcı), kimin aracı (kapı bekçisi), kimin ise boyun eğen konumda olduğunu soğukkanlı bir gözlemle çözmektir. Sosyal gruplar rasyonel değil, hiyerarşik ve ilkel güdülerle hareket eder. Güç dinamiklerini haritalandırmak, kime odaklanmanız ve kimi tamamen göz ardı etmeniz gerektiğini size söyler. Böylece zaman ve enerji kaybını önler, gücü kaynağında yönetirsiniz.",
-    whatItIsNot: "Kaba veya gürültülü bir şekilde liderlik iddia etmek değildir. Aksine, arka planda kalıp insan davranışlarını gözlemleyerek grubun gerçek otoritesini sessizce analiz etmektir.",
+    description: "Bir grup veya kurum içerisindeki görünmez güç hiyerarşisini, gerçek karar alıcıyı, kapı bekçilerini ve en zayıf halkayı soğukkanlılıkla analiz edip haritalandırma yöntemi.",
+    whatItIs: "Sosyal Hiyerarşi Haritalama, herhangi bir insan topluluğuna girdiğinizde resmi unvanların ötesindeki fiili güç dinamiklerini çözme metodolojisidir. İnsan grupları rasyonel ilkelerle değil, ilkel kabile hiyerarşisiyle hareket eder. Bir masada en çok konuşan kişi genellikle gerçek güç sahibi değildir; gerçek güç, masadaki herkesin konuşurken göz teması kurduğu, sessizce kararları onaylayan kişidir. Bu doktrin; karar vericiyi, karar vericiyi etkileyen kapı bekçisini (gatekeeper) ve gruptan bilgi sızdırabileceğiniz veya manipülasyona açık olan en zayıf halkayı tespit etmeyi sağlar.",
+    whatItIsNot: "Sadece kurumsal organizasyon şemasına bakarak kimin güçlü olduğunu varsaymak veya insanlara kaba bir şekilde yaklaşmak değildir. Bu, tamamen dışarıdan pasif bir gözlemci olarak yürütülen, duygulardan arındırılmış bir klinik profilleme sürecidir.",
     howToApply: [
-      "Beden Dili Gözlemi: Grupta espri yapıldığında veya gerilim olduğunda insanların ilk kime baktığını izleyin. Genelde ilk bakılan kişi grubun gerçek lideridir.",
-      "Konuşma Süresi ve Kesmeler: Kimin sözünün kesildiğini, kimin ise sözü kesilmeden herkesi susturabildiğini analiz edin.",
-      "Kapı Bekçisini Teşhis: Karar alıcıya ulaşmak için geçmeniz gereken onay mekanizmasını (güvenilen danışman veya asistan) belirleyin.",
-      "Zayıf Halka Analizi: Grubun en güvensiz ve manipülasyona en açık üyesini (onay arayan) saptayın."
+      "Göz Teması Analizi: Bir şaka yapıldığında veya masada gülüşme olduğunda herkesin ilk olarak kime baktığını izleyin. İnsanlar bilinçsizce en çok çekindikleri veya onayını istedikleri kişiye bakarlar.",
+      "Karar Mekanizması Takibi: Bir fikir ortaya atıldığında, resmi yöneticinin kararı vermeden önce odada kiminle göz teması kurduğunu veya kimin mimiklerini onay almak istercesine süzdüğünü tespit edin.",
+      "İletişim Trafiği Haritası: Grup içerisindeki bilgi akışının yönünü izleyin. Bilgi kimden çıkıyor, kime uğruyor ve en son kimin onayından geçerek kesinleşiyor, bunu yazılı olarak not edin.",
+      "Zayıf Halka Teşhisi: Grupta en az kabul gören, dışlanmışlık hisseden veya egosu en aç olan profili belirleyin. Bu profil, sizin grup içine sızmak veya içeriden bilgi almak için kullanacağınız asıl kanaldır."
     ],
-    scenario: "Yeni katıldığınız bir yönetim kurulunda, en çok konuşan ve sesini yükselten kişinin değil, köşede sessizce oturan ve konuştuğunda herkesin pürdikkat dinlediği kıdemli üyenin gerçek karar alıcı olduğunu fark ettiniz. Sunumunuzu ve argümanlarınızı doğrudan bu sessiz üyeye hitap edecek şekilde tasarlayarak onay sürecini hızlandırın."
+    scenario: "Yeni bir şirkete stratejik danışman olarak girdiniz. Genel müdür resmiyette karar alıcı görünse de, toplantılarda mali işler direktörünün (CFO) her konuşmasından sonra sessizce onay beklediğini ve CFO'nun olumsuz bir jest yaptığında genel müdürün kararından hemen vazgeçtiğini fark ettiniz. Gerçek gücün CFO'da olduğunu haritalandırıp stratejik önerilerinizi önce gizlice CFO'ya kabul ettirdiniz. Genel müdür, CFO'nun yönlendirmesiyle teklifinizi sorgusuz sualsiz onayladı."
   },
   {
     id: "coalition-building",
     title: "Taktiksel Koalisyon Kurma",
     category: "social-dynamics",
     categoryLabel: "Sosyal Dinamikler",
-    description: "Muhtaç veya zayıf görünmeden, ortak çıkarlar etrafında güçlü ittifaklar inşa etme sanatı.",
-    whatItIs: "Taktiksel Koalisyon Kurma, belirli bir hedefe ulaşmak için diğer aktörlerle güç birliği yapmaktır. Bu süreçte kritik olan, ittifakı 'yardım isteme' veya 'bağımlılık' temelinde değil, tamamen 'karşılıklı rasyonel fayda' ve 'kazanım' üzerine inşa etmektir. Kendi bağımsızlığınızı korurken, ortak düşman veya ortak hedef üzerinden geçici veya kalıcı ittifaklar kurarak nüfuzunuzu katlarsınız.",
-    whatItIsNot: "Sosyal arkadaşlık kurmak veya duygusal yandaşlık aramak değildir. İttifak kurulan kişiyle duygusal bağ kurmadan, sadece rasyonel hedefler doğrultusunda hareket etmektir.",
+    description: "Muhtaç veya zayıf görünmeden, tamamen ortak çıkarlar auraya ve rasyonel fayda dengesi üzerine kurulu geçici veya kalıcı ittifaklar inşa etme doktrini.",
+    whatItIs: "Taktiksel Koalisyon Kurma, belirli bir hedefe ulaşmak için diğer aktörlerle güç birliği yapma sanatıdır. Bu süreçte kritik olan, ittifakı asla 'yardım isteme' veya 'duygusal destek' zeminine çekmemektir. İttifaklar tamamen 'rasyonel karşılıklılık' (reciprocity) ve 'ortak fayda' üzerine kurulmalıdır. Karşı taraf, sizinle ittifak kurduğunda elde edeceği somut kazancı net şekilde görmelidir. İttifak kurduğunuz aktörün gücünün sınırlarını bilmeli, kendi bağımsızlığınızı ve hareket alanınızı asla tehlikeye atmamalısınız.",
+    whatItIsNot: "Duygusal dostluklar kurmak, sırlarınızı paylaşmak veya karşı tarafa tamamen güvenmek değildir. Bu, ortak bir rakibi saf dışı bırakmak veya ortak bir engeli aşmak için kurulan soğuk, mantıklı ve stratejik bir iş birliğidir.",
     howToApply: [
-      "Ortak Çıkar Tespiti: Karşı tarafın hedefleri ile kendi hedefleriniz arasındaki kesişim kümesini belirleyin.",
-      "Güç Pozisyonundan Teklif: Yardım istemeyin; ortak bir fırsatı veya ortak bir tehdidi rasyonel olarak sunun.",
-      "Bağımsızlık Sinyali: İttifakın sizin için tek seçenek olmadığını, alternatifleriniz olduğunu hissettirin.",
-      "Çıkış Stratejisi: İttifak hedefine ulaşıldığında veya ortak çıkar bittiğinde ittifaktan sessizce ve zarar görmeden çekilme planını hazır tutun."
+      "Ortak Çıkar Analizi: Potansiyel ortağınızın en büyük hedeflerini ve şu anki en büyük engellerini listeleyin. Sizin gücünüzün onun bu engelini nasıl aşabileceğini planlayın.",
+      "İttifak Teklifi (Rasyonel Çerçeveleme): Ortak hedefe yönelik teklifinizi sunarken ego ve duygu barındırmayan, net bir iş mantığı kullanın (Örn: 'Bu departmandaki bütçe kesintisini engellemek ikimizin de projesini kurtarır, ortak hareket etmeliyiz').",
+      "Kırmızı Çizgi Tanımlaması: Koalisyonun sınırlarını baştan çizin. Hangi noktalarda bağımsız hareket edeceğinizi netleştirerek karşı tarafın sizin alanınıza sızmasını engelleyin.",
+      "Çıkış Stratejisi Hazırlama: Hedefe ulaşıldığında veya ortaklık sizin için bir yük haline geldiğinde, koalisyonu minimum hasarla ve dostane bir şekilde sonlandıracak senaryoyu baştan yazın."
     ],
-    scenario: "Departmanlar arası bir bütçe savaşında, diğer departman yöneticisiyle öğle yemeğinde bir araya gelip: 'Bütçe kısıtlaması ikimizin de projelerini tehlikeye atıyor. Yönetime ortak bir optimizasyon raporu sunarsak ikimiz de payımızı koruruz' diyerek rasyonel bir ittifak kurun ve bütçenizi sağlama alın."
+    scenario: "Şirkette terfi almak istiyorsunuz ancak üst düzey bir yönetici önünüzü kesiyor. Aynı yöneticinin başka bir departman şefiyle de bütçe konusunda kavgalı olduğunu tespit ettiniz. O departman şefine giderek, ortak rakibinizin hatalarını ve departmanındaki aksaklıkları belgeleyen verileri paylaştınız. Birlikte hareket ederek yönetim kuruluna sunduğunuz rapor, o yöneticinin görev yerinin değiştirilmesini sağladı ve ikiniz de kendi departmanlarınızda yükseldiniz."
   },
   {
     id: "status-signaling",
     title: "Statü Sinyalleme & Koruma",
     category: "social-dynamics",
     categoryLabel: "Sosyal Dinamikler",
-    description: "Hesaplı ilgisizlik, seçici varlık ve yüksek statü algısını sözsüz iletişimle koruma doktrini.",
-    whatItIs: "Statü Sinyalleme, sosyal ortamlarda hiyerarşik değerinizi korumak ve yükseltmek için kullanılan sözsüz bir dominans tekniğidir. Yüksek statü, onay aramayan, reaktif olmayan ve kendi zamanını en değerli kaynak olarak gören profillerle özdeşleşir. İletişimde aceleci davranmamak, reaksiyon süresini uzatmak ve her sosyal çağrıya anında yanıt vermemek statünüzü koruma altına alır.",
-    whatItIsNot: "Kibirli davranmak veya insanları aşağılamak değildir. Sadece kendi sınırlarına, zamanına ve alanına sarsılmaz bir saygı duymak ve bunu hissettirmektir.",
+    description: "Hesaplı ilgisizlik, seçici varlık ve yüksek statü algısını sözsüz iletişim kodlarıyla koruma ve manipüle etme protokolü.",
+    whatItIs: "Statü Sinyalleme, sosyal ortamlarda hiyerarşik değerinizi korumak ve yükseltmek için kullanılan sözsüz bir dominans tekniğidir. Yüksek statü, onay aramayan, reaktif olmayan ve kendi zamanını en değerli kaynak olarak gören profillerle özdeşleşir. İletişimde aceleci davranmamak, reaksiyon süresini uzatmak ve her sosyal çağrıya anında yanıt vermemek en temel kurallardır. Kendi alanını fiziksel olarak geniş kullanmak, sakin ve ritmik konuşmak, ani ve gereksiz mimiklerden kaçınmak çevreye yüksek bir statü ve özgüven sinyali gönderir.",
+    whatItIsNot: "Kibirli, kaba davranmak veya insanları aşağılamak değildir. Tamaksine, son derece kibar ama mesafeli, duygusal olarak ulaşılamaz ve sakin bir duruş sergilemektir.",
     howToApply: [
-      "Gecikmeli Sosyal Reaksiyon: Sizi heyecanlandırmaya veya provoke etmeye çalışan sosyal uyaranlara karşı 2-3 saniyelik bir gecikmeyle, nötr tepki verin.",
-      "Seçici Varlık: Her davete, her toplantıya katılmayın. Ulaşılabilirliğinizi sınırlayarak değerinizi artırın.",
-      "Sözsel Olmayan Dominans: Hızlı ve telaşlı kafa sallamalardan, onaylayıcı mırıldanmalardan kaçının.",
-      "Kendine Güvenen Duruş: Alanı sahiplenerek, dik ve rahat bir postürle hareket edin."
+      "Hesaplı İlgisizlik: Ortamdaki dikkat çekme çabalarına anında tepki vermeyin. Bir soru sorulduğunda veya sataşma olduğunda 1-2 saniye sessiz kalıp, sakince yanıt verin.",
+      "Beden Dili Kontrolü: Hızlı, kesik ve telaşlı hareketlerden kaçının. Yavaş, kararlı ve geniş fiziksel hareketler sergileyerek alanı domine edin.",
+      "Reaksiyon Geciktirme: Telefon aramalarına, mesajlara veya e-postalara anında dönmeyin. Bu, zamanınızın yoğun ve değerli olduğu algısını bilinçaltına işler.",
+      "Seçici Konuşma: Az ama öz konuşun. Söylediğiniz her kelimenin arkasında durun ve lafı uzatıp kendinizi açıklama eğiliminden (validation seeking) kesinlikle kaçının."
     ],
-    scenario: "Bir iş yemeğinde herkes masadaki dedikodulara veya heyecanlı tartışmalara katılırken, siz sakinliğinizi koruyup sadece konu sizin uzmanlık alanınıza geldiğinde yavaş ve net bir sesle konuşun. Bu hesaplı ilgisizlik, masadaki statünüzü bir anda en tepeye taşıyacaktır."
+    scenario: "Bir iş yemeğinde herkes masadaki dedikodulara veya heyecanlı tartışmalara hararetle katılırken, siz sakinliğinizi koruyup sadece konu sizin uzmanlık alanınıza geldiğinde yavaş ve net bir sesle konuştunuz. Masadaki herkes hararetli konuşmacıları dinlemek yerine sizin o sakin ve mesafeli tavrınıza odaklanıp, masanın gerçek ağırlık merkezinin siz olduğunuzu hissetti."
   },
   {
     id: "social-shit-test",
     title: "Sosyal Shit-Test Savuşturma",
     category: "social-dynamics",
     categoryLabel: "Sosyal Dinamikler",
-    description: "Sataşmaları, iğnelemeleri ve sosyal testleri, saldıran kişinin motivasyonunu ifşa ederek çökertme.",
-    whatItIs: "Sosyal Shit-Test'ler, gruptaki diğer üyelerin sizin özgüveninizi, sınırlarınızı ve hiyerarşik dayanıklılığınızı ölçmek için yaptığı iğneleyici şaka veya eleştirilerdir. Bu testleri savunma yaparak ('hayır öyle değil') veya öfkelenerek karşılarsanız testi kaybedersiniz. Savuşturmanın en güçlü yolu, sakin kalıp testin altındaki manipülatif niyeti klinik bir dille masaya sermektir.",
+    description: "Sosyal ortamlarda veya iş hayatında maruz kaldığınız iğneleyici şaka, manipülatif soru ve testleri, saldıranın motivasyonunu ifşa ederek çökertme doktrini.",
+    whatItIs: "Sosyal Shit-Test'ler, gruptaki diğer üyelerin sizin özgüveninizi, sınırlarınızı ve hiyerarşik dayanıklılığınızı ölçmek için yaptığı iğneleyici şaka veya eleştirilerdir. Bu testleri savunma yaparak ('hayır öyle değil') veya öfkelenerek karşılarsanız testi anında kaybedersiniz. Savuşturmanın en güçlü yolu, sakin kalıp testin altındaki manipülatif niyeti klinik bir dille masaya sermektir. Karşı tarafı doğrudan suçlamadan, yaptığı eylemin komikliğini veya yersizliğini gruba göstererek çerçeveyi elinizde tutmalısınız.",
     whatItIsNot: "Karşı saldırıya geçip hakaret etmek veya çocukça tartışmaya girmek değildir. Saldırganın oyununu bozarak onu kendi kazdığı kuyuya düşürmektir.",
     howToApply: [
-      "Duygusal Soğurma: İğneleyici lafı duyduğunuzda gözlerinizi kırpmadan 1-2 saniye ona bakın.",
-      "Çerçeve Değişimi: Suçlamayı kabul etmeyin, konuyu onun bunu neden söylediğine getirin.",
-      "Klinik Teşhis: Saldırganın amacını gruptakilerin önünde sakince açıklayın (Örn: 'Şu an beni küçük düşürerek kendi yetersizliğini mi örtmeye çalışıyorsun?').",
-      "Mizahi Abartma: Alternatif olarak, lafı ciddiye almayıp absürt bir şekilde büyüterek etkisizleştirin."
+      "Duygusal Soğurma: İğneleyici lafı duyduğunuzda gözlerinizi kırpmadan 1-2 saniye ona bakın. Hiçbir şaşırma veya öfke belirtisi göstermeyin.",
+      "Çerçeve Değişimi: Suçlamayı veya iğnelemeyi kabul edip kendinizi savunmayın, konuyu onun bunu neden söylediğine veya üslubuna getirin.",
+      "Klinik Teşhis: Saldırganın amacını gruptakilerin önünde sakince açıklayın (Örn: 'Şu an beni köşe sıkıştırarak kendi yetersizliğini mi örtmeye çalışıyorsun?').",
+      "Mizahi Abartma: Alternatif olarak, lafı ciddiye almayıp absürt bir şekilde büyüterek karşı tarafın argümanını tamamen etkisizleştirin."
     ],
-    scenario: "Bir toplantıda iş arkadaşınızın 'Bu genç yaşında bu projeyi yönetebileceğinden emin misin?' lafına karşı kekelemek yerine, sakince gülümseyip: 'Yaşıma odaklanarak projeye dair somut bir eleştiri getirememenin açığını kapatmaya çalışıyorsun sanırım. Varsa teknik argümanın dinleyelim' deyin."
+    scenario: "Bir toplantıda iş arkadaşınızın 'Bu genç yaşta bu projeyi yöneteceğinden emin misin?' lafına karşı kekelemek yerine, sakince gülümseyip: 'Yaşıma odaklanarak projeye dair somut bir eleştiri getirememenin açığını kapatmaya çalışıyorsun sanırım. Varsa teknik argümanın dinleyelim' dediniz. Rakibiniz kızararak sessizliğe büründü."
   },
   {
     id: "social-isolation",
     title: "Sosyal İzolasyon Protokolü",
     category: "social-dynamics",
     categoryLabel: "Sosyal Dinamikler",
-    description: "Düşmanca veya yıkıcı bir profili gruptan dışlayarak etkisiz hale getirme yöntemi.",
-    whatItIs: "Sosyal İzolasyon, gruba veya hedeflerinize zarar veren, toksik ya da düşmanca davranan bir bireyi, grupla olan bağlarını zayıflatarak yalnızlaştırma ve etkisizleştirme protokolüdür. İnsanlar sosyal olarak onaylanma ve kabul görme ihtiyacı duyar. Bir kişiyi bu onaydan mahrum bırakıp onu grubun ortak çıkarlarına aykırı bir 'dış unsur' olarak konumlandırdığınızda, tüm gücünü ve nüfuzunu kaybeder.",
-    whatItIsNot: "Kaba bir şekilde dedikodu yapmak veya çete kurmak değildir. Klinik olarak, o kişinin uyumsuz ve yıkıcı eylemlerini grubun ortak kurallarıyla çelişecek şekilde şeffaflaştırmaktır.",
+    description: "Düşmanca, yıkıcı veya gruba zarar veren bir profili, sosyal bağlarını zayıflatarak ve ortak kurallara uyumsuzluğunu ifşa ederek yalnızlaştırma yöntemi.",
+    whatItIs: "Sosyal İzolasyon, gruba veya hedeflerinize zarar veren, toksik ya da düşmanca davranan bir bireyi, grupla olan bağlarını zayıflatarak yalnızlaştırma ve etkisizleştirme protokolüdür. İnsanlar sosyal olarak onaylanma ve bilgi akışına dahil olma ihtiyacı duyar. Bir kişiyi bu onaydan mahrum bırakıp onu grubun ortak çıkarlarına aykırı bir 'dış unsur' olarak konumlandırdığınızda, tüm gücünü ve nüfuzunu kaybeder. Bu süreç tamamen rasyonel adımlarla, grubun diğer üyelerini tehlikeye karşı uyararak gerçekleştirilir.",
+    whatItIsNot: "Kaba bir şekilde dedikodu yapmak, arkadan iş çevirmek veya lise çetesi kurmak değildir. Klinik olarak, o kişinin uyumsuz ve yıkıcı eylemlerini grubun ortak kurallarıyla çelişecek şekilde şeffaflaştırmaktır.",
     howToApply: [
       "Uyumsuzluğu Belgeleme: Hedefin grubun kurallarına veya çıkarlarına zarar veren eylemlerini net ve rasyonel olarak görünür kılın.",
-      "İletişim Sınırlandırması: Hedefle olan doğrudan iletişimi minimuma indirin, onunla yalnız kalmaktan kaçının.",
+      "İletişim Sınırlandırması: Hedefle olan doğrudan iletişimi minimuma indirin, onunla yalnız kalmaktan kaçının ve tüm yazışmaları resmi tutun.",
       "Sosyal Mesafelenme: Grup içindeki diğer üyelerin de hedefle arasına rasyonel bir mesafe koymasını sağlayacak mantıklı argümanlar sunun.",
       "Alternatifsiz Bırakma: Hedefi karar süreçlerinin ve bilgi akışının dışında tutarak onu tamamen etkisizleştirin."
     ],
-    scenario: "Ekip içindeki bir çalışanın sürekli arkadan iş çevirdiğini ve motivasyonu düşürdüğünü fark ettiniz. Onunla tartışmaya girmek yerine, tüm kritik projeleri ve bilgi paylaşımlarını e-posta üzerinden diğer üyeleri de CC'ye ekleyerek yapın. Uyumsuz tavırları herkes tarafından görülen bu çalışan, kısa sürede gruptan izole olacak ve kendi isteğiyle ayrılmak zorunda kalacaktır."
+    scenario: "Ekip içindeki bir çalışanın sürekli arkadan iş çevirdiğini ve motivasyonu düşürdüğünü fark ettiniz. Onunla tartışmaya girmek yerine, tüm kritik projeleri ve bilgi paylaşımlarını e-posta üzerinden diğer üyeleri de CC'ye ekleyerek yaptınız. Uyumsuz tavırları herkes tarafından görülen bu çalışan, kısa sürede gruptan izole oldu ve kendi isteğiyle ayrılmak zorunda kaldı."
   },
   {
     id: "rational-valuation",
     title: "Rasyonel Değerleme Eşiği",
     category: "negotiation",
     categoryLabel: "Müzakere & İkna",
-    description: "Müzakerelerde sınırları önceden çizip, kırmızı çizgiler aşıldığında masadan kalkabilme gücü.",
-    whatItIs: "Rasyonel Değerleme Eşiği, herhangi bir müzakereye başlamadan önce sizin için kabul edilebilir en son teklif sınırını (Walk-Away Point) belirlemek ve bu sınır ihlal edildiğinde tereddüt etmeden masadan kalkabilmektir. Müzakerelerde en güçlü taraf, anlaşmaya en az ihtiyaç duyan ve masayı terk edebilecek cesareti olan taraftır. Bu eşik önceden çizilmediğinde, duygusal kararlarla sınırlarınızı aşındırmaya başlarsınız.",
+    description: "Müzakerelerde sınırları önceden çizip, kırmızı çizgiler aşıldığında masadan tereddüt etmeden kalkabilme gücü.",
+    whatItIs: "Rasyonel Değerleme Eşiği, herhangi bir müzakereye başlamadan önce sizin için kabul edilebilir en son teklif sınırını (Walk-Away Point) belirlemek ve bu sınır ihlal edildiğinde tereddüt etmeden masadan kalkabilmektir. Müzakerelerde en güçlü taraf, anlaşmaya en az ihtiyaç duyan ve masayı terk edebilecek cesareti olan taraftır. Bu eşik önceden çizilmediğinde, duygusal kararlarla sınırlarınızı aşındırmaya başlarsınız. Masadan kalkabilmek, karşı tarafa sizin manipüle edilemeyeceğiniz mesajını verir.",
     whatItIsNot: "İnatçılık veya blöf yapmak değildir. Tamamen rasyonel hesaplamalara dayalı, aşılması halinde zarar edeceğiniz net bir kırmızı çizgidir.",
     howToApply: [
       "Sınır Belirleme: Masaya oturmadan önce kabul edeceğiniz en düşük teklifi veya en yüksek maliyeti kesin olarak yazın.",
@@ -1170,311 +1170,311 @@ const LESSONS: Lesson[] = [
       "Taviz Vermeyi Reddetme: Eşiğe gelindiğinde karşı tarafın hiçbir duygusal baskısına boyun eğmeyin.",
       "Kararlı Geri Çekilme: Sınır aşıldığında kibarca teşekkür edip masadan kalkın. Blöf yapmadığınızı gören taraf sıklıkla yeni tavizlerle size döner."
     ],
-    scenario: "Bir ev kiralarken bütçe sınırınızı 20.000 TL olarak belirlediniz. Emlakçı '21.000 TL olur, kaçırmayın' diye baskı yaptığında: 'Teklifim net, sınırı aşamam. İyi günler' diyerek kalkın. Emlakçının 10 dakika sonra arayıp mal sahibinin 20.000 TL'yi kabul ettiğini söylemesi kaçınılmazdır."
+    scenario: "Bir ev kiralarken bütçe sınırınızı 20.000 TL olarak belirlediniz. Emlakçı '21.000 TL olur, kaçırmayın' diye baskı yaptığında: 'Teklifim net, sınırı aşamam. İyi günler' diyerek kalktınız. Emlakçının 10 dakika sonra arayıp mal sahibinin 20.000 TL'yi kabul ettiğini söylemesi kaçınılmazdı."
   },
   {
     id: "win-win-illusion",
     title: "Kazan-Kazan İllüzyonu",
     category: "negotiation",
     categoryLabel: "Müzakere & İkna",
-    description: "Karşı tarafa masadan büyük bir zaferle kalktığı algısını verirken, asıl büyük stratejik değeri kendi hanenize yazdırma yöntemi.",
-    whatItIs: "Kazan-Kazan İllüzyonu, karşı tarafın egosunu ve zafer ihtiyacını besleyerek ona kazandığı hissini vermektir. İnsanlar müzakerelerde sadece maddi kazanımlara değil, psikolojik olarak 'haklı çıkma' ve 'pazarlık etme' tatminine de odaklanırlar. Onlara bu tatmini (küçük tavizler veya sözel zaferlerle) sunduğunuzda, arka planda sizin için kritik olan ana değeri veya stratejik avantajı itirazsız bir şekilde teslim ederler.",
+    description: "Karşı tarafa masadan büyük bir zaferle kalktı algısını verirken, asıl büyük stratejik değeri kendi hanenize yazdırma yöntemi.",
+    whatItIs: "Kazan-Kazan İllüzyonu, karşı tarafın egosunu ve zafer ihtiyacını besleyerek ona kazandı hissini vermektir. İnsanlar müzakerelerde sadece maddi kazanımlara değil, psikolojik olarak 'haklı çıkma' ve 'pazarlık etme' tatminine de odaklanırlar. Onlara bu tatmini (küçük tavizler veya sözel zaferlerle) sunduğunuzda, arka planda sizin için kritik olan ana değeri veya stratejik avantajı itirazsız bir şekilde teslim ederler.",
     whatItIsNot: "Eşit paylaşımlı bir ortaklık yapmak değildir. Karşı tarafı manipüle ederek onun önemsiz detayları 'kazanç' olarak görmesini sağlamaktır.",
     howToApply: [
-      "Asıl Hedef Gizleme: Sizin için en kritik olan 1-2 maddeyi gizli tutun ve bunları en son onaylatın.",
+      "Asıl Hedefi Gizleme: Sizin için en kritik olan 1-2 maddeyi gizli tutun ve bunları en son onaylatın.",
       "Değersiz Tavizler Verme: Sizin için önemsiz olan ama karşı tarafın çok önemsediği konularda cömertçe geri adım atın.",
       "Pazarlık Alanı Yaratma: İlk tekliflerinizi kasıtlı olarak yüksek tutun ki, karşı taraf indirim yaptırdığında kendini başarılı hissetsin.",
       "Ego Besleme: Anlaşma sonunda karşı tarafı övün, ne kadar çetin bir pazarlıkçı olduğunu dile getirin."
     ],
-    scenario: "Bir yazılım sözleşmesinde, fiyatı yüksek tutup müşterinin pazarlıkla fiyatı kırmasına izin verin. Fiyat düşerken, sözleşmeye 'Fikri mülkiyet hakları yazılımcıya aittir' maddesini sessizce ekleyin. Müşteri fiyatı indirdiği için zafer sarhoşuyken, siz projenin en değerli varlığını elinizde tutmuş olursunuz."
+    scenario: "Bir yazılım sözleşmesinde, fiyatı yüksek tutup müşterinin pazarlıkla fiyatı kırmasına izin verdiniz. Fiyat düşerken, sözleşmeye 'Fikri mülkiyet hakları yazılımcıya aittir' maddesini sessizce eklediniz. Müşteri fiyatı indirdiği için zafer sarhoşuyken, siz projenin ömür boyu haklarını elinizde tuttunuz."
   },
   {
-    id: "information-economy",
-    title: "Stratejik Bilgi Tasarrufu",
+    id: "salami-slicing",
+    title: "Salami Dilimleme Stratejisi",
     category: "negotiation",
     categoryLabel: "Müzakere & İkna",
-    description: "Elindeki verileri ve niyetleri kademeli olarak serbest bırakarak karşı tarafı tahmin yürütmeye ve açık vermeye zorlama.",
-    whatItIs: "Stratejik Bilgi Tasarrufu, müzakere ve güç savaşlarında bilgi asimetrisini sürdürmektir. Kartlarınızı ne kadar erken açarsanız, karşı taraf o kadar kolay pozisyon alır. Bilgiyi çok yavaş, damla damla ve sadece gerektiğinde vererek karşı tarafı karanlıkta bırakır, onun durum değerlendirmesi yaparken hata yapmasını ve kendi tezlerini erkenden ifşa etmesini sağlarsınız.",
-    whatItIsNot: "Tamamen susmak veya yalan söylemek değildir. Doğru bilgiyi, kendi zamanlamanızla ve lehinize olacak porsiyonlarda paylaşmaktır.",
+    description: "Büyük ve kabul edilmesi zor bir talebi veya hedefi, tek seferde istemek yerine karşı tarafın hissetmeyeceği küçük dilimlere bölerek parça parça elde etme yöntemi.",
+    whatItIs: "Salami Dilimleme (Salami Slicing), müzakerelerde veya stratejik güç savaşlarında nihai büyük hedefinizi küçük, önemsiz ve itiraz edilmesi zor parçalara bölerek adım adım elde etme metodolojisidir. Eğer bir yazılım satıcısı müşterisinden tek seferde 100.000 TL ek bütçe isterse kapıyı yüzüne çarpabilirler. Ancak önce küçük bir entegrasyon ücreti (15.000 TL), ardından bakım bedeli (20.000 TL), sonra ek kullanıcı lisansları (30.000 TL) isteyerek hedefine parça parça yaklaşırsa, müşteri her aşamada 'nasıl olsa küçük bir meblağ' diyerek onay verir ve farkında olmadan toplam 100.000 TL'yi öder. Bu doktrin karşı tarafın bütünsel savunma direncini parça parça eritir.",
+    whatItIsNot: "Uzun vadeli plansız bir şekilde sürekli para veya taviz istemek değildir. Aksine, nihai büyük hedefinizin sınırları önceden bellidir ve her küçük adım bu büyük hedefin bir parçası olarak tasarlanmıştır.",
     howToApply: [
-      "Niyeti Gizleme: Asıl amacınızı veya aciliyetinizi asla belli etmeyin, konudan bağımsızmış gibi görünün.",
-      "Soru-Cevap Dengesi: Karşı tarafın 3 sorusuna karşılık en fazla 1 kısa yanıt verin ve hemen karşı soru sorun.",
-      "Bilgi Sızıntısını Kesme: Sosyal medya veya üçüncü kişiler üzerinden hakkınızda bilgi sızmasını tamamen bloke edin.",
-      "Kademeli İfşa: Bir teklif sunarken tüm kozları tek seferde masaya koymayın; her aşamada yeni bir detay paylaşın."
+      "Nihai Hedefi Parçalama: Büyük hedefinizi veya talebinizi en az 4-5 küçük, bağımsız ve makul görünecek dilime bölün.",
+      "İlk ve En Kolay Dilimi Sunma: Karşı tarafın itiraz etmeyeceği, kabul etmesi en kolay ve en ucuz olan ilk aşamayı sunun ve onaylatın.",
+      "Alışkanlık ve Rehavet Yaratma: Karşı tarafın bu onay süreçlerine ve sizinle çalışmaya alışmasını, bir nevi bağlılık (commitment) geliştirmesini sağlayın.",
+      "Sonraki Dilimleri Kademeli Sızdırma: Bir önceki adım tamamlandığında, bir sonraki mantıklı ve yine makul görünen dilimi masaya getirin. Karşı taraf geri dönmek istemediği (sunk cost) için kabule meyledecektir."
     ],
-    scenario: "Rakip firmadan transfer etmek istediğiniz bir yöneticiyle görüşürken, şirketinizin mali hedeflerini veya büyüme planlarını anlatmak yerine: 'Şirketimizin vizyonu büyük. Senin bu vizyona ne katabileceğini duymak isterim' diyerek bilgiyi saklayın ve onun kendisini pazarlarken tüm zafiyetlerini dökmesini izleyin."
+    scenario: "Bir iş projesinde tüm kontrolü tek bir kararla kendi departmanınıza almak istiyorsunuz. Diğer departmanlar buna karşı çıkacağı için, önce sadece 'haftalık raporlama şablonunu biz hazırlayalım' dediniz (onaylandı). Sonra 'raporları biz konsolide edelim' dediniz (onaylandı). Daha sonra 'veri giriş standartlarını biz belirleyelim' dediniz (onaylandı). 3 ayın sonunda, projenin tüm yönetim ve karar mekanizmasını kimseyle kavga etmeden kendi departmanınızın tekeline aldınız."
   },
   {
     id: "conditional-concession",
     title: "Koşullu Taviz İlkesi",
     category: "negotiation",
     categoryLabel: "Müzakere & İkna",
-    description: "Müzakerelerde karşılığında hiçbir şey almadan asla taviz vermeme, her tavizi bir kazanıma bağlama kuralı.",
-    whatItIs: "Koşullu Taviz İlkesi, karşı tarafa hiçbir şeyin 'bedava' olmadığını ve sınırlarınızın sert olduğunu gösterme doktrinidir. Karşı taraf sizden bir geri adım talep ettiğinde bunu doğrudan kabul ederseniz, bu durum zayıflık olarak algılanır ve yeni talepleri tetikler. Her taviz talebine: 'Eğer bunu yaparsam, sizden de şunu bekliyorum' (If-Then) koşuluyla yanıt vermek zorundasınız.",
-    whatItIsNot: "Katı veya işbirliğine kapalı görünmek değildir. Aksine, profesyonel bir alışveriş çerçevesi kurarak tavizlerin değerini artırmaktır.",
+    description: "Müzakerelerde karşılığında eşdeğer veya daha büyük bir kazanç almadan asla taviz vermeme (If-Then kuralı).",
+    whatItIs: "Koşullu Taviz İlkesi, karşı tarafa verdiğiniz her tavizin mutlaka bir bedeli olması gerektiği kuralıdır. Eğer masada kolayca ve karşılıksız taviz verirseniz, karşı taraf bunu sizin zayıflığınız olarak algılar ve daha fazlasını talep eder. Her geri adım, 'Eğer ben bunu yaparsam, siz de şunu yapmalısınız' (If-Then) formülüyle bağlanmalıdır. Bu, tavizlerinizin değerini korur ve karşı tarafın gereksiz taleplerde bulunmasını engeller.",
+    whatItIsNot: "Uzlaşmaz veya katı olmak değildir. Kendi değerinizi korurken, karşı tarafın da masaya katkı sunmasını sağlamaktır.",
     howToApply: [
-      "Koşul Cümlesi (If-Then): Karşı tarafın her istek cümlesine karşılık anında bir koşul sunun.",
-      "Tavizin Değerini Yansıtma: Vereceğiniz tavizi çok zor ve maliyetliymiş gibi gösterin.",
-      "Eşdeğer Değer Talebi: Verdiğiniz tavizin boyutuna uygun veya daha büyük bir karşı talep belirleyin.",
-      "Karşılıksız Adımları Engelleme: Karşı taraf adım atmadan siz kesinlikle ikinci bir taviz vermeyin."
+      "Taviz Listesi Hazırlama: Masaya oturmadan önce verebileceğiniz tavizleri ve karşılığında isteyeceğiniz şeyleri eşleştirin.",
+      "Eğer-O Halde Formülü: Taviz verirken cümleye mutlaka 'Eğer' ile başlayın (Örn: 'Eğer ödeme vadesini 30 güne çekerseniz, fiyatta %5 indirim yapabiliriz').",
+      "Kolay Taviz Verme İllüzyonunu Kırma: Karşı tarafın istediği küçük bir şeyi bile zorlanıyormuş gibi verin ki değerini anlasınlar.",
+      "Geri Çekme Tehdidi: Karşı taraf kendi koşulunu yerine getirmediğinde verdiğiniz tavizi derhal geri çekin."
     ],
-    scenario: "Müşteri sizden teslim tarihini 1 hafta öne çekmenizi istediğinde, 'Tabii ki yaparız' demek yerine: 'Teslimatı 1 hafta öne çekmemiz ek mesai gerektirir. Eğer bunu kabul ediyorsanız, ödemenin %30'unu peşin almamız gerekir' diyerek tavizinizi kazanıma bağlayın."
+    scenario: "Bir iş teklifinde şirket maaş bütçesini aşamayacağını söyledi. Siz de: 'Eğer maaşta bu sınırda kalacaksak, o halde haftada 1 gün evden çalışma hakkı ve yıllık izin süreme 5 gün eklenmesini talep ediyorum' dediniz. Karşılığında maliyetsiz tavizler veren şirket teklifinizi hemen onayladı."
   },
   {
     id: "time-pressure",
     title: "Zaman Baskısı & Yapay Aciliyet",
     category: "negotiation",
     categoryLabel: "Müzakere & İkna",
-    description: "Karşı tarafın karar alma süresini kısıtlayarak mantıklı düşünmesini engelleme ve aceleci hatalar yaptırma.",
-    whatItIs: "Zaman Baskısı, insan zihnindeki 'kaybetme korkusu' (scarcity) ve panik mekanizmalarını tetikleyen bir manipülasyon kaldıracıdır. İnsanlar kısıtlı zaman dilimlerinde rasyonel analiz yapamaz, riskleri tam tartamaz ve ellerindeki fırsatı kaçırmamak adına daha fazla taviz vererek hızlıca onay aşamasına geçerler. Yapay bir son tarih (deadline) belirlemek kontrolü size verir.",
-    whatItIsNot: "Panik halinde aceleyle hareket etmek değildir. Zaman sınırını koyan taraf olarak sizin son derece sakin, karşı tarafın ise telaşlı olması gerekir.",
+    description: "Karar süresini kısıtlayarak mantıklı düşünmeyi felç etme ve aceleci hatalar yaptırma.",
+    whatItIs: "Zaman Baskısı ve Yapay Aciliyet, karşı tarafa sınırlı bir süre tanıyarak onların rasyonel analiz yapma yetisini bloke etmektir. İnsan beyni zaman kısıtı altında kaldığında mantıklı düşünmek yerine panik moduna geçer ve kaybetme korkusuyla (FOMO) hızlıca kabule yönelir. Bu doktrin; tekliflerinize son kullanma tarihi koyarak, stok sınırları belirterek veya masada anlık karar verilmesini talep ederek karşı tarafı köşeye sıkıştırmanızı sağlar.",
+    whatItIsNot: "Karşı tarafı panikle tamamen kaçırmak veya kaba bir şekilde acele ettirmek değildir. Fırsatın kaçacağı illüzyonunu son derece kibar ve profesyonelce sunmaktır.",
     howToApply: [
-      "Son Tarih (Deadline) Dikte Etme: Teklifinizin geçerlilik süresini net ve kısa bir zamana bağlayın (Örn: 'Bu teklif cuma günü saat 17:00'ye kadar geçerlidir').",
-      "Alternatif Müşteri İllüzyonu: Başka taliplerin de sırada beklediği imasında bulunun.",
-      "Geri Sayım Psikolojisi: Zaman daraldıkça karşı tarafa hatırlatmalar yaparak üzerindeki gerilimi tazeleyin.",
-      "Son Dakika Taviz Blokesi: Zaman bittikten sonra gelen talepleri kesinlikle reddedin."
+      "Son Tarih Belirleme: Tekliflerinize kesin ve esnetilemez bir geçerlilik süresi koyun.",
+      "Kaybetme Korkusunu Tetikleme: Teklifin sadece o an veya o güne özel olduğunu, sonrasında şartların değişeceğini belirtin.",
+      "Sosyal Kanıt Kullanma: Başka alıcıların da sırada beklediğini ima edin (Örn: 'Şu an bu paket için bekleyen 2 kişi daha var, önceliği size verdik').",
+      "Sakin Ama Net Duruş: Süre bittiğinde teklifi gerçekten geri çekin ki ciddiyetiniz anlaşılsın."
     ],
-    scenario: "Satış ortaklığı teklif ettiğiniz firmaya uzun uzun düşünme süresi vermek yerine: 'Bu çeyrekteki bütçe planlamamız salı günü kapanıyor. Bu tarihe kadar onaylamazsanız kontenjanı başka bir partnerle değerlendireceğiz' diyerek onları 48 saat içinde sözleşmeyi imzalamaya zorlayın."
+    scenario: "Müşterinize sunduğunuz teklife karar veremediklerini söylediklerinde: 'Bu fiyatlar hammadde maliyetlerinden dolayı sadece yarına kadar geçerlidir. Onaylamazsanız teklif otomatik olarak iptal olacaktır' dediniz. Kaybetmek istemeyen müşteri ertesi sabah sözleşmeyi imzaladı."
   },
   {
     id: "stoic-armor",
     title: "Stoik Zırh Protokolü",
     category: "emotional-resilience",
     categoryLabel: "Duygusal Dayanıklılık",
-    description: "Özdeğerini dış dünyadaki olaylardan, eleştirilerden ve saldırılardan tamamen bağımsızlaştırma yöntemi.",
-    whatItIs: "Stoik Zırh Protokolü, dış dünyada kontrol edemediğiniz olayların iç dünyanızdaki huzuru ve rasyonelliği bozmasını engelleyen zihinsel bir kalkandır. İnsanların size yönelttiği hakaretler, eleştiriler veya reddedilmeler aslında sizinle değil, onların kendi içsel projeksiyonları ve zafiyetleriyle ilgilidir. Bu gerçeği içselleştirdiğinizde, dış uyarılara karşı tamamen etkisiz hale gelir ve reaktifliği sıfırlarsınız.",
-    whatItIsNot: "Duygusuz veya robotik bir taklitçi olmak değildir. Olayları ve sözleri kişiselleştirmeyi bırakıp, onları rasyonel birer dış veri olarak kabul etmektir.",
+    description: "Özdeğeri dış olaylardan/eleştirilerden tamamen bağımsızlaştırıp reaktifliği sıfırlama.",
+    whatItIs: "Stoik Zırh Protokolü, zihinsel dayanıklılığınızı en üst seviyeye çıkararak dış dünyadaki hiçbir olumsuzluğun sizi sarsamamasını sağlamaktır. Manipülatörler genellikle sizin duygusal tepkilerinizden (öfke, kaygı, suçluluk) beslenirler. Bu zırhı giydiğinizde, olayları kişisel almayı bırakır ve sadece kontrol edebileceğiniz şeylere odaklanırsınız. Bir saldırı anında duygusal tepki vermek yerine, durumu dışarıdan soğukkanlı bir gözlemci gibi analiz edersiniz.",
+    whatItIsNot: "Duygusuz bir robota dönüşmek veya her şeye boyun eğmek değildir. Duygularınızı kontrol ederek kararlarınızı mantık çerçevesinde almaktır.",
     howToApply: [
-      "Kontrol Analizi: Karşılaştığınız durumu ikiye bölün: 'Benim kontrolümde olanlar' (benim kararlarım, tepkilerim) ve 'Benim kontrolümde olmayanlar' (başkalarının sözleri, hava durumu, piyasa). Yalnızca ilkine enerji harcayın.",
-      "Kişiselleştirmeyi Reddetme: Size söylenen kötü bir lafı duyduğunuzda, bunu söyleyenin zihinsel durumunun bir anomalisi olarak görün.",
-      "Amigdala Hijyeni: Provokasyon anlarında derin nefes alarak fiziksel reaksiyonları (kalp atışı, kasılma) bilinçli olarak gevşetin.",
-      "Sarsılmazlık Duruşu: Hakaretlere sakin bir gülümseme veya sessiz bir bakışla yanıt verin."
+      "Kontrol Analizi: Karşılaştığınız olayı 'kontrolümdekiler' ve 'kontrolüm dışındakiler' olarak ikiye ayırın.",
+      "Duygusal Etiketsizlik: Olaylara 'kötü' veya 'korkunç' gibi duygusal etiketler yapıştırmaktan kaçının, sadece olanı olduğu gibi görün.",
+      "Nefes ve Sessizlik Barajı: Bir saldırı veya kriz anında konuşmadan önce derin bir nefes alın ve 3 saniye sessiz kalın.",
+      "Bilişsel Yeniden Çerçeveleme: Karşı tarafın hakaretlerini veya manipülasyonlarını kendinizin değil, onun zayıflığının bir göstergesi olarak okuyun."
     ],
-    scenario: "Bir toplantıda rakibiniz projenizi 'beceriksizce tasarlanmış' diyerek sabote etmeye çalıştı. Öfkelenip kendinizi savunmak yerine, sakin bir ses tonuyla: 'Bu eleştirinin altındaki yapıcı ve teknik veri tam olarak nedir? Eğer yoksa zaman kaybetmeyelim' diyerek onun saldırısını zırhınızla eritin."
+    scenario: "Yöneticiniz bir toplantıda herkesin önünde projenizdeki bir aksaklık nedeniyle size bağırmaya başladı. Herkes sizin sinirlenmenizi veya ağlamanızı beklerken, son derece sakin bir ses tonuyla: 'Haklısınız, bu aksaklık giderilmeli. Çözüm için şu 2 adımı planladım' dediniz. Duruşunuz yöneticinin öfkesini eritti ve masadaki saygınlığınızı zirveye taşıdı."
   },
   {
     id: "cognitive-narrowing",
     title: "Bilişsel Odak Daraltma",
     category: "emotional-resilience",
     categoryLabel: "Duygusal Dayanıklılık",
-    description: "Kriz ve yüksek stres anlarında zihnin dağılmasını önleyerek sadece çözüme yönelik eylemlere odaklanma.",
-    whatItIs: "Bilişsel Odak Daraltma, panik ve kriz anlarında beynin ürettiği felaket senaryolarını (overthinking) susturarak, odağı sadece 'şu an' ve 'yapılabilecek ilk eyleme' sabitleme tekniğidir. Stres altındayken insan zihni geleceğe dair kaygılarla felç olur. Zihni dar bir koridora sokarak dış gürültüyü kapatır ve hatasız bir şekilde kriz yönetimini devralırsınız.",
-    whatItIsNot: "Büyük resmi tamamen unutmak veya dikkatsiz olmak değildir. Karar alma felcini önlemek için operasyonel odağı mikro düzeye indirmektir.",
+    description: "Kriz anında beynin ürettiği felaket senaryolarını susturup sadece sıradaki mikro göreve odaklanma.",
+    whatItIs: "Bilişsel Odak Daraltma, yüksek stres altındayken beyninizin dağılmasını engellemek için kullanılan bir zihinsel savunma mekanizmasıdır. Büyük krizler anında insan zihni geleceğe dair felaket senaryoları üreterek felç olur. Bu doktrin, tüm geleceği düşünmeyi bırakıp odağınızı sadece önünüzdeki sonraki 5 dakikaya ve çözmeniz gereken ilk mikro probleme indirgemenizi sağlar. Bu sayede panik duygusu yok olur ve soğukkanlı kararlar alabilirsiniz.",
+    whatItIsNot: "Uzun vadeli planları tamamen unutmak veya vizyonsuz olmak değildir. Yangın anında geleceği düşünmek yerine önce yangını söndürmeye odaklanmaktır.",
     howToApply: [
-      "Gürültü Filtresi: Kriz anında etrafınızdaki insanların panik konuşmalarını ve felaket senaryolarını dinlemeyi durdurun.",
-      "İlk Adım Tespiti: Kendi kendinize sorun: 'Şu saniyede, bu durumu %1 bile olsa iyileştirmek için atabileceğim en somut adım ne?'",
-      "Mikro Görevler: Büyük problemi parçalara bölün ve sadece sıradaki 5 dakikalık görevi tamamlamaya odaklanın.",
-      "Biyolojik Kontrol: Vücudunuzun stres sinyallerini (hızlı soluma vb.) derin ve yavaş nefeslerle regüle edin."
+      "Gelecek Koruması: Zihninizin 'Peki ya şöyle olursa?' sorularını anında bloke edin.",
+      "Mikro Görev Belirleme: Kriz anında yapmanız gereken en basit, ilk fiziksel veya zihinsel adımı yazın.",
+      "Zaman Tüneli: Odağınızı sadece içinde bulunduğunuz saate veya dakikaya sınırlandırın.",
+      "Adım Adım İlerleme: İlk mikro görevi bitirmeden asla ikinci adıma geçmeyin ve dikkatinizi dağıtacak her şeyi kapatın."
     ],
-    scenario: "Şirketinizin sunucuları çöktü ve müşteriler öfkeyle arıyor. Herkes panikle birbirini suçlarken, siz telefonları sessize alın, ekibi toplayıp: 'Kimse konuşmasın. Ahmet yedekleri kontrol et, Mehmet sunucu sağlayıcıyla iletişime geç. 15 dakika sonra rapor verin' diyerek bilişsel odağı daraltın ve krizi çözün."
+    scenario: "Canlı yayında yapacağınız büyük bir sunum öncesinde sistem çöktü ve sunum slaytlarınız silindi. Panik yapıp ağlamak yerine zihninizi daralttınız: Hemen cep telefonunuzdaki yedek notları açıp, sunumun ilk 3 dakikasındaki ana fikirleri kağıda yazdınız ve slaytsız ama son derece akıcı bir konuşma yaparak krizi fırsata çevirdiniz."
   },
   {
     id: "rejection-inoculation",
     title: "Reddedilme Aşısı",
     category: "emotional-resilience",
     categoryLabel: "Duygusal Dayanıklılık",
-    description: "Sosyal kaygıları yok etmek ve reddedilme korkusunu kırmak için kendini kontrollü reddedilme senaryolarına maruz bırakma.",
-    whatItIs: "Reddedilme Aşısı (Rejection Inoculation), insan psikolojisindeki en büyük engellerden biri olan 'reddedilme ve dışlanma korkusunu' duyarsızlaştırma yoluyla yok etme antrenmanıdır. Beynimiz reddedilmeyi fiziksel bir acı gibi algılar. Kendinizi bilinçli olarak reddedileceğiniz küçük, zararsız durumlara sokarak bu zihinsel kası güçlendirirsiniz. Korku yok olduğunda, gerçek müzakerelerde sınırlarınızı çok daha cesurca çizebilirsiniz.",
-    whatItIsNot: "Kendini küçük düşürmek veya delice şeyler yapmak değildir. Tamamen reddedilme hissinin yarattığı otonom tepkiyi (utanç, korku) kontrol altına alma egzersizidir.",
+    description: "Reddedilme direncini artırmak için kendini kontrollü ve küçük reddedilme durumlarına sokma antrenmanı.",
+    whatItIs: "Reddedilme Aşısı, hayattaki en büyük engellerden biri olan 'reddedilme korkusunu' aşmak için kullanılan bilişsel davranışçı bir tekniktir. Reddedilmek fiziksel bir acı gibi beyinde aynı bölgeyi tetikler. Kendinizi bilinçli olarak 'hayır' yanıtı alacağınız zararsız durumlara sokarak bu acıya karşı duyarsızlaşırsınız. Reddedilmeye karşı bağışıklık kazandığınızda, müzakerelerde veya tekliflerde çok daha cesur ve tavizsiz olabilirsiniz.",
+    whatItIsNot: "İnsanları taciz etmek veya aptalca durumlara düşmek değildir. Tamamen kontrollü ve güvenli ortamlarda sınırlarınızı test etmektir.",
     howToApply: [
-      "Kontrollü İstekler: Kabul edilmesi düşük ama imkansız olmayan ufak isteklerde bulunun (Örn: Bir restoranda indirim istemek).",
-      "Duygu Gözlemi: Reddedilme cevabını ('Hayır') aldığınız an vücudunuzda oluşan sıcaklığı ve gerginliği izleyin ama tepki vermeyin.",
-      "Nötr Kabul: Hayır yanıtını sakince gülümseyerek karşılayın: 'Anlıyorum, teşekkürler' deyin ve yürüyün.",
-      "Sıklık Protokolü: Bu egzersizi haftada 1-2 kez tekrarlayarak sosyal kaygı eşiğinizi sıfırlayın."
+      "Hayır İstemi: Her gün en az bir kez karşı tarafın mantıklı nedenlerle 'hayır' diyeceği absürt ama kibar isteklerde bulunun.",
+      "Duygu Takibi: Reddedildiğiniz an vücudunuzda oluşan fiziksel hisleri (kalp atışı, terleme) sadece izleyin ve geçmesini bekleyin.",
+      "Kişiselleştirmeyi Bırakma: Alınan 'hayır' yanıtının sizin şahsınızla değil, durumla ilgili olduğunu kendinize hatırlatın.",
+      "Tekrar Deneme: Reddedilmenin dünyanın sonu olmadığını gördükçe daha büyük stratejik teklifleri yapma cesaretini kendinizde bulun."
     ],
-    scenario: "Bir kafede kahve alırken baristaya tamamen sakin bir sesle: 'Bugün kahveme %10 indirim yapabilir misiniz?' diye sorun. 'Maalesef yapamam' yanıtını aldığınızda, göz temasıyla: 'Sorun değil, şansımı denedim' deyip kahvenizi alın. Bu küçük 'hayır' cevabı, büyük müzakerelerdeki reddedilme korkunuzu köreltecektir."
+    scenario: "Bir restoranda hesabı öderken garsona sakince: 'Bugün buraya ilk gelişim, bana %10 indirim yapabilir misiniz?' diye sordunuz. Garson şaşırıp 'Maalesef böyle bir uygulamamız yok' dediğinde gülümseyip teşekkür ettiniz. Bu ufak reddedilme egonuzu törpüledi ve sonraki hafta büyük bir ihalede çok daha rahat pazarlık yapmanızı sağladı."
   },
   {
-    id: "mental-distance",
-    title: "Zihinsel Mesafe & Gözlem",
+    id: "premeditatio-malorum",
+    title: "Premeditatio Malorum (Olumsuz Senaryo Provası)",
     category: "emotional-resilience",
     categoryLabel: "Duygusal Dayanıklılık",
-    description: "Keni düşünce, duygu ve dürtülerini kişiselleştirmeden, laboratuvardaki bir denek gibi dışarıdan izleme.",
-    whatItIs: "Zihinsel Mesafe (Cognitive Defusion), zihninizin ürettiği düşünce ve duygularla aranıza mesafe koyarak onların sizi yönetmesini engelleme metodudur. Siz düşünceleriniz veya öfkeniz değilsiniz; siz bunları gözlemleyen bilincin kendisisiniz. Bu doktrin, öfke, kıskançlık veya kaygı yükseldiğinde o duyguyla bir olmak yerine, ona dışarıdan bakıp: 'Şu an içimde bir öfke dalgası yükseliyor' teşhisi koymanızı sağlar.",
-    whatItIsNot: "Duyguları bastırmak veya yok saymak değildir. Aksine, onları tamamen serbest bırakıp, sadece onların sizi yönlendirmesine izin vermemektir.",
+    description: "Gelecekteki olası en kötü senaryoları, krizleri ve kayıpları önceden zihnen canlandırıp, bunlara karşı duygusal bağışıklık kazanma ve panik eşiğini sıfırlama yöntemi.",
+    whatItIs: "Premeditatio Malorum, kökeni Stoacılık felsefesine dayanan, zihinsel dayanıklılığı en üst düzeye çıkaran klinik bir kriz simülasyonudur. İnsanları yıkan şey olayların kendisi değil, hazırlıksız yakalanmaları ve beklentilerinin çökmesidir. Bu doktrin; bir iş görüşmesine, önemli bir ihaleye veya ilişki krizine girmeden önce olası tüm felaket senaryolarını (ihanet, kayıp, iflas, rezil olma) en ince detayına kadar zihinde canlandırmayı gerektirir. En kötü senaryoyla zihnen yüzleşip onu soğukkanlılıkla kabul ettiğinizde, kriz anında beynin korku merkezi (amigdala) felç olmaz. Böylece herkes panik içindeyken siz tamamen rasyonel çözümler üretirsiniz.",
+    whatItIsNot: "Kişiyi karamsarlığa, depresyona veya hareketsizliğe sürükleyen bir kaygı (overthinking) durumu değildir. Aksine, kriz anında paniklemeyi önlemek için yapılan soğuk, askeri bir zihinsel tatbikattır.",
     howToApply: [
-      "Dilsel Ayrıştırma: 'Ben çok öfkeliyim' demek yerine, 'Zihnim şu an öfke üretmeye başladı' cümlesini kurun.",
-      "Gözlemci Modu: Yükselen duyguyu vücudunuzun neresinde hissettiğinizi (göğüste sıkışma, midede yanma) klinik olarak analiz edin.",
-      "Bulut Metaforu: Duyguları gökyüzünden geçip giden bulutlar gibi izleyin; onlara tutunmayın veya onları itmeye çalışmayın.",
-      "Taktiksel Duraklama: Yoğun bir duygu altındayken karar almayı veya konuşmayı en az 90 saniye erteleyin (duygu dalgasının biyolojik süresi)."
+      "Felaket Haritası: Yaklaşan kritik olay öncesi olabilecek en kötü 3 senaryoyu (örn: sunumun yarıda kesilmesi, müşterinin bağırması, teklifin reddedilmesi) yazılı olarak listeleyin.",
+      "Duysuz Canlandırma: Bu felaket anını gözlerinizi kapatarak saniye saniye yaşayın; o andaki insanların yüzlerini, ses tonlarını ve kendi içinizde yükselecek o ilk panik hissini zihninizde simüle edin.",
+      "Kabul ve Nötrleme: Zihninizde en kötü sonucun gerçekleştiğini ve dünyanın sonu olmadığını görün. O hissi serbest bırakıp kabul edin.",
+      "Eylem Reçetesi Hazırlama: En kötü senaryo gerçekleştiğinde atacağınız ilk rasyonel adımı planlayın. Artık o kriz anında 'ne yapacağım' diye düşünmez, önceden yazılmış reçeteyi uygularsınız."
     ],
-    scenario: "Eski sevgilinizden gelen kışkırtıcı bir mesaja karşı içinizde yoğun bir intikam ve öfke arzusu uyandı. Hemen yazmak yerine telefonunuzu bırakın, koltuğa geçip: 'İlginç, şu an zihnim yoğun bir reaktiflik üretiyor ve kalp atışım hızlandı' diye kendinizi gözlemleyin. 2 dakika sonra sakinleştiğinizde mesaja hiç cevap vermeyerek en stratejik hamleyi yapın."
+    scenario: "Milyon dolarlık bir yatırımcı sunumuna girmeden önce, sunum dosyasının açılmayacağını, elektriklerin kesileceğini ve yatırımcılardan birinin size 'Bu proje çöp' diyeceğini zihnen canlandırdınız ve buna karşı sakinliğinizi koruma provası yaptınız. Sunum günü gerçekten projektör bozuldu. Diğer kurucular paniklerken siz sakince ayağa kalktınız, 'Teknoloji bazen bizi şaşırtır, o yüzden projeyi size tahtada çizerek anlatacağım' dediniz ve sunumu başarıyla tamamlayıp yatırımı aldınız."
   },
   {
     id: "anxiety-transmutation",
     title: "Kaygının Yakıta Dönüştürülmesi",
     category: "emotional-resilience",
     categoryLabel: "Duygusal Dayanıklılık",
-    description: "Vücudun ürettiği adrenalin ve stres enerjisini panik yerine keskin bir odaklanmaya ve eyleme çevirme.",
-    whatItIs: "Kaygının Yakıta Dönüştürülmesi (Anxiety Transmutation), stres anında salgılanan adrenalinin fizyolojik olarak heyecanla (excitement) aynı kimyasal yapıya sahip olması gerçeğini kullanır. Korktuğunuzda veya kaygılandığınızda vücut alarma geçer. Bu alarm durumunu 'korkuyorum' diye yorumlamak yerine, zihninize 'hazırlanıyorum ve odaklanıyorum' sinyalini dikte ederek bu yüksek enerjiyi yüksek performans yakıtı olarak kullanırsınız.",
-    whatItIsNot: "Korkuyu inkar etmek veya geçmesini beklemek değildir. Vücudun o anki yüksek enerji durumunu (hızlı kalp atışı vb.) eylem gücüne kanalize etmektir.",
+    description: "Alarm durumunu heyecan ve odaklanma olarak yeniden çerçeveleyip adrenalini performansa çevirme.",
+    whatItIs: "Kaygının Yakıta Dönüştürülmesi, vücudun tehlike anında verdiği fiziksel tepkileri (hızlı kalp atışı, titreme, avuç içi terlemesi) zihinsel olarak yeniden tanımlama doktrinidir. Biyolojik olarak korku ve heyecan vücutta aynı kimyasal tepkimeyi yaratır. Tek fark, zihninizin bu duruma verdiği isimdir. Stres anında 'Çok korkuyorum, mahvolacağım' demek yerine 'Vücudum şu an beni maksimum odaklanma seviyesine getirmek için yakıt salgılıyor, harika bir performans sergileyeceğim' diyerek adrenalini güce çevirebilirsiniz.",
+    whatItIsNot: "Kaygıyı tamamen yok etmeye çalışmak değildir. Kaygının yarattığı yüksek enerjiyi bastırmak yerine onu performansa yönlendirmektir.",
     howToApply: [
-      "Bilişsel Yeniden Çerçeveleme: Kalbiniz hızlı çarptığında kendinize: 'Bu korku değil, vücudum beni zirve performansa hazırlıyor' deyin.",
-      "Fiziksel Deşarj: Birikmiş stres enerjisini hafif fiziksel hareketlerle (esneme, hızlı yürüme) dağıtın.",
-      "Odağı Dışarı Kaydırma: İçsel kaygı düşüncelerinden sıyrılıp gözlerinizi önünüzdeki somut nesnelere veya işin detaylarına odaklayın.",
-      "Eyleme Geçiş: Stres anında durup düşünmek yerine, hemen yapmanız gereken işin ilk adımını atmaya başlayın."
+      "Fiziksel Kabullenme: Vücudunuzdaki adrenalini hissettiğinizde ondan kaçmaya çalışmayın, 'Seni hissediyorum ve kabul ediyorum' deyin.",
+      "Yeniden Çerçeveleme: Kendinize sesli veya içten: 'Bu korku değil, bu benim maksimum odaklanma enerjim' deyin.",
+      "Nefes Ayarı: Hızlı nefes almak yerine derin ve yavaş nefesler alarak kalbinizin ritmini kontrol altına edin.",
+      "Enerjiyi Aktarma: Bu yüksek enerjiyi ses tonunuza güç, beden dilinize kararlılık olarak yansıtın."
     ],
-    scenario: "Yüzlerce kişinin önünde yapacağınız kritik bir sunum öncesinde elleriniz titriyor ve terliyorsunuz. 'Ya batırırsam' diye kaygılanmak yerine, omuzlarınızı dikleştirip kendi kendinize: 'Vücudum şu an inanılmaz bir enerji üretiyor, sahneyi domine etmeye hazırım' deyin ve bu heyecanla sahneye çıkıp dominant bir sunum yapın."
+    scenario: "Binlerce kişinin önünde yapacağınız konuşma öncesinde elleriniz titremeye ve kalbiniz deli gibi çarpmaya başladı. Sahne arkasında derin bir nefes alıp: 'Harika, vücudum şu an beni bu sahneyi sallamam için şarj ediyor' dediniz. Sahneye çıktığınızda o yüksek enerjiyle salonu büyüleyen bir konuşma yaptınız."
   },
   {
     id: "trojan-protocol",
     title: "Truva Atı Protokolü",
     category: "dark-influence",
     categoryLabel: "Karanlık Nüfuz",
-    description: "Rakiplerin gardını düşürmek için kendini zararsız, yetersiz veya tamamen sadık göstererek iç çembere sızma.",
-    whatItIs: "Truva Atı Protokolü, güç mücadelelerinde erken tespit edilip hedef alınmamak için güçsüzlük maskesi (tactical weakness) takmaktır. İnsanlar zayıf veya zararsız gördükleri kişilere karşı tetikte olmazlar, sırlarını onların yanında açık ederler ve onların büyümesine engel olmaya gerek duymazlar. Rakibin iç çemberine en dipteki, en sadık ve en iddiasız pozisyondan sızarak tüm stratejik verileri toplar ve doğru an geldiğinde kontrolü ele geçirirsiniz.",
-    whatItIsNot: "Zayıf veya ezik olmayı kabul etmek değildir. Nihai dominans için geçici olarak egonuzu cebinize koyup rol yapmaktır.",
+    description: "Zayıf veya iddiasız maskesiyle sızıp, sırları toplayarak doğru zamanda kontrolü ele geçirme.",
+    whatItIs: "Truva Atı Protokolü, güç mücadelelerinde doğrudan çatışma yerine hedef yapının güvenini kazanarak içeri sızmaktır. İnsanlar güçlü ve tehditkar profillere karşı savunma mekanizmalarını açık tutarlar. Ancak iddiasız, yardımsever, uyumlu veya 'zayıf' görünen kişilere karşı gardlarını tamamen düşürürler. Bu protokolü kullanarak hedefin en yakın güven çemberine sızabilir, kritik verileri toplayabilir ve doğru an geldiğinde kontrolü tamamen elinize alabilirsiniz.",
+    whatItIsNot: "Kör bir sadakat sergilemek veya kendini ezdirmek değildir. Gücünüzü gizleyerek stratejik bir konum elde etme sürecidir.",
     howToApply: [
-      "Ego Baskılama: Kendi başarılarınızı, zekanızı ve hedeflerinizi rakibin yanında asla sergilemeyin.",
-      "Hizmetkar Maskesi: Rakibin gözüne girmek için onun en sıkıcı veya önemsiz işlerini gönüllü olarak yapın.",
-      "Güven İnşası: Onun sırdaşı veya sadık bir uygulayıcısı konumuna gelene kadar sadakat testlerinden başarıyla geçin.",
-      "Kritik Hamle: Rakibin en zayıf olduğu ve sizin yerinizin doldurulamayacağı anı bekleyip kontrolü devralın."
+      "Tehditsiz Profil Çizme: Hedefin yanında egonuzu tamamen geride bırakın, zararsız ve uyumlu görünün.",
+      "Güven İnşa Etme: Hedefe küçük ama onun için değerli konularda yardım ederek onun güven çemberine girin.",
+      "Bilgi Toplama (Gözlem): Güven kazandıktan sonra etraftaki tüm zayıflıkları, sırları ve güç ilişkilerini sessizce not edin.",
+      "Doğru Zamanlama: Kritik eşiğe ulaştığınızda veya hedef size tamamen bağımlı hale geldiğinde kontrolü ele geçirin."
     ],
-    scenario: "Şirketteki dominant ve kıskanç müdürün yerine geçmek istiyorsunuz. Onunla rekabet etmek yerine, onun en sadık yardımcısı olun, her fikrini alkışlayın ve gardını tamamen düşürmesini sağlayın. Sorumlulukları yavaşça üzerinize alıp üst yönetimle doğrudan bağ kurduğunuzda, müdürün ilk büyük hatasında onun yerine atanacak yegane kişi siz olacaksınız."
+    scenario: "Şirketteki dominant ve kimseye güvenmeyen departman müdürünün yanına stajyer gibi sessizce girdiniz. Hiçbir konuda onunla tartışmadınız ve işlerini kusursuz yaptınız. Müdür size tamamen güvenip tüm şifreleri ve özel yazışmaları teslim etti. Şirket içi bir kriz anında, elinizdeki verilerle müdürün tüm usulsüzlüklerini üst yönetime sunarak onun yerine siz departman müdürü oldunuz."
   },
   {
     id: "guilt-projection",
     title: "Suçluluk Yansıtması",
     category: "dark-influence",
     categoryLabel: "Karanlık Nüfuz",
-    description: "İlişkilerde ve tartışmalarda ahlaki üstünlüğü ele geçirmek için karşı tarafı suçlu ve borçlu hissettirme taktiği.",
-    whatItIs: "Suçluluk Yansıtması, kendi yaptığınız hataları veya ortak krizleri öyle bir çerçeveyle sunmaktır ki, karşı taraf kendini savunurken bulsun ve suçluluk hissetsin. Suçluluk duyan insan, özür dileme, telafi etme ve taviz verme moduna geçer. Bu durum size masada mutlak bir ahlaki ve psikolojik kaldıraç sağlar.",
-    whatItIsNot: "Kaba bir şekilde iftira atmak değildir. Karşı tarafın geçmişteki ufak tefek eksikliklerini büyüterek veya onun iyi niyetini suistimal ederek onu borçlu hissettirmektir.",
+    description: "Ahlaki üstünlüğü ele geçirip karşı tarafı savunmaya çekmek için ortak krizlerin suçunu yansıtma.",
+    whatItIs: "Suçluluk Yansıtması, müzakerelerde veya ilişkilerde suçluluk psikolojisine girmeyi reddederek sorumluluğu karşı tarafın eylemlerine bağlamaktır. İnsanlar suçluluk hissettiklerinde savunmaya geçer ve taviz vermeye çok daha açık hale gelirler. Bu doktrin, kendi hatanızı doğrudan kabul etmek yerine, karşı tarafın süreçteki eksikliklerini veya üslubunu ön plana çıkararak onun suçluluk hissetmesini sağlamanızı ve böylece masadaki kontrolü korumanızı sağlar.",
+    whatItIsNot: "Sürekli ve kaba bir şekilde insanları suçlamak veya sorumluluktan çocukça kaçmak değildir. Haklılığı ahlaki veya mantıksal bir çerçeveye oturtarak yansıtmaktır.",
     howToApply: [
-      "Mağduriyet Çerçevesi: Yaşanan sorunda kendi sorumluluğunuzu tamamen yok sayın ve odağı onun 'özensizliğine' getirin.",
-      "Duygusal Yükleme: 'Ben senin için her şeyi yaparken senin bu yaklaşımın...' kalıbını kullanarak fedakarlıklarınızı öne sürün.",
-      "Soruşturma Modu: Karşı tarafı savunma yapmaya zorlayacak yargılayıcı sorular yöneltin.",
-      "Taviz Toplama: Onun yaşadığı suçluluk hissinin sıcaklığıyla, normalde kabul etmeyeceği taleplerinizi onaylatın."
+      "Suçluluk Koruması: Karşı tarafın suçlamalarını asla duygusal olarak kabul etmeyin ve kendinizi savunmaya başlamayın.",
+      "Odak Değiştirme (Kanal Değişimi): Konuyu kendi hatanızdan, karşı tarafın bu hatayı oluşmadan önce yapması gereken engelleme adımlarına getirin.",
+      "Ahlaki Çerçeveleme: Karşı tarafı süreci sabote etmekle veya güvensizlikle suçlayarak onu savunmaya çekin.",
+      "Taviz İstemi: Savunmaya geçen karşı taraftan durumu düzeltmek için yeni kazanımlar talep edin."
     ],
-    scenario: "İş ortağınızın bir teslimatı geciktirmesini fırsat bilip: 'Senin bu ciddiyetsizliğin yüzünden markamızın 10 yıllık itibarını lekeledik, geceleri uyuyamıyorum' diyerek durumu abartın. Ortağınız bu suçluluk altında ezilirken, bir sonraki gelir paylaşımında hakkınızı %10 artırmayı teklif edip kabul ettirin."
+    scenario: "Müşteriye teslim ettiğiniz projede bir gecikme yaşandı. Müşteri sizi suçladığında: 'Evet, teslimatta 2 günlük bir gecikme var. Ancak sizin onay süreçlerini zamanında tamamlamamanız ve bize net bilgi vermemeniz bu duruma yol açtı. Gelecekte daha hızlı onay vermenizi bekliyoruz' dediniz. Müşteri kendini suçlu hissedip gecikmeyi sorun etmedi."
   },
   {
     id: "narcissistic-mirroring",
     title: "Narsisistik Aynalama",
     category: "dark-influence",
     categoryLabel: "Karanlık Nüfuz",
-    description: "Hedef kişinin idealize ettiği kendi benliğini ve egosunu ona yansıtarak sarsılmaz bir bağ ve manipülasyon alanı yaratma.",
-    whatItIs: "Narsisistik Aynalama, karşınızdaki insanın kendisinde görmek istediği o harika, zeki ve üstün kişilik özelliklerini ona onaylayarak ve taklit ederek sunmaktır. Her insan kendi egosunun yankısını duymak ister. Hedefin en çok neyden gurur duyduğunu analiz edip, ona o konunun yegane takdir edicisi olduğunuzu gösterdiğinizde, zihinsel savunma duvarlarını tamamen indirirsiniz.",
-    whatItIsNot: "Ucuz ve yapay dalkavukluk yapmak değildir. Hedefin zihinsel ideallerine uygun, entelektüel düzeyde derin ve inandırıcı bir hayranlık illüzyonu yaratmaktır.",
+    description: "Karşı tarafın idealize ettiği benliği ona yansıtarak sarsılmaz bir bağlılık ve güven alanı yaratma.",
+    whatItIs: "Narsisistik Aynalama, hedef kişinin egosunu, değerlerini, konuşma tarzını ve hayata bakış açısını ona birebir yansıtarak bilinçaltında 'Benim gibisin, sana güvenebilirim' algısı yaratmaktır. İnsanlar en çok kendilerine benzeyen ve kendilerini onaylayan kişilere hayranlık duyarlar. Hedefin en derin değerlerini, hobilerini ve hatta jest-mimiklerini hafifçe taklit ederek onunla aranızda görünmez, sarsılmaz bir psikolojik köprü inşa edebilirsiniz.",
+    whatItIsNot: "Taklitçi gibi görünmek veya abartılı övgüler yapmak değildir. Son derece doğal, seçici ve derin bir uyum yakalama sürecidir.",
     howToApply: [
-      "Ego Tespiti: Hedefin en çok hangi konuda (zeka, tarz, liderlik, sanatsal zevk) övülmek istediğini saptayın.",
-      "Yankı Odası Oluşturma: Onun fikirlerini kendi kelimelerinizle daha felsefi hale getirerek ona geri sunun ('Senin geçen gün belirttiğin o derin analiz üzerine düşündüm de...').",
-      "Kritik Sırdaş Konumu: Onun egosunu en kaliteli şekilde besleyen tek kişi olarak hayatındaki vazgeçilmez yerinizi alın.",
-      "Manipülasyon Kaldıracı: Bu sarsılmaz bağ oluştuktan sonra, onun kararlarını kendi yönlendirmelerinizle şekillendirmeye başlayın."
+      "Değer Teşhisi: Hedefin en çok gurur duyduğu özelliklerini veya hayattaki en hassas değerlerini tespit edin.",
+      "Dil ve Ritmin Aynalanması: Konuşma hızını, kullandığı özel kelimeleri ve ses tonunun yüksekliğini onunkiyle uyumlu hale getirin.",
+      "Ortak Düşman/Tutku Paylaşımı: Onun nefret ettiği şeyleri ve tutkuyla bağlı olduğu konuları siz de savunuyormuş gibi duruş sergileyin.",
+      "İdealize Benlik Yansıması: Onun kendisinde görmek istediği o 'başarılı/entelektüel' vizyonu siz onun yanındayken besleyin."
     ],
-    scenario: "Sanata ve entelektüelliğe aşırı önem veren zengin bir yatırımcıdan fon almak istiyorsunuz. Sunumunuzu finansal verilerden ziyade sanatsal bir vizyon hikayesi olarak tasarlayın ve onun yazdığı makalelerdeki kavramları sık sık kullanın. Yatırımcı, kendi zihinsel yansımasını projenizde görerek fonu onaylayacaktır."
+    scenario: "Sanata ve klasik müziğe aşırı düşkün, kibirli bir yatırımcıyla ortaklık kurmak istiyorsunuz. Toplantıdan önce klasik müzik tarihine dair derin araştırmalar yaptınız. Toplantı sırasında lafı ustaca sanata getirerek onun en sevdiği besteciye dair derin bir yorumda bulundunuz. Yatırımcı size hayran kaldı ve projenize sorgusuz sualsiz ortak oldu."
   },
   {
     id: "divide-and-conquer",
     title: "Böl ve Yönet Stratejisi",
     category: "dark-influence",
     categoryLabel: "Karanlık Nüfuz",
-    description: "Çevrenizdeki rakipler veya potansiyel tehditler arasında uyumsuzluk ve güvensizlik tohumları ekerek birleşmelerini engelleme.",
-    whatItIs: "Böl ve Yönet (Divide and Conquer), karşınızdaki güç odaklarının bir araya gelerek size karşı bir cephe oluşturmasını engellemek için aralarındaki rekabeti, kıskançlığı ve bilgi eksikliğini yönetmektir. Rakipleriniz kendi aralarında çatıştığı sürece, enerjilerini birbirlerini tüketmek için harcarlar ve siz ortadaki hakem veya mutlak güç olarak konumunuzu korursunuz.",
-    whatItIsNot: "Kaba yalanlarla insanları birbirine düşürmek değildir. Tamamen şüphe uyandırıcı, üstü kapalı ve rasyonel görünen bilgi parçaları sızdırarak güvensizlik iklimi yaratmaktır.",
+    description: "Rakipler arasına güvensizlik ve rekabet tohumları sızdırarak ortak bir cephe kurmalarını engelleme.",
+    whatItIs: "Böl ve Yönet Stratejisi, karşınızdaki ortak cepheyi parçalayarak her bir parçayı tek tek etkisizleştirme metodudur. Birlik halindeki rakipleri yenmek zordur. Ancak onların arasına çıkar çatışması, kıskançlık veya güvensizlik tohumları ektiğinizde kendi içlerinde kavga etmeye başlarlar. Rakipleriniz kendi iç mücadeleleriyle meşgulken, siz dışarıdan süreci sakince izleyebilir ve zayıflayan tarafları kendi lehinize yönetebilirsiniz.",
+    whatItIsNot: "Basit dedikodularla küçük kavgalar çıkarmak değildir. Rasyonel çıkar farklılıklerini körükleyerek yapısal ayrılıklar yaratmaktır.",
     howToApply: [
-      "Uyuşmazlık Noktaları Tespiti: Rakipleriniz arasındaki gizli çıkar çatışmalarını veya geçmiş kırgınlıkları belirleyin.",
-      "Filtrelenmiş Bilgi Sızdırma: Bir rakibin diğeri hakkında söylediği tarafsız veya hafif olumsuz bir lafı, niyetini büyüterek diğer tarafa ulaştırın.",
-      "Ayrıcalık İllüzyonu: Rakiplerinizden birine diğerlerinden habersiz özel imtiyazlar veya bilgiler vererek aralarında kıskançlık yaratın.",
-      "Tarafsız Hakem Rolü: Aralarında çatışma çıktığında tarafsız görünün ve her iki tarafın da size sığınmasını sağlayarak kontrolü elinizde tutun."
+      "Çıkar Haritası Çıkarma: Rakip gruptaki üyelerin bireysel menfaatlerini ve birbirlerine olan gizli kıskançlıklarını analiz edin.",
+      "Seçici Bilgi Sızdırma: Bir üyeye diğerinin onun arkasından yaptığı hamleleri veya planları dolaylı olarak gösterin.",
+      "Özel İltifat/Ayrıcalık: Gruptaki bir üyeyi diğerlerinden ayırarak ona özel ayrıcalıklar sunun; bu durum grup içinde anında kıskançlık yaratacaktır.",
+      "Çatışma Anında Geri Çekilme: İç savaş başladığında aradan çekilin ve tarafların birbirini yıpratmasını bekleyin."
     ],
-    scenario: "Ekibinizdeki iki kıdemli çalışanın birleşip yönetim kuruluna karşı ortak talepte bulunmasını önlemek istiyorsunuz. Biriyle yaptığınız özel görüşmede: 'Senin liderlik yeteneğin diğer arkadaşından çok daha üstün, projeyi asıl senin yönetmen lazım ama o da çok hevesli' diyerek aralarında sessiz bir rekabet başlatın ve ortaklıklarını bozun."
+    scenario: "Departmandaki iki güçlü şef size karşı ortak hareket ediyordu. Bir projenin sunumunda şeflerden sadece birini öne çıkarıp üst yönetime onun dehasını övdünüz. Diğer şef bunu duyduğunda ortağına karşı büyük bir kıskançlık ve şüphe beslemeye başladı. İkili arasındaki ortaklık çöktü ve ikisi de size bağımlı hale geldi."
   },
   {
-    id: "selective-honesty",
-    title: "Seçici Dürüstlük Barajı",
+    id: "tactical-triangulation",
+    title: "Taktiksel Üçgenleme (Triangülasyon)",
     category: "dark-influence",
     categoryLabel: "Karanlık Nüfuz",
-    description: "Karşı tarafta sarsılmaz bir dürüstlük algısı yaratmak için küçük, zararsız hataları itiraf etme ve büyük hedefleri gizleme.",
-    whatItIs: "Seçici Dürüstlük, insan psikolojisindeki 'dürüstlük yanılsaması' mekanizmasını kullanır. Bir kişi sizinle ilgili küçük, kendisi için dezavantajlı görünen bir gerçeği (itirafı) paylaştığında, onun tamamen şeffaf ve güvenilir olduğuna inanmaya başlarsınız. Bu taktikle, sizin için hiçbir stratejik önemi olmayan küçük bir hatayı veya sırrı itiraf ederek onun güvenini kazanır, ardından asıl büyük plan ve manipülasyonlarınızı bu dürüstlük zırhının arkasında yürütürsünüz.",
-    whatItIsNot: "Kritik veya size kalıcı zarar verecek gerçekleri itiraf etmek değildir. Sadece dürüst görünmek için tasarlanmış feda edilebilir bilgi paylaşımlarıdır.",
+    description: "İki kişi veya grup arasındaki ilişkiye veya müzakereye üçüncü bir aktörü (gerçek veya kurgusal bir rakip/alternatif) dahil ederek kıskançlık, rekabet ve kaybetme korkusu üzerinden kontrolü ele geçirme doktrini.",
+    whatItIs: "Taktiksel Üçgenleme, karşınızdaki kişinin veya yapının sizinle olan ilişkisinde veya müzakerede elindeki gücü/rahatlığı kırmak için araya üçüncü bir odağı (alternatif iş teklifi, başka bir talip, rakip departman veya başka bir aday) sokma sanatıdır. İnsanlar sahip oldukları veya elde etmek üzere oldukları şeyin başkası tarafından istendiğini gördüklerinde rasyonel düşünmeyi bırakır ve kaybetme korkusuyla (scarcity) hızlıca kabule meylederler. Bu doktrin, doğrudan çatışmaya girmeden karşı tarafı harekete geçmeye ve sizin şartlarınıza boyun ermeye zorlayan en güçlü karanlık nüfuz kaldıraçlarından biridir.",
+    whatItIsNot: "Yapay ve doğruluğu saniyeler içinde çürütülecek ucuz yalanlar söylemek veya çocukça kıskandırma oyunları oynamak değildir. Müzakerelerde elinizi güçlendirecek rasyonel alternatiflerin varlığını (gerçek veya son derece inandırıcı kurgusal) profesyonelce hissettirmektir.",
     howToApply: [
-      "Feda Edilebilir Hata Seçimi: Sizin için hiçbir prestij veya maddi kayıp yaratmayacak ufak bir hatanızı belirleyin.",
-      "Erken ve Samimi İtiraf: Bu hatayı karşı taraf sormadan, tamamen kendi isteğinizle ve samimi bir dille itiraf edin.",
-      "Güven Kredisi Biriktirme: Onun zihninde 'Bu insan hata yapsa bile dürüstçe söylüyor' imajını sabitleyin.",
-      "Maskelenmiş Operasyon: Bu güven kredisini kullanarak, asıl stratejik planlarınızı şüphe çekmeden uygulayın."
+      "Üçüncü Odak Belirleme: Müzakerelerde veya ilişkide elinizi güçlendirecek üçüncü bir alternatif (örn: başka bir iş teklifi, rakip firmanın ilgisi) hazırlayın.",
+      "Dolaylı Sinyalleme: Bu alternatifi doğrudan karşı tarafın gözüne sokmayın. Dolaylı yollardan, resmiyet çerçevesinde duymasını veya hissetmesini sağlayın (Örn: 'Piyasada bu alana yönelik ciddi bir talep var, şu an diğer teklifleri değerlendirme aşamasındayız').",
+      "Zaman Sınırı ve Baskı: Üçüncü odağın yarattığı aciliyetle, karşı tarafa karar vermesi için kısıtlı bir zaman tanıyın.",
+      "Çerçeve Üstünlüğü: Karşı tarafın panikleyerek veya kıskançlıkla yaptığı teklif iyileştirmelerini en tepe şartlarla kabul edin."
     ],
-    scenario: "İş görüşmesinde yöneticinize: 'Geçmiş projemde detaylara aşırı odaklandığım için teslimatı 2 gün geciktirmiştim, bu benim zayıf yönüm' diyerek küçük bir hatayı dürüstçe itiraf edin. Yönetici bu şeffaflığınıza hayran kalacak ve gelecekteki büyük bütçe yönetimini size emanet ederken en ufak bir şüphe duymayacaktır."
+    scenario: "Serbest çalışan bir tasarımcısınız. Mevcut müşteriniz sürekli fiyatı kırmaya çalışıyor. Ona sinirlenmek yerine sakince: 'Birlikte çalışmaktan memnunum. Ancak rakip bir ajanstan tam zamanlı ve oldukça yüksek bütçeli bir ortaklık teklifi aldım. Bu hafta karar vermem gerekiyor. Eğer mevcut bütçemizi %20 oranında güncellersek projenize öncelik vermeye devam edebilirim' dediniz. Sizi kaybetmek istemeyen müşteri fiyat artışını hemen onayladı."
   },
   {
     id: "mystery-shield",
     title: "Gizem Kalkanı & Öngörülemezlik",
     category: "perception-management",
     categoryLabel: "Algı Yönetimi",
-    description: "Planlarını, rutinlerini ve düşüncelerini kasıtlı olarak belirsiz tutarak rakiplerin hamlelerini bloke etme doktrini.",
-    whatItIs: "Gizem Kalkanı, sosyal ve profesyonel hayatta sizi 'modellenemez' kılan bir savunma ve saldırı kalkanıdır. İnsanlar rutinleri, alışkanlıkları ve açık hedefleri olan kişileri kolayca analiz eder ve onlara karşı strateji geliştirirler. Düşüncelerinizi saklı tuttuğunuzda, ani kararlar verdiğinizde ve planlarınızı en son saniyeye kadar paylaşmadığınızda, rakipleriniz sürekli savunmada kalır ve hamle yapmaktan çekinirler.",
-    whatItIsNot: "Tutarsız veya dengesiz davranmak değildir. Kararlarınızın arkasında rasyonel bir tutarlılık varken, dışarıya yansıyan adımlarınızın zamanlamasını ve şeklini gizemli tutmaktır.",
+    description: "Rutinleri ve planları belirsiz tutarak rakiplerin size karşı strateji geliştirmesini engelleme.",
+    whatItIs: "Gizem Kalkanı ve Öngörülemezlik, rakiplerinizin sizi analiz etmesini ve üzerinizde kontrol kurmasını engellemek için kullanılan zihinsel bir maskedir. İnsanlar öngörülebilir rutinlere göre hareket ederler ve bu rutinler çözüldüğünde kolayca manipüle edilirler. Bir sonraki adımınızı, tepkinizi veya kararlarınızı belirsiz bıraktığınızda, rakipleriniz sürekli tetikte kalır, yorulur ve hata yaparlar. Gizemli olmak size doğal bir karizma ve caydırıcılık kazandırır.",
+    whatItIsNot: "Saçma sapan, tutarsız veya delice davranmak değildir. Planlarınızı ve iç dünyanızı son derece sakin ve kararlı bir sessizlikle korumaktır.",
     howToApply: [
-      "Sessiz Planlama: Bir sonraki adımınızı en yakınlarınıza bile iş gerçekleşene kadar anlatmayın.",
-      "Rutin Kırma: Davranış modellerinizi, çalışma saatlerinizi veya tepki verme biçimlerinizi ara sıra bilinçli olarak değiştirin.",
-      "Gizemli Sözcükler: Hedefleriniz sorulduğunda net cevaplar yerine: 'Şu an olgunlaşma aşamasında, doğru zamanda göreceksin' gibi ucu açık ifadeler kullanın.",
-      "Duygusal Poker Face: Başarılarınızı veya yenilgilerinizi dışarıya yansıtmaktan kaçının."
+      "Rutinleri Kırma: Alışılmış iş saatlerinizi, tepkilerinizi ve hatta yürüdüğünüz yolları zaman zaman rastgele değiştirin.",
+      "Planları Gizli Tutma: Bir işi bitirene kadar ne yapacağınızı en yakın çevrenize bile tam olarak açıklamayın.",
+      "Tepkisizlik (Poker Face): Şaşırtıcı veya kriz yaratan haberler karşısında yüz ifadenizi ve tepkinizi tamamen nötr tutun.",
+      "Ucu Açık Cümleler: Sorulara net yanıtlar vermek yerine ucu açık ve düşündürücü cevaplar verin (Örn: 'Bunu zamanı geldiğinde hep birlikte göreceğiz')."
     ],
-    scenario: "Şirkette yeni bir departman kurulacağını duydunuz. Oraya geçmek istediğinizi kimseye söylemeyin, kulis yapmayın. Sessizce gerekli yetkinlikleri biriktirin ve başvuru günü doğrudan en tepe yöneticiye dosyanızı sunun. Rakipleriniz sizin bu hamlenizi öngöremediği için karşı hamle yapmaya zaman bulamayacaklardır."
+    scenario: "Şirketteki herkes sizin rakip firmaya geçeceğinizi konuşuyordu. Dedikodulara ne 'evet' dediniz ne de 'hayır'. Sadece gülümsediniz ve işinizi yapmaya devam ettiniz. Sizin bu öngörülemez ve gizemli duruşunuz karşısında yönetim panik yaparak size kalmanız için %40 maaş zammı ve yeni bir unvan teklif etti."
   },
   {
     id: "pr-framing",
     title: "Kişisel PR Filtresi",
     category: "perception-management",
     categoryLabel: "Algı Yönetimi",
-    description: "Setbackleri, hataları veya geri çekilmeleri planlı birer stratejik hamle veya gelişim süreci gibi yeniden çerçeveleme sanatı.",
-    whatItIs: "Kişisel PR Filtresi (Strategic Reframing), algının gerçekliğin önüne geçtiği durumlarda kullanılır. Yaşadığınız yenilgi veya kayıpları 'başarısızlık' olarak değil, 'planlı bir geri çekilme', 'yeni bir strateji için alan açma' veya 'büyük bir verinin testi' olarak sunmaktır. Doğru çerçeveleme, itibarınızı korumakla kalmaz, karşı tarafa sürekli kontrolün sizde olduğu mesajını verir.",
-    whatItIsNot: "Çocukça bahaneler üretmek veya yalan söylemek değildir. Olayı öyle bir kavramsal boyuta taşımaktır ki, başarısızlık tanımı geçerliliğini yitirsin.",
+    description: "Yaşanılan kayıp veya geri çekilmeleri planlı birer hamle gibi sunarak itibar ve kontrol algısını koruma.",
+    whatItIs: "Kişisel PR Filtresi, algı yönetiminin en kritik doktrinlerinden biridir. Gerçeklik rasyonel değil, algısaldır. Yaşadığınız bir başarısızlığı veya geri çekilmeyi nasıl sunduğunuz (framing), insanların size olan saygısını belirler. Bir yenilgiyi 'mağlubiyet' olarak değil, 'daha büyük bir zafer öncesi planlı bir geri çekilme' veya 'güç biriktirme aşaması' olarak çerçevelediğinizde, itibarınızı korumakla kalmaz, aynı zamanda kontrolün hala sizde olduğu algısını yaratırsınız.",
+    whatItIsNot: "Sürekli yalan söylemek veya gerçeklerden tamamen kopuk hayal dünyasında yaşamak değildir. Olayları kendi lehinize olacak şekilde stratejik olarak yeniden anlatmaktır.",
     howToApply: [
-      "Kullanıcı Odaklı Çerçeveleme: Kriz çıktığı an başkalarının bunu 'hata' olarak adlandırmasını beklemeden hikayeyi siz yazın.",
-      "Kavramsal Yüceltme: Teknik kelimeler kullanın (Örn: 'kaybettik' yerine 'pazar dinamiklerini test ettik ve pivot kararı aldık').",
-      "Gelecek Odaklılık: Kayba değil, bu kaybın gelecekte kazandıracağı devasa stratejik avantaja odaklanın.",
-      "Sakinlik ve Kararlılık: Olayı anlatırken en ufak bir eziklik veya üzüntü belirtisi göstermeyin."
+      "Hızlı Algı Yönetimi: Bir kayıp yaşandığı an dedikodular başlamadan önce kendi anlatınızı (narrative) hemen piyasaya sürün.",
+      "Geri Çekilme Çerçevelemesi: Geri adımları 'zorunlu yenilgi' olarak değil, 'stratejik nefes alma ve kaynakları yeniden organize etme' olarak sunun.",
+      "Feda İllüzyonu: Kaybettiğiniz şeyi aslında daha büyük bir hedef için bilinçli olarak feda ettiğinizi ima edin.",
+      "Gelecek Vizyonu: Odağı geçmişteki kayıptan, bu kaybın gelecekte size kazandıracağı büyük avantaja kaydırın."
     ],
-    scenario: "Yönettiğiniz bir reklam kampanyası beklenen satışı getirmedi. Toplantıda 'Başaramadık' demek yerine, sunumunuza: 'Bu kampanya ile hedef kitlenin satın alma bariyerlerini haritalandırdık. Elde ettiğimiz bu kritik veriyle asıl büyük dönüşümü sağlayacak ikinci aşamaya geçiyoruz' başlığıyla başlayın."
+    scenario: "Yönettiğiniz proje bütçe yetersizliğinden dolayı iptal edildi. Ekibinize ve yönetime: 'Bu projenin iptali aslında bizim için harika oldu. Kaynaklarımızı çok daha yüksek kar getirecek olan yapay zeka departmanına kaydırmak için yönetimle anlaştık' dediniz. Başarısızlık algısı anında vizyoner bir liderlik algısına dönüştü."
   },
   {
     id: "halo-amplification",
     title: "Halo Kuvvetlendirme Protokolü",
     category: "perception-management",
     categoryLabel: "Algı Yönetimi",
-    description: "Kendi adını yüksek prestijli markalar, kavramlar veya kişilerle eşleştirerek algılanan otoritenizi katlama.",
-    whatItIs: "Halo Etkisi (Halo Effect), insanların bir kişi hakkındaki tek bir olumlu özelliğe bakarak onun tüm özelliklerini mükemmel görme eğilimidir. Halo Kuvvetlendirme, bu eğilimi stratejik olarak yönetmektir. Kendinizi yüksek statülü, zor ulaşılan ve prestijli alanlarla bağdaştırdığınızda, insanlar sizin iş kalitenizi, zekanızı ve gücünüzü sorgulamadan en üst düzeyde kabul ederler.",
-    whatItIsNot: "Sahte unvanlar kullanmak veya görmemişlik yapmak değildir. Sosyal ve profesyonel bağlarınızı, bulunduğunuz ortamları seçici bir şekilde kürate etmektir.",
+    description: "Kendi ismini yüksek prestijli kavram veya dev markalarla eşleştirerek yetkinliğin sorgulanmasını engelleme.",
+    whatItIs: "Halo Kuvvetlendirme Protokolü, psikolojideki 'Halo Etkisi'ni (Hale Etkisi) manipüle etmektir. İnsanlar, yüksek prestijli ve güvenilir kurumlarla veya kişilerle ilişkisi olan kişilerin de otomatik olarak aynı kalitede, zeki ve dürüst olduğunu varsayarlar. Kendi isminizi dev markalarla, ünlü akademisyenlerle veya elit kulüplerle ne kadar sık yan yana getirirseniz, kişisel yetkinliğiniz ve kararlarınız o kadar az sorgulanır. Bu, size doğal bir koruma kalkanı ve prestij sağlar.",
+    whatItIsNot: "Gereksiz yere isim düşürmek (name-dropping) veya abartılı yalanlar söylemek değildir. Gerçek ve ufak da olsa var olan prestijli bağları büyüterek ön plana çıkarmaktır.",
     howToApply: [
-      "Seçici Birliktelikler: Sadece statüsü yüksek veya alanında en iyi olan insanlarla yan yana görünmeye özen gösterin.",
-      "Görsel Standart: Giyiminizden, kullandığınız araçlara ve ofisinizin düzenine kadar her şeyi 'kusursuz kalite' filtresinden geçirin.",
-      "Uzmanlık Eşleşmesi: Konuşmalarınızda sadece sıradan konulardan değil, küresel trendlerden, derin felsefi konulardan bahsedin.",
-      "Kıtlık İlkesi: Her yerde görünmeyin, her yayına katılmayın; ulaşılamazlık halonuzu besleyin."
+      "Prestij Ortaklığı: Büyük markaların veya üniversitelerin ufak da olsa eğitimlerine, sertifika programlarına veya projelerine dahil olun.",
+      "Görsel Birliktelik: Sosyal medyada ve sunumlarda bu dev markaların logolarını veya elit kişilerin fotoğraflarını kendi isminizle yan yana kullanın.",
+      "Referans Gücü: Müşterilerinize veya ortaklarınıza daha önce çalıştığınız en büyük isimleri sürekli hatırlatın.",
+      "Yüksek Standart İllüzyonu: Sadece elit standartlarda iş yaptığınızı, sıradan işleri kabul etmediğinizi belirterek değerinizi artırın."
     ],
-    scenario: "Sektörde yeni bir danışmansınız. Sektördeki yüzlerce küçük firmayla çalışmak yerine, ilk projenizi en büyük markalardan birine ücretsiz veya çok düşük ücretle yapın. Sonraki tüm görüşmelerde bu dev markanın ismini 'referans' olarak kullanarak, müşterilerin sizin yetkinliğinizi sorgulamasını en baştan engelleyin."
+    scenario: "Küçük bir danışmanlık firmanız var. Dev bir holdingin sadece 1 günlük eğitim işini aldınız. Web sitenizin ana sayfasına holdingin logosunu koyup 'Referanslarımız ve Stratejik Ortaklarımız' başlığı altında sundunuz. Bu sayede diğer tüm KOBİ'ler sizin çok büyük bir otorite olduğunuzu varsayıp fiyatlarınızı sorgulamadan kabul etti."
   },
   {
     id: "controlled-vulnerability",
     title: "Kontrollü Zafiyet Gösterisi",
     category: "perception-management",
     categoryLabel: "Algı Yönetimi",
-    description: "Aşırı mükemmel görünmenin yarattığı antipatiyi ve şüpheyi kırmak için önemsiz zayıflıkları bilinçli olarak sergileme.",
-    whatItIs: "Kontrollü Zafiyet, modern algı yönetiminin en sofistike araçlarından biridir. İnsanlar 'kusursuz' görünen profillere güvenmezler, onların arkasında büyük bir yalan veya manipülasyon ararlar. Kendi kontrolünüzde olan, size hiçbir stratejik zarar vermeyecek küçük bir kusurunuzu (örn: sakarlık, tatlı düşkünlüğü, aşırı çalışmaktan kaynaklanan unutkanlık) samimiyetle paylaşarak savunmaları düşürür ve sarsılmaz bir güven kazanırsınız.",
-    whatItIsNot: "Gerçek stratejik zayıflıkları, yetersizlikleri veya sırlar ifşa etmek değildir. Tamamen oyunun bir parçası olarak tasarlanmış, zararsız insanileşme adımlarıdır.",
+    description: "Kusursuzluğun yarattığı şüpheyi kırmak için önemsiz zayıflıkları paylaşarak samimiyet algısı oluşturma.",
+    whatItIs: "Kontrollü Zafiyet Gösterisi, samimiyet algısını manipüle etme sanatıdır. Sürekli kusursuz, aşırı profesyonel ve hatasız görünen insanlar çevrelerinde soğukluk, kıskançlık ve şüphe uyandırırlar. İnsanlar zayıflıkları olan, 'insani' profillere karşı daha hızlı empati duyar ve güvenirler. Kendinize dair tamamen zararsız, iş performansınızı etkilemeyecek küçük bir zaafı (örn: tatlılara dayanamamak, topluluk önünde ilk dakikalarda heyecanlanmak) bilinçli olarak paylaştığınızda, karşınızdaki insanların savunma mekanizmaları çöker ve size karşı derin bir yakınlık hissederler.",
+    whatItIsNot: "Gerçek iş zaaflarını, beceriksizlikleri veya kritik sırları itiraf etmek değildir. Tamamen zararsız ve sevimli görünecek kusurları seçmektir.",
     howToApply: [
-      "Zararsız Kusur Seçimi: İş kalitenizi, liderliğinizi veya dürüstlüğünüzü zedelemeyecek ufak bir zaaf belirleyin.",
-      "Doğal Paylaşım: Bu kusuru yeri geldiğinde hafif bir öz eleştiri veya espri konusu yaparak dile getirin.",
-      "Yakınlık İllüzyonu: İnsanların sizinle empati kurmasını ve 'o da bizim gibi insan' demesini sağlayın.",
-      "Kritik Anlarda Kullanım: Karşı tarafın şüpheci veya mesafeli yaklaştığı güven krizlerinde bu kartı açarak havayı yumuşatın."
+      "Kritik Olmayan Zaaf Seçimi: İşinizi veya profesyonel itibarınızı tehlikeye atmayacak tatlı bir insani kusur bulun.",
+      "Doğal İtiraf: Sohbet sırasında bu kusuru kendiliğinizden, samimi ve hafif komik bir dille paylaşın.",
+      "Göz Teması ve Gülümseme: Zafiyeti söylerken kendinizle barışık olduğunuzu gösteren rahat bir beden dili kullanın.",
+      "Yakınlık Kredisini Toplama: Bu itirafın yarattığı 'bizden biri' algısını, gelecekteki stratejik iş birliklerinde güven temeli olarak kullanın."
     ],
-    scenario: "Büyük bir yatırım sunumundasınız. Yatırımcıların sert sorularını hatasız yanıtladıktan sonra, kahvenizden bir yudum alırken elinizin hafifçe titrediğini sakince gülümseyerek gösterin: 'Bu projeyi hayata geçirmek beni o kadar heyecanlandırıyor ki, kalp atışımı hala kontrol edemiyorum' deyin. Bu insani zafiyet, yatırımcıların size olan güvenini perçinleyecektir."
+    scenario: "Yeni yönetici olarak girdiğiniz ekipte herkes size karşı mesafeli ve soğuk davranıyordu. İlk toplantıda kahvenizi yudumlarken gülümseyip: 'Arkadaşlar, muhteşem bir ekibiz ama benim de büyük bir kusurum var; sabahları ilk kahvemi içmeden önce sorduğunuz sorulara saçma yanıtlar verebilirim, şimdiden kusura bakmayın' dediniz. Ekiptekiler güldü, tüm gerginlik eridi ve size hızla ısındılar."
   },
   {
     id: "strategic-distraction",
     title: "Stratejik Dikkat Dağıtma",
     category: "perception-management",
     categoryLabel: "Algı Yönetimi",
-    description: "Asıl hedefi ve operasyonu gizlemek için yapay, gürültülü ve dikkat çekici ikincil bir gündem yaratma yöntemi.",
-    whatItIs: "Stratejik Dikkat Dağıtma, savaş sanatındaki 'Doğu'da gürültü çıkarıp Batı'dan saldırmak' ilkesidir. İnsan dikkati kısıtlıdır ve en parlak, en gürültülü uyarana yönelir. Gitmek istediğiniz asıl hedefi gizlemek için başka bir alanda büyük bir tartışma, kriz veya ilgi odağı yaratarak rakiplerin tüm enerjisini o yöne harcamasını sağlar, arka planda sessizce asıl hedefinize ulaşırsınız.",
-    whatItIsNot: "Ortalığı anlamsızca kaosa boğmak değildir. Hedef odaklı, gürültüsü yüksek ama sizin için feda edilebilir bir yapay gündem tasarımıdır.",
+    description: "Asıl operasyonu gizlemek için başka bir alanda gürültülü ve yapay bir kriz/tartışma yaratma.",
+    whatItIs: "Stratejik Dikkat Dağıtma, sihirbazların kullandığı illüzyon tekniğinin güç mücadelelerine uyarlanmasıdır. İnsan zihni aynı anda sadece tek bir büyük odağa odaklanabilir. Eğer asıl yapmak istediğiniz kritik hamlenin (veya yaptığınız büyük bir hatanın) fark edilmesini istemiyorsanız, başka bir alanda gürültülü, yapay ama tamamen zararsız bir kriz/tartışma yaratmalısınız. Herkes o gürültülü yapay krizle uğraşırken veya onu tartışırken, siz sessizce arka planda asıl hedefinize ulaşırsınız.",
+    whatItIsNot: "Kendinize zarar verecek gerçek bir kriz çıkarmak değildir. Tamamen kontrol altında tutabileceğiniz ve söndürebileceğiniz yapay bir sis bombası oluşturmaktır.",
     howToApply: [
-      "Yapay Gündem Tasarımı: Herkesin ilgisini çekecek, tartışmalı ama size kalıcı zarar vermeyecek bir konuyu öne sürün.",
-      "İlgi Yönetimi: Rakiplerin ve medyanın (veya grubun) bu yapay konuya odaklanmasını sağlayacak detaylar ekleyin.",
-      "Sessiz Operasyon: Herkes gürültülü konuyla meşgulken, asıl kritik işinizi veya anlaşmanızı kimsenin ruhu duymadan tamamlayın.",
-      "Gündem Kapatma: Asıl hedef gerçekleştikten sonra, yapay konuyu sakince söndürün."
+      "Asıl Hamleyi Belirleme: Gizlemek istediğiniz büyük operasyonu veya kapatmak istediğiniz açığı netleştirin.",
+      "Yapay Hedef Yaratma: İnsanların ilgisini anında çekecek duygusal veya tartışmalı bir gündem maddesi bulun.",
+      "Gündemi Ateşleme: Bu yapay gündemi veya ufak tartışmayı gürültülü bir şekilde ortaya atarak tüm dikkati oraya çekin.",
+      "Sessiz Operasyon: Herkes yapay krizle meşgulken, arka planda asıl hamlenizi tamamlayın ve ardından yapay krizi sakince sonlandırın."
     ],
-    scenario: "Şirket içinde büyük bir organizasyon değişikliği yapıp bazı yetkileri kendinize bağlamak istiyorsunuz. Bu konuyu doğrudan açmak yerine, ofisteki 'çalışma saatleri ve esnek çalışma kuralları' hakkında büyük ve gürültülü bir tartışma başlatın. Herkes bu kuralları tartışırken, siz yetki devri dilekçenizi genel müdüre sessizce onaylatın."
+    scenario: "Şirketteki kritik bir departmanın bütçesini sessizce kısmak istiyorsunuz ama şeflerin isyan edeceğini biliyorsunuz. Karar günü toplantıda aniden: 'Ofisteki tüm çalışma masalarının yerlerini değiştiriyoruz' diyerek büyük ve tartışmalı bir gündem açtınız. Şefler saatlerce masaların düzenini tartışıp kavga ederken, siz bütçe kesintisi maddesini araya sıkıştırıp kimse fark etmeden onaylattınız."
   }
 ];
 
