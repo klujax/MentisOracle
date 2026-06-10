@@ -17,13 +17,13 @@ const PACKAGES = [
   {
     id: "pkg_500",
     title: "Uzman Paketi",
-    credits: 500,
-    price: 800,
+    credits: 350,
+    price: 500,
     image: "/mentis_500_credits.png",
     recommended: true,
     glowColor: "shadow-[0_0_50px_rgba(201,168,76,0.15)] hover:shadow-[0_0_60px_rgba(201,168,76,0.25)]",
     features: [
-      "500 Derinlikli Analiz Kredisi",
+      "350 Derinlikli Analiz Kredisi",
       "Öncelikli Sunucu Desteği",
       "Detaylı Karşı Taraf Motivasyon Çözümleri",
       "Sınırsız Strateji Defteri Arşivi"
@@ -32,12 +32,12 @@ const PACKAGES = [
   {
     id: "pkg_1000",
     title: "Elit Paket",
-    credits: 1000,
-    price: 1400,
+    credits: 800,
+    price: 1000,
     image: "/mentis_1000_credits.png",
     glowColor: "group-hover:shadow-[0_0_30px_rgba(201,168,76,0.15)]",
     features: [
-      "1000 Premium Analiz Kredisi",
+      "800 Premium Analiz Kredisi",
       "En Yüksek Hızda Sunucu Önceliği",
       "VIP Kriz Odası Desteği",
       "Ömür Boyu Kalıcı Geçmiş & Yedekleme"

@@ -171,9 +171,9 @@ export async function POST(request: Request) {
         packageId = "book_secret_vol1";
       } else if ((totalAmount >= 180 && totalAmount <= 220) || (productName.includes("100") && productName.includes("kredi"))) {
         packageId = "pkg_100";
-      } else if ((totalAmount >= 760 && totalAmount <= 840) || (productName.includes("500") && productName.includes("kredi"))) {
+      } else if ((totalAmount >= 450 && totalAmount <= 550) || (productName.includes("350") && productName.includes("kredi")) || (productName.includes("500") && productName.includes("kredi"))) {
         packageId = "pkg_500";
-      } else if ((totalAmount >= 1350 && totalAmount <= 1450) || (productName.includes("1000") && productName.includes("kredi"))) {
+      } else if ((totalAmount >= 900 && totalAmount <= 1100) || (productName.includes("800") && productName.includes("kredi")) || (productName.includes("1000") && productName.includes("kredi"))) {
         packageId = "pkg_1000";
       }
 
@@ -198,11 +198,11 @@ export async function POST(request: Request) {
       creditsToAdd = 100;
       amount = 200;
     } else if (packageId === "pkg_500") {
-      creditsToAdd = 500;
-      amount = 800;
+      creditsToAdd = 350;
+      amount = 500;
     } else if (packageId === "pkg_1000") {
-      creditsToAdd = 1000;
-      amount = 1400;
+      creditsToAdd = 800;
+      amount = 1000;
     } else if (packageId === "book_mentis") {
       creditsToAdd = 0;
       amount = 299.99;
