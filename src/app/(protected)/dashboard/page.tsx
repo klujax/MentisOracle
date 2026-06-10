@@ -5,7 +5,7 @@ import Link from "next/link";
 import { StrategyInput } from "@/components/dashboard/StrategyInput";
 import { LoadingMentis } from "@/components/ui/LoadingMentis";
 import { createClient } from "@/lib/supabase/client";
-import { Coins, BookMarked, RefreshCw, MessageSquare, Brain, Copy, Send } from "lucide-react";
+import { Coins, BookMarked, MessageSquare, Brain, Copy, Send, Trash2 } from "lucide-react";
 
 interface StrategyResponse {
   id?: string;
@@ -41,9 +41,150 @@ const CHARACTERS = [
   }
 ];
 
+interface DoctrineLink {
+  id: string;
+  keywords: string[];
+}
+
+const DOCTRINES: DoctrineLink[] = [
+  { id: "silence", keywords: ["Sessizlik Ambargosu", "Sessizlik İlkesi", "Sessizlik"] },
+  { id: "frame-control", keywords: ["Çerçeve Kontrolü", "Çerçeve Kontrol"] },
+  { id: "rational-distance", keywords: ["Rasyonel Mesafe"] },
+  { id: "anti-gaslighting", keywords: ["Gaslighting Kalkanı", "Gaslighting"] },
+  { id: "rhetoric-verbal", keywords: ["Retorik & Sözel Silahlar", "Sözel Silahlar"] },
+  { id: "body-language", keywords: ["Baskın Beden Dili", "Beden Dili"] },
+  { id: "mirroring", keywords: ["Aynalama Yöntemi", "Aynalama Taktiği", "Aynalama"] },
+  { id: "love-bombing", keywords: ["Love Bombing", "Aşk Bombardımanı"] },
+  { id: "zero-sum", keywords: ["Sıfır Toplamlı Oyun"] },
+  { id: "counter-attack", keywords: ["Karşı Saldırı Protokolü", "Karşı Saldırı"] },
+  { id: "pressure-points", keywords: ["Baskı Noktaları", "Tetikleyici"] },
+  { id: "cognitive-dissonance", keywords: ["Bilişsel Çelişki"] },
+  { id: "anchoring", keywords: ["Algı Çapalama", "Çapalama"] },
+  { id: "ego-depletion", keywords: ["Benlik Çökertme", "Ego Depletion"] },
+  { id: "double-bind", keywords: ["Çifte Bağ"] },
+  { id: "door-in-the-face", keywords: ["Kapıyı Yüzüne Çarpma", "Kademeli Taviz"] },
+  { id: "information-asymmetry", keywords: ["Bilgi Asimetrisi", "Bilişsel Karartma"] },
+  { id: "psychology-intro", keywords: ["Zihinsel Mimari", "Psikoloji"] },
+  { id: "person-psychology", keywords: ["Karakter Analizi", "Klinik Profilleme"] },
+  { id: "halo-effect", keywords: ["Halo Etkisi", "Hale Etkisi", "Karizma Kalkanı"] },
+  { id: "projection-defense", keywords: ["Projeksiyon Kalkanı", "Yansıtma Kalkanı"] },
+  { id: "benjamin-franklin", keywords: ["Benjamin Franklin Etkisi", "Benjamin Franklin"] },
+  { id: "pygmalion-effect", keywords: ["Pygmalion Etkisi", "Beklenti Yönetimi"] },
+  { id: "reactance-shield", keywords: ["Tepkisellik Zırhı", "Ters Psikoloji"] },
+  { id: "trojan-horse", keywords: ["Truva Atı"] },
+  { id: "scarcity-hook", keywords: ["Kıtlık Kancası", "Suni Aciliyet"] },
+  { id: "counter-gaslighting", keywords: ["Karşı-Gaslighting"] },
+  { id: "emotional-leverage", keywords: ["Duygusal Kaldıraç", "Suçluluk Çapası"] },
+  { id: "mental-quarantine", keywords: ["Zihinsel Karantina", "Bilgi Diyeti"] },
+  { id: "rhythmic-dominance", keywords: ["Ritmik Dominans"] },
+  { id: "pupil-autonomic", keywords: ["Göz Bebekleri", "Otonom Kaçaklar"] },
+  { id: "spatial-dominance", keywords: ["Mekansal Dominans", "Bölge İstilası"] },
+  { id: "micro-expression", keywords: ["Micro-İfade", "Mikro-İfade", "Yüz Kas Taraması"] },
+  { id: "tactile-anchoring", keywords: ["Dokunsal Çapa", "Fiziksel Temas"] },
+  { id: "masking-protocol", keywords: ["Maskeleme Protokolü", "Duygusal Ekranlama"] },
+  { id: "mirror-neuron", keywords: ["Ayna Nöron"] },
+  { id: "vertical-split", keywords: ["Dikey Bölünme"] },
+  { id: "cross-siege", keywords: ["Çapraz Kuşatma"] },
+  { id: "illusion-bridge", keywords: ["Yanılsama Köprüsü", "Rehavet Tuzağı"] },
+  { id: "boundary-shifting", keywords: ["Sınır Kaydırma", "Mikro-Dayatma"] },
+  { id: "catalyst-sacrifice", keywords: ["Katalizör Kurban", "Taktiksel Feda"] },
+  { id: "gray-rock", keywords: ["Gri Kaya Metodu", "Gri Kaya"] },
+  { id: "anchor-cutting", keywords: ["Bilişsel Çapa Kesimi", "Çapa Kesimi"] },
+  { id: "semantic-shield", keywords: ["Semantik Kalkan", "Tanım Bariyeri"] },
+  { id: "projection-arithmetic", keywords: ["Yansıtma Aritmetiği"] },
+  { id: "silent-shield", keywords: ["Sessiz Kalkan"] },
+  { id: "frame-shifting", keywords: ["Çerçeve Kaydırma"] },
+  { id: "counter-interrogation", keywords: ["Sorudan Soruya Kaçış"] },
+  { id: "false-choice", keywords: ["Sahte Seçenek", "İkilem Tuzağı"] },
+  { id: "irony-absorber", keywords: ["İroni Amortisörü"] },
+  { id: "delayed-validation", keywords: ["Yavaşlatılmış Doğrulama"] },
+  { id: "micro-withdrawal", keywords: ["Mikro-Geri Çekilme"] },
+  { id: "dominant-barrier", keywords: ["Dominant Bariyer"] },
+  { id: "blink-blocking", keywords: ["Göz Kırpma Bloku"] },
+  { id: "pacifying-gestures", keywords: ["Kravat-Yaka", "Yatıştırıcı Jestler"] },
+  { id: "open-palm-hierarchy", keywords: ["Açık Avuç"] },
+  { id: "cortisol-loop", keywords: ["Kortizol Döngüsü"] },
+  { id: "schema-conflict", keywords: ["Şema Çatışması"] },
+  { id: "subliminal-anchor", keywords: ["Bilinçaltı Telkin"] },
+  { id: "narcissistic-embargo", keywords: ["Beslenme Ambargosu", "Narsisistik Beslenme"] },
+  { id: "emotional-resonance", keywords: ["Duygusal Rezonans"] },
+  { id: "social-hierarchy", keywords: ["Sosyal Hiyerarşi", "Hiyerarşi Haritalama", "Güç Hiyerarşisi"] },
+  { id: "coalition-building", keywords: ["Koalisyon Kurma", "Taktiksel Koalisyon"] },
+  { id: "status-signaling", keywords: ["Statü Sinyalleme", "Statü Sinyali", "Statü Koruma"] },
+  { id: "social-shit-test", keywords: ["Shit-Test Savuşturma", "Sosyal Shit-Test"] },
+  { id: "social-isolation", keywords: ["Sosyal İzolasyon", "İzolasyon Protokolü"] },
+  { id: "rational-valuation", keywords: ["Değerleme Eşiği", "Rasyonel Değerleme"] },
+  { id: "win-win-illusion", keywords: ["Kazan-Kazan İllüzyonu", "Kazan Kazan İllüzyonu"] },
+  { id: "information-economy", keywords: ["Bilgi Tasarrufu", "Stratejik Bilgi Tasarrufu"] },
+  { id: "conditional-concession", keywords: ["Koşullu Taviz", "Taviz İlkesi"] },
+  { id: "time-pressure", keywords: ["Zaman Baskısı", "Yapay Aciliyet"] },
+  { id: "stoic-armor", keywords: ["Stoik Zırh", "Stoik Zırh Protokolü"] },
+  { id: "cognitive-narrowing", keywords: ["Bilişsel Odak", "Odak Daraltma"] },
+  { id: "rejection-inoculation", keywords: ["Reddedilme Aşısı"] },
+  { id: "mental-distance", keywords: ["Zihinsel Mesafe", "Düşünsel Mesafe"] },
+  { id: "anxiety-transmutation", keywords: ["Kaygı Dönüşümü", "Kaygının Yakıta Dönüştürülmesi"] },
+  { id: "trojan-protocol", keywords: ["Truva Atı Protokolü", "Truva Protokolü"] },
+  { id: "guilt-projection", keywords: ["Suçluluk Yansıtması", "Suçluluk Yansıtma"] },
+  { id: "narcissistic-mirroring", keywords: ["Narsisistik Aynalama", "Aynalama Protokolü"] },
+  { id: "divide-and-conquer", keywords: ["Böl ve Yönet", "Böl ve Yönet Stratejisi"] },
+  { id: "selective-honesty", keywords: ["Seçici Dürüstlük Barajı", "Seçici Dürüstlük"] },
+  { id: "mystery-shield", keywords: ["Gizem Kalkanı", "Öngörülemezlik"] },
+  { id: "pr-framing", keywords: ["Kişisel PR", "PR Filtresi", "Yeniden Çerçeveleme"] },
+  { id: "halo-amplification", keywords: ["Halo Kuvvetlendirme", "Halo Kuvvetlendirme Protokolü"] },
+  { id: "controlled-vulnerability", keywords: ["Kontrollü Zafiyet", "Zafiyet Gösterisi"] },
+  { id: "strategic-distraction", keywords: ["Stratejik Dikkat Dağıtma", "Dikkat Dağıtma"] }
+];
+
+// Flatten and sort keywords by length descending to match longer keywords first
+const allKeywords = DOCTRINES.flatMap(d => d.keywords.map(kw => ({ kw, id: d.id })))
+  .sort((a, b) => b.kw.length - a.kw.length);
+
+const getDoctrineIdByKeyword = (matchedText: string): string | undefined => {
+  const normalizedMatch = matchedText.toLowerCase().trim();
+  const found = allKeywords.find(item => {
+    return item.kw.toLowerCase() === normalizedMatch ||
+           item.kw.toLocaleLowerCase("tr-TR") === matchedText.toLocaleLowerCase("tr-TR");
+  });
+  return found?.id;
+};
+
+const renderMessageWithDoctrineLinks = (text: string) => {
+  if (!text) return null;
+
+  const regexPattern = allKeywords.map(item => {
+    return item.kw.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+  }).join('|');
+
+  const keywordRegex = new RegExp(`(${regexPattern})`, 'gi');
+
+  const parts = text.split(keywordRegex);
+  if (parts.length === 1) return text;
+
+  return parts.map((part, idx) => {
+    if (idx % 2 === 1) {
+      const docId = getDoctrineIdByKeyword(part);
+      if (docId) {
+        return (
+          <span key={idx} className="inline-flex items-center flex-wrap gap-1">
+            <span className="text-gold font-bold underline decoration-gold/40 hover:decoration-gold transition-all">{part}</span>
+            <Link
+              href={`/dashboard/academy?id=${docId}`}
+              className="inline-flex items-center bg-gold/10 hover:bg-gold/25 border border-gold/20 hover:border-gold/45 text-[10px] text-gold px-1.5 py-0.5 rounded-sm transition-all duration-300 font-accent tracking-wider uppercase ml-1"
+            >
+              (buradan okuyabilirsiniz)
+            </Link>
+          </span>
+        );
+      }
+    }
+    return part;
+  });
+};
+
 export default function DashboardPage() {
   const [status, setStatus] = useState<"idle" | "analyzing" | "complete">("idle");
   const [response, setResponse] = useState<StrategyResponse | null>(null);
+  const [headerState, setHeaderState] = useState<"visible" | "animating" | "hidden">("visible");
   const [error, setError] = useState<string | null>(null);
   const [credits, setCredits] = useState<number | null>(null);
   const [plan, setPlan] = useState<string>("free");
@@ -64,6 +205,63 @@ export default function DashboardPage() {
   const [saveLoading, setSaveLoading] = useState(false);
 
   const [loadingPhaseIndex, setLoadingPhaseIndex] = useState(0);
+  const [isInitialized, setIsInitialized] = useState(false);
+
+  // Restore active chat from localStorage on mount
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("mentis_active_chat");
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed.chatHistory && parsed.chatHistory.length > 0) {
+          setChatHistory(parsed.chatHistory);
+          setStatus(parsed.status || "complete");
+          if (parsed.analysis || parsed.problem) {
+            setResponse({
+              id: parsed.id,
+              analysis: parsed.analysis || "",
+              targetWeakness: parsed.targetWeakness || "",
+              execution: parsed.execution || "",
+              targetName: parsed.targetName || ""
+            });
+          }
+          setCharacter(parsed.character || "mentis");
+          setIsSaved(!!parsed.isSaved);
+          setHeaderState("hidden");
+        }
+      }
+    } catch (e) {
+      console.error("Failed to restore active chat session:", e);
+    } finally {
+      setIsInitialized(true);
+    }
+  }, []);
+
+  // Sync active chat session to localStorage
+  useEffect(() => {
+    if (!isInitialized) return;
+    try {
+      if (chatHistory.length > 0) {
+        const activeChat = {
+          id: response?.id,
+          problem: chatHistory[0]?.content,
+          analysis: response?.analysis || "",
+          targetWeakness: response?.targetWeakness || "",
+          execution: response?.execution || "",
+          targetName: response?.targetName || "",
+          chatHistory,
+          status,
+          character,
+          isSaved
+        };
+        localStorage.setItem("mentis_active_chat", JSON.stringify(activeChat));
+      } else {
+        localStorage.removeItem("mentis_active_chat");
+      }
+    } catch (e) {
+      console.error("Failed to save active chat session:", e);
+    }
+  }, [chatHistory, response, status, character, isSaved, isInitialized]);
 
   useEffect(() => {
     if (status === "analyzing" || followUpLoading) {
@@ -159,6 +357,10 @@ export default function DashboardPage() {
   };
 
   const handleConsult = async (problem: string) => {
+    setHeaderState("animating");
+    setTimeout(() => {
+      setHeaderState("hidden");
+    }, 800);
     setStatus("analyzing");
     setError(null);
     setRequiresPayment(false);
@@ -202,6 +404,7 @@ export default function DashboardPage() {
       setError(message);
       setStatus("idle");
       setChatHistory([]);
+      setHeaderState("visible");
     }
   };
 
@@ -381,11 +584,23 @@ export default function DashboardPage() {
     }
   };
 
+
+
+  const isHeaderHidden = headerState === "hidden";
+
   return (
-    <div className="flex flex-col w-full h-[calc(100vh-178px)] max-w-4xl mx-auto px-4 pb-2 animate-fade-in">
+    <div className={`flex flex-col w-full transition-all duration-700 ease-in-out max-w-6xl mx-auto px-4 pb-2 animate-fade-in ${
+      isHeaderHidden 
+        ? "h-[calc(100vh-90px)] md:h-[calc(100vh-105px)]" 
+        : "h-[calc(100vh-140px)] md:h-[calc(100vh-150px)]"
+    }`}>
       
       {/* Fixed Header: Mentis Analiz Modülü and Brain Emoji */}
-      <div className="flex flex-col items-center text-center pt-2 pb-4 flex-shrink-0 w-full select-none">
+      <div className={`flex flex-col items-center text-center flex-shrink-0 w-full select-none transition-all duration-700 ease-in-out ${
+        headerState === "animating" ? "animate-header-exit pointer-events-none" : ""
+      } ${
+        isHeaderHidden ? "max-h-0 opacity-0 py-0 my-0 overflow-hidden" : "max-h-36 pt-2 pb-4 opacity-100"
+      }`}>
         {/* Logo */}
         <div className="relative flex items-center justify-center w-14 h-14 mb-1">
           <div className="absolute inset-0 rounded-full border border-gold/20 animate-[spin_8s_linear_infinite]" />
@@ -396,7 +611,7 @@ export default function DashboardPage() {
         {/* Welcome Text */}
         <div className="text-center space-y-1.5">
           <h3 className="font-serif text-base tracking-[0.2em] text-gold uppercase">MENTIS ANALİZ MODÜLÜ</h3>
-          <p className="font-sans text-[11px] text-ash/60 max-w-md mx-auto leading-relaxed">
+          <p className="font-sans text-[11px] text-ash/60 max-w-2xl mx-auto leading-relaxed">
             Rasyonel akıl ve soğukkanlı strateji. Çıkmaza girdiğin durumu aşağıya yazarak eylem reçeteni oluştur.
           </p>
         </div>
@@ -410,7 +625,7 @@ export default function DashboardPage() {
           
           {/* Suggestions if no history, otherwise Chat Bubbles */}
           {chatHistory.length === 0 ? (
-            <div className="my-auto w-full max-w-2xl mx-auto space-y-3 px-4 pt-2 select-none flex-shrink-0">
+            <div className="my-auto w-full max-w-4xl mx-auto space-y-3 px-4 pt-2 select-none flex-shrink-0">
               <div className="flex items-center gap-2">
                 <div className="h-[1px] flex-1 bg-obsidian/45" />
                 <span className="text-[9px] uppercase tracking-widest text-ash/40 font-accent font-bold">Örnek Durumlar</span>
@@ -465,14 +680,14 @@ export default function DashboardPage() {
                           {/* 01 Analysis */}
                           <div className="pt-1">
                             <span className="text-[10px] font-serif text-gold/80 tracking-wider block mb-1">01 | ANALİZ</span>
-                            <div className="whitespace-pre-wrap font-sans text-smoke">{response.analysis}</div>
+                            <div className="whitespace-pre-wrap font-sans text-smoke">{renderMessageWithDoctrineLinks(response.analysis)}</div>
                           </div>
                           
                           {/* 02 Target Weakness */}
                           {response.targetWeakness && (
                             <div className="pt-3">
                               <span className="text-[10px] font-serif text-gold/80 tracking-wider block mb-1">02 | KARŞI TARAFIN MOTİVASYONU</span>
-                              <div className="whitespace-pre-wrap font-sans text-smoke">{response.targetWeakness}</div>
+                              <div className="whitespace-pre-wrap font-sans text-smoke">{renderMessageWithDoctrineLinks(response.targetWeakness)}</div>
                             </div>
                           )}
                           
@@ -480,7 +695,7 @@ export default function DashboardPage() {
                           {response.execution && (
                             <div className="pt-3">
                               <span className="text-[10px] font-serif text-gold/80 tracking-wider block mb-1">03 | STRATEJİK HAMLE</span>
-                              <div className="whitespace-pre-wrap font-sans text-smoke">{response.execution}</div>
+                              <div className="whitespace-pre-wrap font-sans text-smoke">{renderMessageWithDoctrineLinks(response.execution)}</div>
                             </div>
                           )}
                         </div>
@@ -496,7 +711,7 @@ export default function DashboardPage() {
                       <p className="text-[9px] uppercase tracking-widest mb-1.5 font-accent text-gold font-bold">
                         {(CHARACTERS.find(c => c.id === character)?.name || "MENTIS").toUpperCase()}
                       </p>
-                      <div className="whitespace-pre-wrap font-sans leading-relaxed">{msg.content}</div>
+                      <div className="whitespace-pre-wrap font-sans leading-relaxed">{renderMessageWithDoctrineLinks(msg.content)}</div>
                     </div>
                   </div>
                 );
@@ -595,17 +810,21 @@ export default function DashboardPage() {
                         <BookMarked className="w-3.5 h-3.5" />
                         {saveLoading ? "..." : isSaved ? "Defterde" : "Kaydet"}
                       </button>
+
                       <button
                         type="button"
                         onClick={() => {
-                          setStatus("idle");
-                          setResponse(null);
-                          setChatHistory([]);
+                          if (confirm("Bu sohbeti temizlemek istediğinize emin misiniz?")) {
+                            setStatus("idle");
+                            setResponse(null);
+                            setChatHistory([]);
+                            setHeaderState("visible");
+                          }
                         }}
                         className="hover:text-gold transition-colors flex items-center gap-1"
                         title="Sohbeti Temizle"
                       >
-                        <RefreshCw className="w-3.5 h-3.5" />
+                        <Trash2 className="w-3.5 h-3.5" />
                         Temizle
                       </button>
                     </div>

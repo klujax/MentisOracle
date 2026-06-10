@@ -35,7 +35,10 @@ export async function POST(request: Request) {
 
     // signature is valid.
     if (!callbackResult) {
-      return NextResponse.json({ error: "Payment not successful" }, { status: 400 });
+      return new NextResponse("success", {
+        status: 200,
+        headers: { "Content-Type": "text/plain" },
+      });
     }
     const { order_id, payment_id } = callbackResult;
 
@@ -43,8 +46,12 @@ export async function POST(request: Request) {
     // format: userId__packageId
     const parts = String(order_id).split("__");
     if (parts.length !== 2) {
-      console.error("Invalid custom order format:", order_id);
-      return NextResponse.json({ error: "Invalid order ID" }, { status: 400 });
+      console.warn("Shopier system test or invalid order format received:", order_id);
+      // Signature is verified. To make Shopier's webhook test pass, we must return "success".
+      return new NextResponse("success", {
+        status: 200,
+        headers: { "Content-Type": "text/plain" },
+      });
     }
 
     const [userId, packageId] = parts;
@@ -87,7 +94,10 @@ export async function POST(request: Request) {
 
     if (existingTx) {
       // Already processed
-      return NextResponse.json({ success: true, message: "Already processed" });
+      return new NextResponse("success", {
+        status: 200,
+        headers: { "Content-Type": "text/plain" },
+      });
     }
 
     // 2. Add transaction record
@@ -144,7 +154,10 @@ export async function POST(request: Request) {
     }
 
     console.log(`Successfully added ${creditsToAdd} credits to user ${userId}`);
-    return NextResponse.json({ success: true });
+    return new NextResponse("success", {
+      status: 200,
+      headers: { "Content-Type": "text/plain" },
+    });
   } catch (error: any) {
     console.error("Webhook processing error:", error);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
