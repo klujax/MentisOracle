@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { Shopier } from "shopier-api";
 import { createClient } from "@supabase/supabase-js";
+import crypto from "crypto";
 
 function getAdminClient() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -20,33 +21,67 @@ export async function POST(request: Request) {
     const apiSecret = process.env.SHOPIER_API_SECRET;
 
     if (!apiKey || !apiSecret) {
-      return NextResponse.json({ error: "Shopier yapılandırması eksik." }, { status: 503 });
+      return new NextResponse("Shopier yapılandırması eksik.", { status: 503 });
     }
 
-    const shopier = new Shopier(apiKey, apiSecret);
+    let orderId = "";
+    let paymentId = "";
 
-    let callbackResult;
-    try {
-      callbackResult = shopier.callback(body);
-    } catch (err: any) {
-      console.error("Shopier Signature Error:", err.message);
-      return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
-    }
+    // Check if request is OSB (res and hash) or API (platform_order_id, random_nr, signature)
+    const isOSB = typeof body.res === "string" && typeof body.hash === "string";
 
-    // signature is valid.
-    if (!callbackResult) {
-      return new NextResponse("success", {
-        status: 200,
-        headers: { "Content-Type": "text/plain" },
-      });
+    if (isOSB) {
+      const { res, hash } = body;
+      // OSB Verification: HMAC-SHA256 of (res + apiKey) using apiSecret, output as hex
+      const calculatedHash = crypto
+        .createHmac("sha256", apiSecret)
+        .update(res + apiKey)
+        .digest("hex");
+
+      if (hash !== calculatedHash) {
+        console.error("OSB Signature mismatch. Received:", hash, "Expected:", calculatedHash);
+        return new NextResponse("Invalid signature", { status: 400 });
+      }
+
+      // Decode base64 encoded OSB data
+      try {
+        const decoded = Buffer.from(res, "base64").toString("utf8");
+        const orderData = JSON.parse(decoded);
+        orderId = String(orderData.orderid || "");
+        paymentId = String(orderData.orderid || ""); // Use orderid as payment_id fallback
+      } catch (e: any) {
+        console.error("Failed to parse OSB data:", e.message);
+        return new NextResponse("success", {
+          status: 200,
+          headers: { "Content-Type": "text/plain" },
+        });
+      }
+    } else {
+      // API Verification
+      const shopier = new Shopier(apiKey, apiSecret);
+      let callbackResult;
+      try {
+        callbackResult = shopier.callback(body);
+      } catch (err: any) {
+        console.error("Shopier Signature Error:", err.message);
+        return new NextResponse("Invalid signature", { status: 400 });
+      }
+
+      if (!callbackResult) {
+        return new NextResponse("success", {
+          status: 200,
+          headers: { "Content-Type": "text/plain" },
+        });
+      }
+      orderId = String(callbackResult.order_id);
+      paymentId = String(callbackResult.payment_id);
     }
-    const { order_id, payment_id } = callbackResult;
 
     // We encoded user.id and packageId into order_id (buyer_id_nr)
     // format: userId__packageId
-    const parts = String(order_id).split("__");
+    const parts = orderId.split("__");
     if (parts.length !== 2) {
-      console.warn("Shopier system test or invalid order format received:", order_id);
+      console.warn("Shopier system test or invalid order format received:", orderId);
       // Signature is verified. To make Shopier's webhook test pass, we must return "success".
       return new NextResponse("success", {
         status: 200,
@@ -80,7 +115,10 @@ export async function POST(request: Request) {
       isBookPurchase = true;
     } else {
       console.error("Unknown packageId:", packageId);
-      return NextResponse.json({ error: "Unknown package" }, { status: 400 });
+      return new NextResponse("success", {
+        status: 200,
+        headers: { "Content-Type": "text/plain" },
+      });
     }
 
     const supabase = getAdminClient();
@@ -89,7 +127,7 @@ export async function POST(request: Request) {
     const { data: existingTx } = await supabase
       .from("transactions")
       .select("id")
-      .eq("payment_id", String(payment_id))
+      .eq("payment_id", paymentId)
       .single();
 
     if (existingTx) {
@@ -105,13 +143,13 @@ export async function POST(request: Request) {
       user_id: userId,
       amount: amount,
       credits_added: creditsToAdd,
-      payment_id: String(payment_id),
+      payment_id: paymentId,
       status: "success",
     });
 
     if (txError) {
       console.error("DB Error inserting transaction:", txError);
-      return NextResponse.json({ error: "DB Error" }, { status: 500 });
+      return new NextResponse("DB Error", { status: 500 });
     }
 
     // 3. Update user credits or book status
@@ -127,7 +165,7 @@ export async function POST(request: Request) {
 
       if (updateError) {
         console.error("Error updating user_credits for book:", updateError);
-        return NextResponse.json({ error: "DB Error" }, { status: 500 });
+        return new NextResponse("DB Error", { status: 500 });
       }
     } else {
       const { data: currentCredits, error: fetchError } = await supabase
@@ -149,7 +187,7 @@ export async function POST(request: Request) {
 
       if (updateError) {
         console.error("Error updating credits:", updateError);
-        return NextResponse.json({ error: "DB Error" }, { status: 500 });
+        return new NextResponse("DB Error", { status: 500 });
       }
     }
 
@@ -160,6 +198,6 @@ export async function POST(request: Request) {
     });
   } catch (error: any) {
     console.error("Webhook processing error:", error);
-    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    return new NextResponse("Internal Server Error", { status: 500 });
   }
 }
