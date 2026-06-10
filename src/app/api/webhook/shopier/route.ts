@@ -276,9 +276,19 @@ export async function POST(request: Request) {
 
       const newBalance = (currentCredits?.credits || 0) + creditsToAdd;
 
+      const updatePayload: Record<string, any> = {
+        credits: newBalance,
+        updated_at: new Date().toISOString()
+      };
+
+      // Grant Book 1 as a free gift with the 1000 TL Elit Paket
+      if (packageId === "pkg_1000") {
+        updatePayload.has_book = true;
+      }
+
       const { error: updateError } = await supabase
         .from("user_credits")
-        .update({ credits: newBalance, updated_at: new Date().toISOString() })
+        .update(updatePayload)
         .eq("user_id", userId);
 
       if (updateError) {

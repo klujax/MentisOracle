@@ -38,6 +38,7 @@ const PACKAGES = [
     glowColor: "group-hover:shadow-[0_0_30px_rgba(201,168,76,0.15)]",
     features: [
       "800 Premium Analiz Kredisi",
+      "Gücün Sessiz Mimarisi E-Kitabı (Hediye!)",
       "En Yüksek Hızda Sunucu Önceliği",
       "VIP Kriz Odası Desteği",
       "Ömür Boyu Kalıcı Geçmiş & Yedekleme"
@@ -360,12 +361,12 @@ export default function BillingPage() {
         
         {/* Book Cover Mockup */}
         <div 
-          onClick={() => setZoomedImage("/mentis_secret_files_vol1.png")}
+          onClick={() => setZoomedImage("/mentis_secret_files_vol1.jpg")}
           className="w-40 md:w-44 aspect-[3/4] border border-obsidian bg-void relative rounded-sm overflow-hidden flex-shrink-0 shadow-2xl group hover:border-gold/30 transition-all duration-500 cursor-zoom-in"
           title="Büyütmek için tıklayın"
         >
           <img 
-            src="/mentis_secret_files_vol1.png" 
+            src="/mentis_secret_files_vol1.jpg" 
             alt="Mentis Gizli Dosyalar: Cilt 1"
             className="w-full h-full object-cover grayscale opacity-90 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700"
           />
