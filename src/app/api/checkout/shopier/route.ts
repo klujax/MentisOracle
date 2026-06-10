@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import { Shopier } from "shopier-api";
 import { createClient } from "@/lib/supabase/server";
 
 export async function POST(request: Request) {
@@ -15,85 +14,30 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // Determine price based on package
-    let amount = 0;
-    let credits = 0;
-    let productName = "";
+    let redirectUrl = "";
 
     switch (packageId) {
       case "pkg_100":
-        amount = 200;
-        credits = 100;
-        productName = `${credits} Kredi (Mentis)`;
+        redirectUrl = process.env.NEXT_PUBLIC_SHOPIER_PKG_100_URL || "https://www.shopier.com/mentis";
         break;
       case "pkg_500":
-        amount = 800;
-        credits = 500;
-        productName = `${credits} Kredi (Mentis)`;
+        redirectUrl = process.env.NEXT_PUBLIC_SHOPIER_PKG_500_URL || "https://www.shopier.com/mentis";
         break;
       case "pkg_1000":
-        amount = 1400;
-        credits = 1000;
-        productName = `${credits} Kredi (Mentis)`;
+        redirectUrl = process.env.NEXT_PUBLIC_SHOPIER_PKG_1000_URL || "https://www.shopier.com/mentis";
         break;
       case "book_mentis":
-        amount = 299.99;
-        credits = 0;
-        productName = "Mentis: Gücün Sessiz Mimarisi (E-Kitap)";
+        redirectUrl = process.env.NEXT_PUBLIC_SHOPIER_BOOK_URL || "https://www.shopier.com/mentis/47856664";
         break;
       case "book_secret_vol1":
-        amount = 249.99;
-        credits = 0;
-        productName = "Mentis: Gizli Dosyalar - Cilt 1 (E-Kitap)";
+        redirectUrl = process.env.NEXT_PUBLIC_SHOPIER_SECRET_FILES_URL || "https://www.shopier.com/mentis/46416708";
         break;
       default:
         return NextResponse.json({ error: "Invalid package" }, { status: 400 });
     }
 
-    // Initialize Shopier
-    const apiKey = process.env.SHOPIER_API_KEY;
-    const apiSecret = process.env.SHOPIER_API_SECRET;
-
-    if (!apiKey || !apiSecret) {
-      return NextResponse.json({ error: "Ödeme sistemi henüz yapılandırılmamış." }, { status: 503 });
-    }
-
-    const shopier = new Shopier(apiKey, apiSecret);
-
-    // Encode user.id and packageId into buyer_id_nr so we can parse it in the webhook
-    const customOrderId = `${user.id}__${packageId}`;
-
-    shopier.setBuyer({
-      buyer_id_nr: customOrderId,
-      product_name: productName,
-      buyer_name: "Ajan",
-      buyer_surname: "Mentis",
-      buyer_email: user.email || "no-email@mentis.com",
-      buyer_phone: "5555555555",
-    });
-
-    shopier.setOrderBilling({
-      billing_address: "Mentis Karargah",
-      billing_city: "Istanbul",
-      billing_country: "TR",
-      billing_postcode: "34000",
-    });
-
-    shopier.setOrderShipping({
-      shipping_address: "Mentis Karargah",
-      shipping_city: "Istanbul",
-      shipping_country: "TR",
-      shipping_postcode: "34000",
-    });
-
-    // We can pass orderId via generating payment HTML if the lib supports custom order ID.
-    // If not, Shopier generates one. The webhook will return buyer_id_nr?
-    // Wait, the shopier-api library might not pass buyer_id_nr in the webhook payload directly. 
-    // Let's pass the user.id inside product_name or we can just rely on the fact that we can't easily map it if shopier doesn't return it.
-    // Actually, Shopier webhook POSTs `platform_order_id` which usually maps to `buyer_id_nr` if the library sets it. 
-    // Let's look at shopier-api source or assume `buyer_id_nr` is the order ID.
-
-    const paymentPageHTML = shopier.generatePaymentHTML(amount);
+    // Return HTML redirect script that will be executed by document.write on frontend
+    const paymentPageHTML = `<script>window.location.href = "${redirectUrl}";</script>`;
 
     return NextResponse.json({ html: paymentPageHTML });
   } catch (error: any) {

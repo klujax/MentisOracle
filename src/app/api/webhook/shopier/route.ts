@@ -12,6 +12,68 @@ function getAdminClient() {
   return createClient(supabaseUrl, supabaseServiceKey);
 }
 
+async function findUserIdByEmailOrPhone(supabase: any, email: string, phone: string): Promise<string | null> {
+  const sanitizedPhone = phone ? phone.replace(/\D/g, "") : "";
+  let trPhone = sanitizedPhone;
+  if (trPhone.startsWith("90") && trPhone.length === 12) {
+    trPhone = trPhone.substring(2);
+  }
+  if (trPhone.startsWith("0") && trPhone.length === 11) {
+    trPhone = trPhone.substring(1);
+  }
+
+  // 1. Search by email in auth.users
+  if (email) {
+    try {
+      const { data, error } = await supabase
+        .schema("auth")
+        .from("users")
+        .select("id")
+        .eq("email", email.toLowerCase())
+        .maybeSingle();
+      if (!error && data?.id) {
+        console.log(`Found user ID by direct database query on auth.users: ${data.id}`);
+        return data.id;
+      }
+    } catch (e) {
+      console.warn("Failed to query auth.users directly:", e);
+    }
+
+    // Fallback: listUsers
+    try {
+      const { data, error } = await supabase.auth.admin.listUsers();
+      if (!error && data?.users) {
+        const matched = data.users.find((u: any) => u.email?.toLowerCase() === email.toLowerCase());
+        if (matched) {
+          console.log(`Found user ID by listing auth users: ${matched.id}`);
+          return matched.id;
+        }
+      }
+    } catch (e) {
+      console.warn("Failed to list users:", e);
+    }
+  }
+
+  // 2. Search by phone in public.user_credits
+  if (trPhone) {
+    try {
+      const { data, error } = await supabase
+        .from("user_credits")
+        .select("user_id")
+        .eq("phone", trPhone)
+        .maybeSingle();
+      if (!error && data?.user_id) {
+        console.log(`Found user ID by searching user_credits phone: ${data.user_id}`);
+        return data.user_id;
+      }
+    } catch (e) {
+      console.warn("Failed to query user_credits by phone:", e);
+    }
+  }
+
+  return null;
+}
+
 export async function POST(request: Request) {
   try {
     const formData = await request.formData();
@@ -28,6 +90,7 @@ export async function POST(request: Request) {
 
     let orderId = "";
     let paymentId = "";
+    let orderData: any = null;
 
     // Check if request is OSB (res and hash) or API (platform_order_id, random_nr, signature)
     const isOSB = typeof body.res === "string" && typeof body.hash === "string";
@@ -48,7 +111,7 @@ export async function POST(request: Request) {
       // Decode base64 encoded OSB data
       try {
         const decoded = Buffer.from(res, "base64").toString("utf8");
-        const orderData = JSON.parse(decoded);
+        orderData = JSON.parse(decoded);
         orderId = String(orderData.orderid || "");
         paymentId = String(orderData.orderid || ""); // Use orderid as payment_id fallback
       } catch (e: any) {
@@ -79,19 +142,52 @@ export async function POST(request: Request) {
       paymentId = String(callbackResult.payment_id);
     }
 
+    const supabase = getAdminClient();
+
     // We encoded user.id and packageId into order_id (buyer_id_nr)
     // format: userId__packageId
+    let userId = "";
+    let packageId = "";
+
     const parts = orderId.split("__");
-    if (parts.length !== 2) {
-      console.warn("Shopier system test or invalid order format received:", orderId);
+    if (parts.length === 2) {
+      userId = parts[0];
+      packageId = parts[1];
+    } else {
+      // Direct shop purchase / fallback matching
+      const email = orderData?.email || body.buyer_email || body.email || "";
+      const phone = orderData?.buyerphone || orderData?.phone || body.buyer_phone || body.buyerphone || body.phone || "";
+      
+      userId = (await findUserIdByEmailOrPhone(supabase, email, phone)) || "";
+
+      // Determine packageId from product name/id/price
+      const productName = (orderData?.productname || body.product_name || "").toLowerCase();
+      const productId = String(orderData?.productid || body.product_id || "");
+      const totalAmount = parseFloat(orderData?.total || orderData?.price || body.total || body.price || "0");
+
+      if (productId === "47856664" || productName.includes("mimarisi") || productName.includes("sessiz mimari")) {
+        packageId = "book_mentis";
+      } else if (productId === "46416708" || productName.includes("gizli dosyalar")) {
+        packageId = "book_secret_vol1";
+      } else if (totalAmount >= 180 && totalAmount <= 220) {
+        packageId = "pkg_100";
+      } else if (totalAmount >= 760 && totalAmount <= 840) {
+        packageId = "pkg_500";
+      } else if (totalAmount >= 1350 && totalAmount <= 1450) {
+        packageId = "pkg_1000";
+      }
+
+      console.log(`Matched direct shopier purchase: email=${email}, phone=${phone} -> userId=${userId}, packageId=${packageId}`);
+    }
+
+    if (!userId || !packageId) {
+      console.warn("Shopier system test or unmatched order format received:", orderId, "userId:", userId, "packageId:", packageId);
       // Signature is verified. To make Shopier's webhook test pass, we must return "success".
       return new NextResponse("success", {
         status: 200,
         headers: { "Content-Type": "text/plain" },
       });
     }
-
-    const [userId, packageId] = parts;
 
     // Determine how many credits to give
     let creditsToAdd = 0;
@@ -122,8 +218,6 @@ export async function POST(request: Request) {
         headers: { "Content-Type": "text/plain" },
       });
     }
-
-    const supabase = getAdminClient();
 
     // 1. Check if this payment_id already exists in `transactions` to prevent double counting
     const { data: existingTx } = await supabase

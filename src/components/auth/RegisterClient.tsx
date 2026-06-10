@@ -31,15 +31,67 @@ export default function RegisterClient() {
     const formData = new FormData(e.currentTarget);
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
+    const phone = formData.get("phone") as string;
     
+    // Sanitize phone number: strip non-digits
+    let sanitizedPhone = phone.replace(/\D/g, "");
+    if (sanitizedPhone.startsWith("90") && sanitizedPhone.length === 12) {
+      sanitizedPhone = sanitizedPhone.substring(2);
+    }
+    if (sanitizedPhone.startsWith("0") && sanitizedPhone.length === 11) {
+      sanitizedPhone = sanitizedPhone.substring(1);
+    }
+
+    // Validation: must start with 5 and be exactly 10 digits
+    if (!/^[5]\d{9}$/.test(sanitizedPhone)) {
+      setError("Lütfen geçerli bir cep telefonu numarası girin (örn: 5551234567).");
+      setLoading(false);
+      return;
+    }
+
     setUserEmail(email);
     setTransitionState("authenticating");
 
     const supabase = createClient();
     
+    // Check if phone number is already registered in user_credits
+    try {
+      const { data: phoneExists, error: phoneCheckError } = await supabase.rpc("check_phone_exists", {
+        phone_num: sanitizedPhone
+      });
+
+      if (phoneCheckError) {
+        console.error("Phone check error:", phoneCheckError);
+        setError("Telefon numarası doğrulanırken bir hata oluştu. Lütfen tekrar deneyin.");
+        setLoading(false);
+        setTransitionState("idle");
+        return;
+      }
+
+      if (phoneExists) {
+        setError("Bu telefon numarası zaten kayıtlı ve kullanımda.");
+        setLoading(false);
+        setTransitionState("idle");
+        return;
+      }
+    } catch (err) {
+      console.error("RPC check error:", err);
+      // Fail-safe: if RPC fails (e.g. migration not applied yet), log but continue or block depending on requirement.
+      // Let's block to enforce uniqueness.
+      setError("Sunucu bağlantı hatası. Lütfen daha sonra tekrar deneyin.");
+      setLoading(false);
+      setTransitionState("idle");
+      return;
+    }
+
     const { data, error: signUpError } = await supabase.auth.signUp({
       email,
       password,
+      options: {
+        data: {
+          phone: sanitizedPhone
+        }
+      }
     });
 
     if (signUpError) {
@@ -187,6 +239,12 @@ export default function RegisterClient() {
                 name="email"
                 type="email" 
                 placeholder="Geçerli bir e-posta" 
+                required 
+              />
+              <Input 
+                name="phone"
+                type="tel" 
+                placeholder="Telefon Numarası (örn: 5551234567)" 
                 required 
               />
               <Input 
