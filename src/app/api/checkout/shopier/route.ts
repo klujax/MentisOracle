@@ -69,20 +69,20 @@ export async function POST(request: Request) {
       buyer_name: "Ajan",
       buyer_surname: "Mentis",
       buyer_email: user.email || "no-email@mentis.com",
-      buyer_phone: "05555555555",
+      buyer_phone: "5555555555",
     });
 
     shopier.setOrderBilling({
       billing_address: "Mentis Karargah",
       billing_city: "Istanbul",
-      billing_country: "Türkiye",
+      billing_country: "TR",
       billing_postcode: "34000",
     });
 
     shopier.setOrderShipping({
       shipping_address: "Mentis Karargah",
       shipping_city: "Istanbul",
-      shipping_country: "Türkiye",
+      shipping_country: "TR",
       shipping_postcode: "34000",
     });
 
