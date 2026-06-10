@@ -169,11 +169,11 @@ export async function POST(request: Request) {
         packageId = "book_mentis";
       } else if (productId === "46416708" || productName.includes("gizli dosyalar")) {
         packageId = "book_secret_vol1";
-      } else if (totalAmount >= 180 && totalAmount <= 220) {
+      } else if ((totalAmount >= 180 && totalAmount <= 220) || (productName.includes("100") && productName.includes("kredi"))) {
         packageId = "pkg_100";
-      } else if (totalAmount >= 760 && totalAmount <= 840) {
+      } else if ((totalAmount >= 760 && totalAmount <= 840) || (productName.includes("500") && productName.includes("kredi"))) {
         packageId = "pkg_500";
-      } else if (totalAmount >= 1350 && totalAmount <= 1450) {
+      } else if ((totalAmount >= 1350 && totalAmount <= 1450) || (productName.includes("1000") && productName.includes("kredi"))) {
         packageId = "pkg_1000";
       }
 
