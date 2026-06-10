@@ -19,6 +19,8 @@ export async function POST(request: Request) {
 
     const apiKey = process.env.SHOPIER_API_KEY;
     const apiSecret = process.env.SHOPIER_API_SECRET;
+    const osbUser = (process.env.SHOPIER_OSB_USER || apiKey) as string;
+    const osbKey = (process.env.SHOPIER_OSB_KEY || apiSecret) as string;
 
     if (!apiKey || !apiSecret) {
       return new NextResponse("Shopier yapılandırması eksik.", { status: 503 });
@@ -32,10 +34,10 @@ export async function POST(request: Request) {
 
     if (isOSB) {
       const { res, hash } = body;
-      // OSB Verification: HMAC-SHA256 of (res + apiKey) using apiSecret, output as hex
+      // OSB Verification: HMAC-SHA256 of (res + osbUser) using osbKey, output as hex
       const calculatedHash = crypto
-        .createHmac("sha256", apiSecret)
-        .update(res + apiKey)
+        .createHmac("sha256", osbKey)
+        .update(res + osbUser)
         .digest("hex");
 
       if (hash !== calculatedHash) {
