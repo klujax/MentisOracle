@@ -7,21 +7,19 @@ import { createClient } from "@/lib/supabase/client";
 const PACKAGES = [
   {
     id: "pkg_100",
-    title: "Çaylak",
+    title: "Başlangıç Protokolü",
     credits: 100,
     price: 200,
-    icon: Zap,
-    color: "text-blue-400 bg-blue-500/10 border-blue-500/20",
-    glowColor: "group-hover:shadow-[0_0_30px_rgba(96,165,250,0.15)]",
+    image: "/mentis_100_credits.png",
+    glowColor: "group-hover:shadow-[0_0_30px_rgba(201,168,76,0.15)]",
     features: ["100 Hızlı Analiz Kredisi", "Temel Güç Dengesi Değerlendirmesi", "Geçmiş Analizleri Saklama (1 Hafta)"],
   },
   {
     id: "pkg_500",
-    title: "Uzman",
+    title: "Uzman Stratejist",
     credits: 500,
     price: 800,
-    icon: Shield,
-    color: "text-gold bg-gold/10 border-gold/20",
+    image: "/mentis_500_credits.png",
     recommended: true,
     glowColor: "shadow-[0_0_50px_rgba(201,168,76,0.15)] hover:shadow-[0_0_60px_rgba(201,168,76,0.25)]",
     features: [
@@ -33,12 +31,11 @@ const PACKAGES = [
   },
   {
     id: "pkg_1000",
-    title: "Elit",
+    title: "Elit Dominans",
     credits: 1000,
     price: 1400,
-    icon: Crown,
-    color: "text-purple-400 bg-purple-500/10 border-purple-500/20",
-    glowColor: "group-hover:shadow-[0_0_30px_rgba(192,132,252,0.15)]",
+    image: "/mentis_1000_credits.png",
+    glowColor: "group-hover:shadow-[0_0_30px_rgba(201,168,76,0.15)]",
     features: [
       "1000 Premium Analiz Kredisi",
       "En Yüksek Hızda Sunucu Önceliği",
@@ -149,39 +146,47 @@ export default function BillingPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-5xl relative z-10">
         {PACKAGES.map((pkg) => {
-          const Icon = pkg.icon;
           return (
             <div
               key={pkg.id}
-              className={`group relative bg-abyss/40 backdrop-blur-md border rounded-sm p-8 flex flex-col transition-all duration-500 ${
+              className={`group relative bg-abyss/40 backdrop-blur-md border rounded-sm p-6 flex flex-col transition-all duration-500 ${
                 pkg.recommended
                   ? "border-gold/50 md:-translate-y-4 shadow-[0_0_40px_rgba(201,168,76,0.1)]"
                   : "border-obsidian/75 hover:border-obsidian-80"
               } ${pkg.glowColor}`}
             >
               {pkg.recommended && (
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gradient-to-r from-gold to-[#D4AF37] text-void text-[9px] font-bold font-accent px-4 py-1.5 uppercase tracking-widest rounded-sm shadow-lg flex items-center gap-1.5">
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gradient-to-r from-gold to-[#D4AF37] text-void text-[9px] font-bold font-accent px-4 py-1.5 uppercase tracking-widest rounded-sm shadow-lg flex items-center gap-1.5 z-20">
                   En Popüler Seçim
                 </div>
               )}
+
+              {/* Package Cover Image Mockup */}
+              <div 
+                onClick={() => setZoomedImage(pkg.image)}
+                className="w-full aspect-[4/3] mb-6 border border-obsidian bg-void relative rounded-sm overflow-hidden shadow-xl group/img hover:border-gold/20 transition-all duration-500 cursor-zoom-in"
+                title="Büyütmek için tıklayın"
+              >
+                <img 
+                  src={pkg.image} 
+                  alt={pkg.title}
+                  className="w-full h-full object-cover grayscale opacity-90 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-void/60 via-transparent to-transparent pointer-events-none" />
+              </div>
               
-              <div className="mb-8 flex justify-between items-start">
-                <div>
-                  <h3 className="font-serif text-2xl text-smoke tracking-wider mb-2 font-medium">{pkg.title}</h3>
-                  <div className="flex items-baseline gap-1">
-                    <span className="text-4xl font-serif text-white font-light tracking-wide">{pkg.price}</span>
-                    <span className="text-gold font-accent text-lg ml-0.5">TRY</span>
-                  </div>
-                </div>
-                <div className={`p-3.5 border rounded-full transition-all duration-500 group-hover:scale-110 ${pkg.color}`}>
-                  <Icon className="w-6 h-6" />
+              <div className="mb-6 flex justify-between items-baseline">
+                <h3 className="font-serif text-xl text-smoke tracking-wider font-medium">{pkg.title}</h3>
+                <div className="flex items-baseline gap-1">
+                  <span className="text-3xl font-serif text-white font-light tracking-wide">{pkg.price}</span>
+                  <span className="text-gold font-accent text-sm ml-0.5">TRY</span>
                 </div>
               </div>
 
               {/* Credit Badge */}
               <div className="flex items-center gap-2 px-3 py-1.5 bg-gold/5 border border-gold/15 rounded-full w-fit mb-6">
                 <Coins className="w-4 h-4 text-gold" />
-                <span className="text-xs font-bold text-gold tracking-widest font-accent">{pkg.credits} ANALİZ KREDİSİ</span>
+                <span className="text-[10px] font-bold text-gold tracking-widest font-accent">{pkg.credits} ANALİZ KREDİSİ</span>
               </div>
 
               {/* Divider */}
