@@ -20,12 +20,34 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
-import bookData from "../../../../../book_cache_v2.json";
-import secretData from "../../../../../secret_cache_v1.json";
+// Precalculated page counts for each chapter/section at the static 900 character limit
+const MENTIS_PAGE_COUNTS: Record<string, number> = {
+  "preface": 2, "intro_1": 2, "1.1": 6, "1.2": 6, "1.3": 7, "1.4": 7, "1.5": 7,
+  "intro_2": 2, "2.1": 7, "2.2": 7, "2.3": 6, "2.4": 6, "2.5": 6,
+  "intro_3": 2, "3.1": 6, "3.2": 6, "3.3": 7, "3.4": 7, "3.5": 7,
+  "intro_4": 2, "4.1": 6, "4.2": 7, "4.3": 6, "4.4": 6, "4.5": 8,
+  "intro_5": 2, "5.1": 7, "5.2": 7, "5.3": 7, "5.4": 7, "5.5": 7,
+  "intro_6": 2, "6.1": 7, "6.2": 8, "6.3": 7, "6.4": 7, "6.5": 6,
+  "intro_7": 2, "7.1": 6, "7.2": 7, "7.3": 7, "7.4": 6, "7.5": 6,
+  "intro_8": 2, "8.1": 6, "8.2": 7, "8.3": 7, "8.4": 7, "8.5": 7,
+  "intro_9": 1, "9.1": 7, "9.2": 7, "9.3": 7, "9.4": 7, "9.5": 6,
+  "intro_10": 2, "10.1": 8, "10.2": 7, "10.3": 6, "10.4": 7, "10.5": 7,
+  "epilogue": 3
+};
 
-// Typed representation of the book data
-const book1 = bookData as Record<string, string>;
-const book2 = secretData as Record<string, string>;
+const SECRET_PAGE_COUNTS: Record<string, number> = {
+  "preface": 4, "intro_1": 3, "1.1": 4, "1.2": 5, "1.3": 5, "1.4": 5, "1.5": 5,
+  "intro_2": 3, "2.1": 4, "2.2": 5, "2.3": 5, "2.4": 4, "2.5": 5,
+  "intro_3": 3, "3.1": 6, "3.2": 5, "3.3": 6, "3.4": 5, "3.5": 6,
+  "intro_4": 3, "4.1": 5, "4.2": 5, "4.3": 6, "4.4": 6, "4.5": 6,
+  "intro_5": 3, "5.1": 5, "5.2": 5, "5.3": 6, "5.4": 5, "5.5": 4,
+  "intro_6": 3, "6.1": 5, "6.2": 5, "6.3": 5, "6.4": 5, "6.5": 5,
+  "intro_7": 3, "7.1": 4, "7.2": 6, "7.3": 5, "7.4": 4, "7.5": 5,
+  "intro_8": 3, "8.1": 6, "8.2": 6, "8.3": 6, "8.4": 6, "8.5": 6,
+  "intro_9": 3, "9.1": 5, "9.2": 6, "9.3": 6, "9.4": 5, "9.5": 4,
+  "intro_10": 2, "10.1": 4, "10.2": 5, "10.3": 4, "10.4": 5, "10.5": 4,
+  "epilogue": 2
+};
 
 // Order of chapters/sections in the reader for Book 1
 const MENTIS_SECTIONS = [
@@ -217,6 +239,51 @@ export default function BookReaderPage() {
   const [loadingPkg, setLoadingPkg] = useState<boolean>(false);
   const [checkoutError, setCheckoutError] = useState<string>("");
 
+  const [textContent, setTextContent] = useState<string>("");
+  const [loadingContent, setLoadingContent] = useState<boolean>(true);
+  const [contentError, setContentError] = useState<string>("");
+  const [sectionCache, setSectionCache] = useState<Record<string, string>>({});
+
+  const fetchSectionContent = async (secId: string) => {
+    const cacheKey = `${bookType}_${secId}`;
+    if (sectionCache[cacheKey]) {
+      return sectionCache[cacheKey];
+    }
+    try {
+      const res = await fetch(`/api/book?book=${bookType}&section=${secId}`);
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || "Bölüm yüklenemedi.");
+      }
+      const content = data.content || "";
+      setSectionCache(prev => ({ ...prev, [cacheKey]: content }));
+      return content;
+    } catch (err: any) {
+      console.error("Failed to load section content dynamically:", err);
+      throw err;
+    }
+  };
+
+  useEffect(() => {
+    const loadCurrentSection = async () => {
+      setLoadingContent(true);
+      setContentError("");
+      try {
+        const content = await fetchSectionContent(currentSection);
+        setTextContent(content);
+      } catch (err: any) {
+        setContentError(err.message || "Bölüm içeriği yüklenemedi.");
+        setTextContent("");
+      } finally {
+        setLoadingContent(false);
+      }
+    };
+
+    if (bookType && currentSection) {
+      loadCurrentSection();
+    }
+  }, [bookType, currentSection]);
+
   // Page Index within the current section/chapter (0-indexed page list)
   const [currentPageIndex, setCurrentPageIndex] = useState<number>(0);
   const [isMobile, setIsMobile] = useState<boolean>(false);
@@ -382,9 +449,7 @@ export default function BookReaderPage() {
   const hasAccess = bookType === "secret" ? hasSecret : hasBook;
   const isLocked = !hasAccess && !currentSectionMeta.isFree;
 
-  // Determine actual book contents based on bookType
-  const activeBook = bookType === "secret" ? book2 : book1;
-  const textContent = activeBook[currentSection] || "";
+  // textContent is loaded dynamically from the secure API
 
   // Split paragraphs into sentences for pagination
   const splitIntoSentences = (text: string): string[] => {
@@ -536,16 +601,24 @@ export default function BookReaderPage() {
       } else if (currentIndex > 0) {
         // Go to previous section, start at its last page index
         const prevSecId = SECTIONS_ORDER[currentIndex - 1].id;
-        const prevText = activeBook[prevSecId] || "";
-        const prevPages = paginateSectionText(prevText);
-        
-        setFlipDirection("prev");
-        setTimeout(() => {
-          setCurrentSection(prevSecId);
-          setAnimatingSection(prevSecId);
-          setCurrentPageIndex(prevPages.length - 1);
-          setFlipDirection(null);
-        }, 400);
+        setLoadingContent(true);
+        fetchSectionContent(prevSecId)
+          .then((prevText) => {
+            const prevPages = paginateSectionText(prevText);
+            setFlipDirection("prev");
+            setTimeout(() => {
+              setCurrentSection(prevSecId);
+              setAnimatingSection(prevSecId);
+              setCurrentPageIndex(prevPages.length - 1);
+              setFlipDirection(null);
+            }, 400);
+          })
+          .catch((err) => {
+            setContentError(err.message || "Önceki bölüm yüklenemedi.");
+          })
+          .finally(() => {
+            setLoadingContent(false);
+          });
       }
     } else {
       const currentSpread = Math.floor(currentPageIndex / 2);
@@ -558,17 +631,25 @@ export default function BookReaderPage() {
       } else if (currentIndex > 0) {
         // Go to previous section, start at its last spread
         const prevSecId = SECTIONS_ORDER[currentIndex - 1].id;
-        const prevText = activeBook[prevSecId] || "";
-        const prevPages = paginateSectionText(prevText);
-        const prevTotalSpreads = Math.ceil(prevPages.length / 2);
-        
-        setFlipDirection("prev");
-        setTimeout(() => {
-          setCurrentSection(prevSecId);
-          setAnimatingSection(prevSecId);
-          setCurrentPageIndex((prevTotalSpreads - 1) * 2);
-          setFlipDirection(null);
-        }, 400);
+        setLoadingContent(true);
+        fetchSectionContent(prevSecId)
+          .then((prevText) => {
+            const prevPages = paginateSectionText(prevText);
+            const prevTotalSpreads = Math.ceil(prevPages.length / 2);
+            setFlipDirection("prev");
+            setTimeout(() => {
+              setCurrentSection(prevSecId);
+              setAnimatingSection(prevSecId);
+              setCurrentPageIndex((prevTotalSpreads - 1) * 2);
+              setFlipDirection(null);
+            }, 400);
+          })
+          .catch((err) => {
+            setContentError(err.message || "Önceki bölüm yüklenemedi.");
+          })
+          .finally(() => {
+            setLoadingContent(false);
+          });
       }
     }
   };
@@ -627,11 +708,11 @@ export default function BookReaderPage() {
 
   // Calculate dynamic global page numbers for the entire book based on pagination limits
   let globalPageStart = 1;
+  const pageCounts = bookType === "secret" ? SECRET_PAGE_COUNTS : MENTIS_PAGE_COUNTS;
   for (let i = 0; i < currentIndex; i++) {
     const secId = SECTIONS_ORDER[i].id;
-    const secText = activeBook[secId] || "";
-    const secPages = paginateSectionText(secText);
-    globalPageStart += secPages.length;
+    const count = pageCounts[secId] || 0;
+    globalPageStart += count;
   }
   const leftPageNumber = globalPageStart + leftPageIdx;
   const rightPageNumber = leftPageNumber + 1;
@@ -1038,6 +1119,15 @@ export default function BookReaderPage() {
                 <div className="mt-8 flex items-center gap-2 text-[10px] text-ash/40 font-accent uppercase tracking-widest">
                   <ShieldCheck className="w-3.5 h-3.5" /> Secure TLS 1.3 Shopier Gateway
                 </div>
+              </div>
+            ) : loadingContent ? (
+              <div className="flex-1 flex flex-col items-center justify-center gap-3 text-ash font-accent">
+                <Loader2 className="w-6 h-6 animate-spin text-gold" />
+                <span>Doktrin yükleniyor...</span>
+              </div>
+            ) : contentError ? (
+              <div className="flex-1 flex flex-col items-center justify-center gap-3 text-red-400 font-accent">
+                <span>{contentError}</span>
               </div>
             ) : (
               /* REAL 2-PAGE SPREAD - ABSOLUTELY NO SCROLLING INSIDE THE PAGES */
