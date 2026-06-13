@@ -239,6 +239,39 @@ export default function BookReaderPage() {
   const [loadingPkg, setLoadingPkg] = useState<boolean>(false);
   const [checkoutError, setCheckoutError] = useState<string>("");
 
+  // TTS State Variables
+  const [isPlayingTts, setIsPlayingTts] = useState<boolean>(false);
+  const [isTtsLoading, setIsTtsLoading] = useState<boolean>(false);
+  const [isBrowserFallback, setIsBrowserFallback] = useState<boolean>(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  // Initialize audio element client-side on mount
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      audioRef.current = new Audio();
+      
+      const handleAudioEnded = () => {
+        setIsPlayingTts(false);
+        setIsTtsLoading(false);
+      };
+      const handleAudioError = () => {
+        setIsPlayingTts(false);
+        setIsTtsLoading(false);
+      };
+      
+      audioRef.current.addEventListener("ended", handleAudioEnded);
+      audioRef.current.addEventListener("error", handleAudioError);
+      
+      return () => {
+        if (audioRef.current) {
+          audioRef.current.pause();
+          audioRef.current.removeEventListener("ended", handleAudioEnded);
+          audioRef.current.removeEventListener("error", handleAudioError);
+        }
+      };
+    }
+  }, []);
+
   const [textContent, setTextContent] = useState<string>("");
   const [loadingContent, setLoadingContent] = useState<boolean>(true);
   const [contentError, setContentError] = useState<string>("");
@@ -574,6 +607,115 @@ export default function BookReaderPage() {
 
   const leftPageParagraphs = pagesList[leftPageIdx] || [];
   const rightPageParagraphs = !isMobile ? (pagesList[rightPageIdx] || []) : [];
+
+  // TTS toggle and synthesis handler
+  const handleToggleTts = async () => {
+    if (isLocked) return;
+
+    if (isPlayingTts) {
+      if (isBrowserFallback) {
+        if (typeof window !== "undefined" && window.speechSynthesis) {
+          window.speechSynthesis.cancel();
+        }
+      } else {
+        if (audioRef.current) {
+          audioRef.current.pause();
+        }
+      }
+      setIsPlayingTts(false);
+      setIsTtsLoading(false);
+      return;
+    }
+
+    setIsTtsLoading(true);
+    setIsBrowserFallback(false);
+
+    const textToRead = isMobile 
+      ? leftPageParagraphs.join(" ") 
+      : (leftPageParagraphs.join(" ") + " " + rightPageParagraphs.join(" "));
+
+    const cleanText = textToRead.trim();
+    if (!cleanText) {
+      setIsTtsLoading(false);
+      return;
+    }
+
+    try {
+      const ttsUrl = `/api/tts?book=${bookType}&section=${currentSection}&page=${currentPageIndex}`;
+      const res = await fetch(ttsUrl, { method: "GET" });
+      
+      if (!res.ok) {
+        throw new Error("Premium ElevenLabs synthesis failed. Triggering browser fallback.");
+      }
+
+      if (audioRef.current) {
+        audioRef.current.src = ttsUrl;
+        audioRef.current.play()
+          .then(() => {
+            setIsPlayingTts(true);
+            setIsTtsLoading(false);
+          })
+          .catch((playErr) => {
+            console.error("Audio playback failed, falling back:", playErr);
+            runBrowserSpeechFallback(cleanText);
+          });
+      } else {
+        runBrowserSpeechFallback(cleanText);
+      }
+    } catch (err) {
+      console.warn("ElevenLabs TTS not available or failed. Falling back to browser SpeechSynthesis:", err);
+      runBrowserSpeechFallback(cleanText);
+    }
+  };
+
+  const runBrowserSpeechFallback = (text: string) => {
+    if (typeof window === "undefined" || !window.speechSynthesis) {
+      setIsTtsLoading(false);
+      alert("Tarayıcınız sesli okuma özelliğini desteklemiyor.");
+      return;
+    }
+
+    window.speechSynthesis.cancel();
+
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = "tr-TR";
+    
+    const voices = window.speechSynthesis.getVoices();
+    const trVoice = voices.find(v => v.lang.startsWith("tr"));
+    if (trVoice) {
+      utterance.voice = trVoice;
+    }
+
+    utterance.onend = () => {
+      setIsPlayingTts(false);
+      setIsTtsLoading(false);
+    };
+
+    utterance.onerror = () => {
+      setIsPlayingTts(false);
+      setIsTtsLoading(false);
+    };
+
+    setIsBrowserFallback(true);
+    setIsPlayingTts(true);
+    setIsTtsLoading(false);
+    window.speechSynthesis.speak(utterance);
+  };
+
+  // Stop playback on section/page change or when components unmounts
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      if (window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+      }
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.src = "";
+      }
+      setIsPlayingTts(false);
+      setIsTtsLoading(false);
+    }
+  }, [currentPageIndex, currentSection, bookType]);
 
   // Animation previews
   const nextPageParagraphs = isMobile 
@@ -947,6 +1089,24 @@ export default function BookReaderPage() {
             title={isMagnifierMode ? "Büyüteci Kapat" : "Büyüteç Modunu Aç"}
           >
             <Search className="w-4 h-4" />
+          </button>
+
+          {/* Sesli Oku (TTS) Button */}
+          <button
+            onClick={handleToggleTts}
+            disabled={isLocked || loadingContent}
+            className={`p-2 border rounded-sm transition-all duration-300 relative overflow-hidden flex items-center justify-center ${
+              isPlayingTts
+                ? "bg-gold/15 border-gold text-gold shadow-[0_0_15px_rgba(201,168,76,0.3)] hover:bg-gold/25"
+                : "border-obsidian text-ash hover:text-gold hover:border-gold/20"
+            } disabled:opacity-30 disabled:cursor-not-allowed`}
+            title={isPlayingTts ? "Seslendirmeyi Durdur" : "Sesli Oku"}
+          >
+            {isTtsLoading ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : (
+              <Volume2 className={`w-4 h-4 ${isPlayingTts ? "animate-pulse" : ""}`} />
+            )}
           </button>
 
           {/* Toggle Sidebar (Mobile) */}
