@@ -174,6 +174,22 @@ const renderMessageWithDoctrineLinks = (text: string) => {
   });
 };
 
+const cleanStandardMessage = (text: string): string => {
+  if (!text) return "";
+  return text
+    .replace(/\|\|\|/g, "")
+    .replace(/\[DURUM ANALİZİ\]/gi, "")
+    .replace(/\*\*DURUM ANALİZİ\*\*/gi, "")
+    .replace(/DURUM ANALİZİ/gi, "")
+    .replace(/\[KARŞI TARAFIN MOTİVASYONU\]/gi, "")
+    .replace(/\*\*KARŞI TARAFIN MOTİVASYONU\*\*/gi, "")
+    .replace(/KARŞI TARAFIN MOTİVASYONU/gi, "")
+    .replace(/\[STRATEJİK HAMLE\]/gi, "")
+    .replace(/\*\*STRATEJİK HAMLE\*\*/gi, "")
+    .replace(/STRATEJİK HAMLE/gi, "")
+    .trim();
+};
+
 export default function HistoryPage() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<"strategies" | "notes">("strategies");
@@ -765,7 +781,7 @@ export default function HistoryPage() {
                                         {isUser ? "SİZ" : getCharacterName(c.character)}
                                       </p>
                                       <div className="whitespace-pre-wrap font-sans">
-                                        {renderMessageWithDoctrineLinks(msg.content)}
+                                        {renderMessageWithDoctrineLinks(cleanStandardMessage(msg.content))}
                                       </div>
                                     </div>
                                   </div>

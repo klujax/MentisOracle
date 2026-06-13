@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { User, History, ShoppingCart, BookOpen, GraduationCap } from "lucide-react";
+import { User, History, ShoppingCart, BookOpen, GraduationCap, Dumbbell } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import Image from "next/image";
 
@@ -45,6 +45,13 @@ export const Navbar = () => {
             title="Mentis Akademi"
           >
             <GraduationCap className="w-4.5 h-4.5 md:w-5 md:h-5" />
+          </Link>
+          <Link 
+            href="/dashboard/exercises" 
+            className="p-2 rounded-full text-ash hover:text-gold hover:bg-gold/10 hover:shadow-[0_0_15px_rgba(201,168,76,0.25)] transition-all duration-300 hover:scale-110 active:scale-95 flex items-center justify-center" 
+            title="Gelişim Egzersizleri"
+          >
+            <Dumbbell className="w-4.5 h-4.5 md:w-5 md:h-5" />
           </Link>
           <Link 
             href="/dashboard/history" 

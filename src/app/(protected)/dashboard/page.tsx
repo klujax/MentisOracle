@@ -181,6 +181,77 @@ const renderMessageWithDoctrineLinks = (text: string) => {
   });
 };
 
+const cleanStandardMessage = (text: string): string => {
+  if (!text) return "";
+  return text
+    .replace(/\|\|\|/g, "")
+    .replace(/\[DURUM ANALİZİ\]/gi, "")
+    .replace(/\*\*DURUM ANALİZİ\*\*/gi, "")
+    .replace(/DURUM ANALİZİ/gi, "")
+    .replace(/\[KARŞI TARAFIN MOTİVASYONU\]/gi, "")
+    .replace(/\*\*KARŞI TARAFIN MOTİVASYONU\*\*/gi, "")
+    .replace(/KARŞI TARAFIN MOTİVASYONU/gi, "")
+    .replace(/\[STRATEJİK HAMLE\]/gi, "")
+    .replace(/\*\*STRATEJİK HAMLE\*\*/gi, "")
+    .replace(/STRATEJİK HAMLE/gi, "")
+    .trim();
+};
+
+const parseThreePartMessage = (content: string): { analysis: string; targetWeakness: string; execution: string } | null => {
+  if (!content) return null;
+  
+  if (content.includes("|||")) {
+    const parts = content.split("|||").map(p => p.trim());
+    const analysis = parts[0]?.replace(/\[DURUM ANALİZİ\]/gi, "").replace(/\*\*DURUM ANALİZİ\*\*/gi, "").replace(/DURUM ANALİZİ/gi, "").trim() || "";
+    const targetWeakness = parts[1]?.replace(/\[KARŞI TARAFIN MOTİVASYONU\]/gi, "").replace(/\*\*KARŞI TARAFIN MOTİVASYONU\*\*/gi, "").replace(/KARŞI TARAFIN MOTİVASYONU/gi, "").trim() || "";
+    const execution = parts[2]?.replace(/\[STRATEJİK HAMLE\]/gi, "").replace(/\*\*STRATEJİK HAMLE\*\*/gi, "").replace(/STRATEJİK HAMLE/gi, "").trim() || "";
+    return { analysis, targetWeakness, execution };
+  }
+  
+  // Check if it's the saved format
+  if (content.startsWith("01\n") || content.includes("**[KARŞI TARAFIN MOTİVASYONU]**")) {
+    const motHeader = "**[KARŞI TARAFIN MOTİVASYONU]**";
+    const strHeader = "**[STRATEJİK HAMLE]**";
+    
+    const motIdx = content.indexOf(motHeader);
+    const strIdx = content.indexOf(strHeader);
+    
+    if (motIdx !== -1 && strIdx !== -1) {
+      const analysis = content.slice(0, motIdx)
+        .replace(/^01\n/i, "")
+        .replace(/^01 \| ANALİZ\n/i, "")
+        .trim();
+      const targetWeakness = content.slice(motIdx + motHeader.length, strIdx).trim();
+      const execution = content.slice(strIdx + strHeader.length).trim();
+      return { analysis, targetWeakness, execution };
+    }
+  }
+
+  // Check if it has headers but no |||
+  const durRegex = /(?:\[|\*\*|###?\s*)*DURUM\s+ANALİZİ(?:\]|\*\*|#)*/i;
+  const motRegex = /(?:\[|\*\*|###?\s*)*KARŞI\s+TARAFIN\s+MOTİVASYONU(?:\]|\*\*|#)*/i;
+  const strRegex = /(?:\[|\*\*|###?\s*)*STRATEJİK\s+HAMLE(?:\]|\*\*|#)*/i;
+
+  const durMatch = content.match(durRegex);
+  const motMatch = content.match(motRegex);
+  const strMatch = content.match(strRegex);
+
+  if (durMatch && motMatch && strMatch) {
+    const durIdx = content.indexOf(durMatch[0]);
+    const motIdx = content.indexOf(motMatch[0]);
+    const strIdx = content.indexOf(strMatch[0]);
+
+    if (durIdx < motIdx && motIdx < strIdx) {
+      const analysis = content.slice(durIdx + durMatch[0].length, motIdx).trim();
+      const targetWeakness = content.slice(motIdx + motMatch[0].length, strIdx).trim();
+      const execution = content.slice(strIdx + strMatch[0].length).trim();
+      return { analysis, targetWeakness, execution };
+    }
+  }
+  
+  return null;
+};
+
 export default function DashboardPage() {
   const [status, setStatus] = useState<"idle" | "analyzing" | "complete">("idle");
   const [response, setResponse] = useState<StrategyResponse | null>(null);
@@ -667,8 +738,9 @@ export default function DashboardPage() {
                   );
                 }
 
-                // Model Message (Initial 3-Part analysis from Mentis)
-                if (index === 1 && response) {
+                // Model Message (Initial 3-Part analysis or follow-up that has the structure)
+                const parsedThreePart = parseThreePartMessage(msg.content);
+                if (parsedThreePart) {
                   return (
                     <div key={index} className="flex w-full justify-start animate-fade-in">
                       <div className="max-w-[85%] rounded-sm p-5 bg-abyss border border-gold/20 text-smoke text-xs md:text-sm leading-relaxed shadow-lg space-y-4 w-full">
@@ -680,22 +752,22 @@ export default function DashboardPage() {
                           {/* 01 Analysis */}
                           <div className="pt-1">
                             <span className="text-[10px] font-serif text-gold/80 tracking-wider block mb-1">01 | ANALİZ</span>
-                            <div className="whitespace-pre-wrap font-sans text-smoke">{renderMessageWithDoctrineLinks(response.analysis)}</div>
+                            <div className="whitespace-pre-wrap font-sans text-smoke">{renderMessageWithDoctrineLinks(parsedThreePart.analysis)}</div>
                           </div>
                           
                           {/* 02 Target Weakness */}
-                          {response.targetWeakness && (
+                          {parsedThreePart.targetWeakness && (
                             <div className="pt-3">
                               <span className="text-[10px] font-serif text-gold/80 tracking-wider block mb-1">02 | KARŞI TARAFIN MOTİVASYONU</span>
-                              <div className="whitespace-pre-wrap font-sans text-smoke">{renderMessageWithDoctrineLinks(response.targetWeakness)}</div>
+                              <div className="whitespace-pre-wrap font-sans text-smoke">{renderMessageWithDoctrineLinks(parsedThreePart.targetWeakness)}</div>
                             </div>
                           )}
                           
                           {/* 03 Strategic Move */}
-                          {response.execution && (
+                          {parsedThreePart.execution && (
                             <div className="pt-3">
                               <span className="text-[10px] font-serif text-gold/80 tracking-wider block mb-1">03 | STRATEJİK HAMLE</span>
-                              <div className="whitespace-pre-wrap font-sans text-smoke">{renderMessageWithDoctrineLinks(response.execution)}</div>
+                              <div className="whitespace-pre-wrap font-sans text-smoke">{renderMessageWithDoctrineLinks(parsedThreePart.execution)}</div>
                             </div>
                           )}
                         </div>
@@ -704,14 +776,14 @@ export default function DashboardPage() {
                   );
                 }
 
-                // Subsequent follow-up model replies
+                // Subsequent conversational model replies
                 return (
                   <div key={index} className="flex w-full justify-start animate-fade-in">
                     <div className="max-w-[85%] rounded-sm p-4 bg-abyss border border-obsidian text-smoke text-xs md:text-sm leading-relaxed shadow-lg">
                       <p className="text-[9px] uppercase tracking-widest mb-1.5 font-accent text-gold font-bold">
                         {(CHARACTERS.find(c => c.id === character)?.name || "MENTIS").toUpperCase()}
                       </p>
-                      <div className="whitespace-pre-wrap font-sans leading-relaxed">{renderMessageWithDoctrineLinks(msg.content)}</div>
+                      <div className="whitespace-pre-wrap font-sans leading-relaxed">{renderMessageWithDoctrineLinks(cleanStandardMessage(msg.content))}</div>
                     </div>
                   </div>
                 );
